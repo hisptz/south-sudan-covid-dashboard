@@ -41,6 +41,10 @@ yarn-error.log
 testem.log
 /typings
 
+#proxy configuration
+proxy-config.json
+
+
 # System Files
 .DS_Store
 Thumbs.db
