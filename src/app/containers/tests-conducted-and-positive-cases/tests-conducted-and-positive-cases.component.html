@@ -1,0 +1,30 @@
+<div class="tcapc-container mat-elevation-z1" >
+    <app-graph
+    [xAxisCategories]="days"
+    [lineChartYAxisData]="testsConducted"
+    [barChartYAxisData]="postiveCases"
+    [chartTitle]="chartTitle"
+    [leftYAxisTitle]="leftYAxisTitle"
+    [rightYAxisTitle]="rightYAxisTitle"
+  ></app-graph>
+  <div class="tcapc-stats-ops">
+    <div>
+      <button style="float: right;" mat-icon-button><mat-icon>create</mat-icon></button>
+    </div>
+    
+    <div class="stat-item">
+      <h4>Tests conducted</h4>
+      <p>233</p>
+    </div>
+    <div class="stat-item">
+      <h4>Positive cases</h4>
+      <p>20</p>
+    </div>
+    <div  class="stat-item">
+      <h4>Total +ve cases</h4>
+      <p>45</p>
+    </div>
+  </div>
+  </div>
+  
+  

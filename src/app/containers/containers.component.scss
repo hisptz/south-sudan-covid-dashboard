@@ -1,0 +1,35 @@
+.graph-maps-sction {
+    margin-top: 1em;
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    .graph-section {
+        width: 70%;
+        height: 750px;
+        box-sizing: border-box;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        .bottom-charts {
+            width: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-top: 1em;
+            .left-chart {
+                width: 48%;
+            }
+            .right-chart {
+                width: 48%;
+            }
+        }
+    }
+    .map-section {
+        width: 28%;
+    }
+}

@@ -3,9 +3,8 @@
     overflow: hidden;
     width: 100%;
     padding: 0 1em 1em 1em;
-    margin-bottom: 1em;
     // border-bottom: 2px solid lightgray;
-    height: 150px;
+    height: 120px;
     display: flex;
     flex-direction: column;
     .case-container-header {
@@ -32,15 +31,15 @@
         flex-direction: column;
         justify-content: space-between;
         .case-item-title {
-            font-size: 1.2em;
+            font-size: 1em;
             font-weight: 400;
-        
+            margin: 0 !important;
         }
         span {
-            font-size: 1.5em;
+            font-size: 1.2em;
             color: gray;
             font-weight: 500;
-            margin-bottom: 0.8em;
+            margin-bottom: 0.2em;
         }
         .case-progress {
             width: 100%;
@@ -50,7 +49,7 @@
             mat-progress-bar {
                width: 80%;
                float: left;
-               height: 15px;
+               height: 10px;
             }
             i {
                 margin-left: 0.2em;

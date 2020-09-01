@@ -5,20 +5,25 @@ import { CaseSurveillanceTestingComponent } from './case-surveillance-testing/ca
 import { Routes, RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { MapSectctionComponent } from './map-sectction/map-sectction.component';
-
+import { ConfirmedCasesAndDeathsSectionComponent } from './confirmed-cases-and-deaths-section/confirmed-cases-and-deaths-section.component';
+import { TestsConductedAndPositiveCasesComponent } from './tests-conducted-and-positive-cases/tests-conducted-and-positive-cases.component';
+import { SummaryTableComponent } from './summary-table/summary-table.component';
 const routes: Routes = [
   {
     path: '',
-    component: ContainersComponent
-  }
+    component: ContainersComponent,
+  },
 ];
 
 @NgModule({
-  declarations: [ContainersComponent, CaseSurveillanceTestingComponent, MapSectctionComponent],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    SharedModule
-  ]
+  declarations: [
+    ContainersComponent,
+    CaseSurveillanceTestingComponent,
+    MapSectctionComponent,
+    ConfirmedCasesAndDeathsSectionComponent,
+    TestsConductedAndPositiveCasesComponent,
+    SummaryTableComponent,
+  ],
+  imports: [CommonModule, RouterModule.forChild(routes), SharedModule],
 })
-export class ContainersModule { }
+export class ContainersModule {}

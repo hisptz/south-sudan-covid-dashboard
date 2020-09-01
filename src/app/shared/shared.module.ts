@@ -1,22 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
-
-
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import {  ChartModule } from 'angular-highcharts';
+import { GraphComponent } from './components/graph/graph.component';
 @NgModule({
-  declarations: [],
+  declarations: [GraphComponent],
   imports: [
     CommonModule,
     MatProgressBarModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    ChartModule,
   ],
   exports: [
     MatProgressBarModule,
     MatButtonModule,
-    MatIconModule
-  ]
+    MatIconModule,
+    ChartModule,
+    GraphComponent
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}
