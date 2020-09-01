@@ -35,10 +35,10 @@ export class MapSectctionComponent implements OnInit, AfterViewInit {
         renderTo: container,
       },
       title: {
-        text: 'Title',
+        text: 'MAP DISPLAYING GEOGRAPHICAL DISTRIBUTION OF CONFIRMED CASES',
       },
       subtitle: {
-        text: 'Sub tittle',
+        text: 'South Sudan',
       },
       mapNavigation: {
         enabled: true,
