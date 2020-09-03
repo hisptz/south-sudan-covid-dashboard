@@ -28,8 +28,8 @@ import { environment } from 'src/environments/environment';
       version: 1,
       namespace: 'iapps',
       models: {
-        organisationUnits: 'id,level',
-        organisationUnitLevels: 'id,level',
+        organisationUnits: 'id,name,level',
+        organisationUnitLevels: 'id',
         organisationUnitGroups: 'id',
       },
     }),
