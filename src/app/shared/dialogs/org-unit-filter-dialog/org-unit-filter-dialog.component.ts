@@ -32,4 +32,11 @@ export class OrgUnitFilterDialogComponent implements OnInit {
         : [];
     this.title = this.data && this.data.title ? this.data.title : '';
   }
+  onOrgUnitUpdate(data: any, action: string) {
+    if (action === 'CHANGE') {
+      this.dialogRef.close();
+    } else {
+      this.dialogRef.close();
+    }
+  }
 }
