@@ -70,28 +70,28 @@ export class ConfigEffects implements OnInitEffects{
       )
     );
   }
-  @Effect()
-  createConfiguration(): Observable<Action> {
-    return this.actions$.pipe(
-      ofType(createConfiguration),
-      mergeMap((action) =>
-        this.configService
-          .createConfiguration(action.data, SectionType.CASE)
-          .pipe(
-            map((data) => {
+  // @Effect()
+  // createConfiguration(): Observable<Action> {
+  //   return this.actions$.pipe(
+  //     ofType(createConfiguration),
+  //     mergeMap((action) =>
+  //       this.configService
+  //         .createConfiguration(action.data, SectionType.CASE)
+  //         .pipe(
+  //           map((data) => {
              
-              return loadConfiguration();
-            }),
-            catchError((error: any) => {
-              if (error && error.status && error.status === 404) {
-                return of(getDefaultConfig());
-              }
-              return of(checkConfigurationsFailure({ error }));
-            })
-          )
-      )
-    );
-  }
+  //             return loadConfiguration();
+  //           }),
+  //           catchError((error: any) => {
+  //             if (error && error.status && error.status === 404) {
+  //               return of(getDefaultConfig());
+  //             }
+  //             return of(checkConfigurationsFailure({ error }));
+  //           })
+  //         )
+  //     )
+  //   );
+  // }
 
   @Effect()
   loadConfiguration(): Observable<Action> {

@@ -16,7 +16,7 @@ import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
-    AppComponent  
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +29,7 @@ import { environment } from 'src/environments/environment';
       namespace: 'iapps',
       models: {
         organisationUnits: 'id,name,level',
-        organisationUnitLevels: 'id',
+        organisationUnitLevels: 'id,level',
         organisationUnitGroups: 'id',
       },
     }),
