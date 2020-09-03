@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-selection-filters-menu',
@@ -6,7 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./selection-filters-menu.component.scss']
 })
 export class SelectionFiltersMenuComponent implements OnInit {
-
+  @Input() hasDataFilter = true;
+  @Input() hasPeriodFilter = true;
+  @Input() hasOrgUnitFilter = true;
   constructor() { }
 
   ngOnInit(): void {

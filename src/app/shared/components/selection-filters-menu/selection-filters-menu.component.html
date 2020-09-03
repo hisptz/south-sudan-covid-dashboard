@@ -1,1 +1,6 @@
-<p>selection-filters-menu works!</p>
+<button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>create</mat-icon></button>
+<mat-menu #menu="matMenu">
+    <button mat-menu-item *ngIf="hasDataFilter">Data</button>
+    <button mat-menu-item *ngIf="hasOrgUnitFilter">Org unit</button>
+    <button mat-menu-item *ngIf="hasPeriodFilter">Period</button>
+  </mat-menu>
