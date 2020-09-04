@@ -3,6 +3,7 @@
     <h2>CASE SURVEILLANCE AND TESTING</h2>
     <app-selection-filters-menu
     [section]="sectionType"
+    (dataFilterEvent)="updateData($event)"
     ></app-selection-filters-menu>
   </div>
 

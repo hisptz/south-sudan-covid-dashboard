@@ -1,8 +1,8 @@
 <div>
-    <h2 style="padding: 0; margin: 0;">{{ title}} (DATA FILTER) </h2>
-   
+  <h2 style="padding: 0; margin: 0">{{ title }} (DATA FILTER)</h2>
 </div>
-<ngx-dhis2-data-filter [selectedItems]="selectedItems"
-(update)="onDataUpdate($event, 'CHANGE')"
-(close)="onDataUpdate($event, 'CLOSE')"
+<ngx-dhis2-data-filter
+  [selectedItems]="selectedItems"
+  (update)="onDataUpdate($event, 'CHANGE')"
+  (close)="onDataUpdate($event, 'CLOSE')"
 ></ngx-dhis2-data-filter>

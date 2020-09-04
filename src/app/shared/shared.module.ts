@@ -14,6 +14,8 @@ import { SelectionFiltersMenuComponent } from './components/selection-filters-me
 import { DataFilterDialogComponent } from './dialogs/data-filter-dialog/data-filter-dialog.component';
 import { OrgUnitFilterDialogComponent } from './dialogs/org-unit-filter-dialog/org-unit-filter-dialog.component';
 import { PeriodFilterDialogComponent } from './dialogs/period-filter-dialog/period-filter-dialog.component';
+import { SelectionFiltersComponent } from './dialogs/selection-filters/selection-filters.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 @NgModule({
   declarations: [
     GraphComponent,
@@ -21,6 +23,7 @@ import { PeriodFilterDialogComponent } from './dialogs/period-filter-dialog/peri
     DataFilterDialogComponent,
     OrgUnitFilterDialogComponent,
     PeriodFilterDialogComponent,
+    SelectionFiltersComponent,
   ],
   imports: [
     CommonModule,
@@ -33,6 +36,7 @@ import { PeriodFilterDialogComponent } from './dialogs/period-filter-dialog/peri
     NgxDhis2DataFilterModule,
     NgxDhis2PeriodFilterModule,
     NgxDhis2OrgUnitFilterModule,
+    MatExpansionModule
   ],
   exports: [
     MatProgressBarModule,
@@ -49,11 +53,14 @@ import { PeriodFilterDialogComponent } from './dialogs/period-filter-dialog/peri
     DataFilterDialogComponent,
     OrgUnitFilterDialogComponent,
     PeriodFilterDialogComponent,
+    MatExpansionModule,
+    SelectionFiltersComponent
   ],
   entryComponents: [
     DataFilterDialogComponent,
     OrgUnitFilterDialogComponent,
     PeriodFilterDialogComponent,
+    SelectionFiltersComponent
   ],
 })
 export class SharedModule {}

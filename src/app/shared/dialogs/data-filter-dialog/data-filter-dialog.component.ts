@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { omit } from 'lodash';
 @Component({
   selector: 'app-data-filter-dialog',
   templateUrl: './data-filter-dialog.component.html',
@@ -22,8 +23,13 @@ export class DataFilterDialogComponent implements OnInit {
   }
   onDataUpdate(data: any, action: string) {
     if (action === 'CHANGE') {
-      console.log({data});
-      this.dialogRef.close();
+      const updatedData = data && data.changed ? omit(data, 'changed') : data;
+      this.selectedItems =
+        updatedData && updatedData.items
+          ? updatedData.items
+          : this.selectedItems;
+      console.log({ updatedData });
+      this.dialogRef.close('One');
     } else {
       this.dialogRef.close();
     }

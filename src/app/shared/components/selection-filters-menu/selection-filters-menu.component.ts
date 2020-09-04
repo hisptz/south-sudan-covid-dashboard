@@ -1,9 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { OrgUnitFilterDialogComponent } from '../../dialogs/org-unit-filter-dialog/org-unit-filter-dialog.component';
 import { DataFilterDialogComponent } from '../../dialogs/data-filter-dialog/data-filter-dialog.component';
 import { PeriodFilterDialogComponent } from '../../dialogs/period-filter-dialog/period-filter-dialog.component';
 import { SectionType, SectionTitle } from 'src/app/core/models/dashboard.model';
+import { take } from 'rxjs/operators';
+import { SelectionFiltersComponent } from '../../dialogs/selection-filters/selection-filters.component';
 
 @Component({
   selector: 'app-selection-filters-menu',
@@ -18,6 +20,7 @@ export class SelectionFiltersMenuComponent implements OnInit {
   @Input() selectedPeriods: any[] = [];
   @Input() selectedData: any[] = [];
   @Input() section: SectionType;
+  @Output() dataFilterEvent = new EventEmitter<any>();
   dialogTitle = '';
   constructor(private dialog: MatDialog) {}
 
@@ -31,49 +34,27 @@ export class SelectionFiltersMenuComponent implements OnInit {
         this.dialogTitle = SectionTitle[this.section];
       } catch (e) {
         this.dialogTitle = '';
-
       }
     }
   }
 
-  openOrgUnitFilterDialog() {
-    console.log({ title: this.dialogTitle });
-    const dialogRef = this.dialog.open(OrgUnitFilterDialogComponent, {
-      width: '600px',
+  openSelectionFilterDialog() {
+    console.log({title: this.dialogTitle});
+    const dialogRef = this.dialog.open(SelectionFiltersComponent, {
+      width: '1000px',
       data: {
-        selectedItems: this.selectedOrgUnits,
+        selectedData: this.selectedData,
+        selectedOrgUnits: this.selectedOrgUnits,
+        selectedPeriods: this.selectedPeriods,
         title: this.dialogTitle,
       },
     });
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log('The dialog was closed');
-    //   this.animal = result;
-    // });
-  }
-  openDataFilterDialog() {
-    const dialogRef = this.dialog.open(DataFilterDialogComponent, {
-      width: '600px',
-      data: { selectedItems: this.selectedData, title: this.dialogTitle },
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log({ result });
+      if (result) {
+        this.dataFilterEvent.emit(result);
+      }
     });
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log('The dialog was closed');
-    //   this.animal = result;
-    // });
-  }
-  openPeriodFilterDialog() {
-    const dialogRef = this.dialog.open(PeriodFilterDialogComponent, {
-      width: '600px',
-      data: {
-        selectedItems: this.selectedPeriods,
-        title: this.dialogTitle,
-      },
-    });
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log('The dialog was closed');
-    //   this.animal = result;
-    // });
   }
 }

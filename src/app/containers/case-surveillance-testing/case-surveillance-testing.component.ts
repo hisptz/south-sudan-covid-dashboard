@@ -14,5 +14,9 @@ export class CaseSurveillanceTestingComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  updateData(data) {
+    console.log({data});
+  }
+
 
 }
