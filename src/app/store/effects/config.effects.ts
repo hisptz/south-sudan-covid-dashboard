@@ -25,9 +25,10 @@ import { ConfigService } from 'src/app/core/services/config.service';
 import { State } from '../reducers';
 import { AnalyticsDataService } from 'src/app/core/services/analytics-data.service';
 import { SectionType } from 'src/app/core/models/dashboard.model';
+import { getDefaultDashboardConfig } from 'src/app/core/helpers/get-default-dashboard-config.helper';
 
 @Injectable()
-export class ConfigEffects implements OnInitEffects{
+export class ConfigEffects implements OnInitEffects {
   constructor(
     private actions$: Actions,
     private configService: ConfigService,
@@ -45,7 +46,8 @@ export class ConfigEffects implements OnInitEffects{
           }),
           catchError((error: any) => {
             if (error && error.status && error.status === 404) {
-              return of(getDefaultConfig());
+              const config = getDefaultDashboardConfig();
+              return of(createConfiguration({ data: config }));
             }
             return of(checkConfigurationsFailure({ error }));
           })
@@ -54,64 +56,62 @@ export class ConfigEffects implements OnInitEffects{
     );
   }
 
-  @Effect()
-  getAnalyticsData(): Observable<Action> {
-    return this.actions$.pipe(
-      ofType(getDefaultConfig),
-      mergeMap((action) =>
-        this.analyticsDataService.getDefaultConfig().pipe(
-          map((data) => {
-            return createConfiguration({ data });
-          }),
-          catchError((error: any) => {
-            return of(getDefaultConfigFailure({ error }));
-          })
-        )
-      )
-    );
-  }
   // @Effect()
-  // createConfiguration(): Observable<Action> {
+  // getAnalyticsData(): Observable<Action> {
   //   return this.actions$.pipe(
-  //     ofType(createConfiguration),
+  //     ofType(getDefaultConfig),
   //     mergeMap((action) =>
-  //       this.configService
-  //         .createConfiguration(action.data, SectionType.CASE)
-  //         .pipe(
-  //           map((data) => {
-             
-  //             return loadConfiguration();
-  //           }),
-  //           catchError((error: any) => {
-  //             if (error && error.status && error.status === 404) {
-  //               return of(getDefaultConfig());
-  //             }
-  //             return of(checkConfigurationsFailure({ error }));
-  //           })
-  //         )
+  //       this.analyticsDataService.getDefaultConfig().pipe(
+  //         map((data) => {
+  //           return createConfiguration({ data });
+  //         }),
+  //         catchError((error: any) => {
+  //           return of(getDefaultConfigFailure({ error }));
+  //         })
+  //       )
   //     )
   //   );
   // }
+  @Effect()
+  createConfiguration(): Observable<Action> {
+    return this.actions$.pipe(
+      ofType(createConfiguration),
+      mergeMap((action) =>
+        this.configService
+          .createConfiguration(action.data)
+          .pipe(
+            map((data) => {
+
+              return loadConfiguration();
+            }),
+            catchError((error: any) => {
+              if (error && error.status && error.status === 404) {
+                return of(getDefaultConfig());
+              }
+              return of(checkConfigurationsFailure({ error }));
+            })
+          )
+      )
+    );
+  }
 
   @Effect()
   loadConfiguration(): Observable<Action> {
     return this.actions$.pipe(
       ofType(loadConfiguration),
       mergeMap((action) =>
-        this.configService
-          .getAllConfigurations()
-          .pipe(
-            map((data) => {
-              console.log({ RESULT: data });
-              return loadConfigurationSuccess({ data });
-            }),
-            catchError((error: any) => {
-              if (error && error.status && error.status === 404) {
-                return of(getDefaultConfig());
-              }
-              return of(loadConfigurationFailure({ error }));
-            })
-          )
+        this.configService.getAllConfigurations().pipe(
+          map((data) => {
+            console.log({ RESULT: data });
+            return loadConfigurationSuccess({ data });
+          }),
+          catchError((error: any) => {
+            if (error && error.status && error.status === 404) {
+              return of(getDefaultConfig());
+            }
+            return of(loadConfigurationFailure({ error }));
+          })
+        )
       )
     );
   }
@@ -120,15 +120,4 @@ export class ConfigEffects implements OnInitEffects{
   }
 }
 
-// mergeMap(() =>
-// this.configService.getConfigurations().pipe(
-//   map((data) => {
-//      return of(createConfiguration({ data}))
-//   }),
-//   catchError((error) => {
 
-//     return of(checkConfigurationsFailure({ error }));
-//   })
-// )
-// )
-// );
