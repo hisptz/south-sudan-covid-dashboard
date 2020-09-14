@@ -1,16 +1,46 @@
 {
-    "programIndicators": [
-        {
-            "id": "zCaomudM2hO"
-        },
-        {
-            "id": "zslpvuaEqGP"
-        }, 
-        {
-            "id": "FHfk4aoGBFG"
-        },
-        {
-            "id": "k4BY4UHodO1"
-        }
-    ]
+  "section1": [
+    {
+      "id": "zCaomudM2hO"
+    },
+    {
+      "id": "lDDNIwULlwv"
+    },
+    {
+      "id": "zslpvuaEqGP"
+    },
+    {
+      "id": "FHfk4aoGBFG"
+    },
+    {
+      "id": "k4BY4UHodO1"
+    }
+  ],
+  "section2": [
+    {
+      "id": "lDDNIwULlwv"
+    },
+    {
+      "id": "LvpUocz7ZdR"
+    }
+  ],
+  "section3": [
+    {
+      "id": "HVgXXXkNM18"
+    },
+    {
+      "id": "F4EVkALCrm1"
+    }
+  ],
+  "section4": [
+    {
+      "id": "zCaomudM2hO"
+    },
+    {
+      "id": "vVcjDvIsL78"
+    },
+    {
+      "id": "LvpUocz7ZdR"
+    }
+  ]
 }
