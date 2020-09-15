@@ -4,11 +4,15 @@ import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { throwError, from } from 'rxjs';
 import { catchError, take } from 'rxjs/operators';
 import { SectionType } from '../models/dashboard.model';
+import { map, flattenDeep } from 'lodash';
 @Injectable({
   providedIn: 'root',
 })
 export class ConfigService {
-  constructor(private http$: NgxDhis2HttpClientService, private httpClient$: HttpClient) {}
+  constructor(
+    private http$: NgxDhis2HttpClientService,
+    private httpClient$: HttpClient
+  ) {}
 
   getConfigurations() {
     return this.http$
@@ -34,6 +38,20 @@ export class ConfigService {
     return this.http$
       .put(`dataStore/covid19Dashboard/config`, data)
       .pipe(catchError((error) => throwError(error)));
+  }
+  updateConfigurationPromise(config: any): any {
+    return new Promise((resolve, reject) => {
+      this.updateConfiguration(config)
+        .pipe(take(1))
+        .subscribe(
+          (data) => {
+            resolve(data);
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+    });
   }
   getConfigurationsPromise(): any {
     return new Promise((resolve, reject) => {
@@ -94,7 +112,6 @@ export class ConfigService {
     return from(this.getAllConfigurationsPromise());
   }
 
-
   getDefaultDataConfiguration() {
     return this.httpClient$
       .get(`assets/json/default-config.json`)
@@ -114,9 +131,30 @@ export class ConfigService {
         );
     });
   }
-  async updateConfigurationWithDefaultData() {
+  async updateConfigurationWithDefaultDataPromise(configuration) {
+    let config = { ...{}, ...configuration };
     const defaultData = await this.getDefaultConfigurationPromise();
-    const sectionOne = defaultData && defaultData.section1 ? defaultData.section1 : [];
+    let updateConfigResponse = null;
+    if (config) {
+      const configKeys = Object.keys(config);
 
+      for (const key of configKeys) {
+        const dx = flattenDeep(
+          map(defaultData[key] || [], (dataKey, i) => {
+            const configDx = config[key].dx;
+            const id = dataKey.id || '';
+            return { ...configDx[i], id } || [];
+          })
+        );
+        const updatedConfig = { [key]: { ...config[key], dx } };
+        config = { ...config, ...updatedConfig };
+      }
+
+      updateConfigResponse = await this.updateConfigurationPromise(config);
+    }
+    return updateConfigResponse;
+  }
+  updateConfigurationWithDefaultData(configuration: any) {
+    return from(this.updateConfigurationWithDefaultDataPromise(configuration));
   }
 }

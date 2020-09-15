@@ -19,13 +19,17 @@ import {
   loadConfiguration,
   loadConfigurationSuccess,
   loadConfigurationFailure,
+  updateConfigurationWithDefaultData,
+  updateConfigurationWithDefaultDataSuccess,
+  updateConfigurationWithDefaultDataFailure,
 } from '../actions/config.actions';
-import { mergeMap, map, catchError } from 'rxjs/operators';
+import { mergeMap, map, catchError, withLatestFrom, tap } from 'rxjs/operators';
 import { ConfigService } from 'src/app/core/services/config.service';
 import { State } from '../reducers';
 import { AnalyticsDataService } from 'src/app/core/services/analytics-data.service';
 import { SectionType } from 'src/app/core/models/dashboard.model';
 import { getDefaultDashboardConfig } from 'src/app/core/helpers/get-default-dashboard-config.helper';
+import { getConfiguration } from '../selectors/config.selectors';
 
 @Injectable()
 export class ConfigEffects implements OnInitEffects {
@@ -76,24 +80,57 @@ export class ConfigEffects implements OnInitEffects {
   createConfiguration(): Observable<Action> {
     return this.actions$.pipe(
       ofType(createConfiguration),
+
+      mergeMap((action) =>
+        this.configService.createConfiguration(action.data).pipe(
+          map((data) => {
+            this.store.dispatch(
+              updateConfigurationWithDefaultData({
+                configuration: action?.data,
+              })
+            );
+            return loadConfiguration();
+          }),
+          catchError((error: any) => {
+            if (error && error.status && error.status === 404) {
+              return of(getDefaultConfig());
+            }
+            return of(checkConfigurationsFailure({ error }));
+          })
+        )
+      )
+    );
+  }
+  @Effect()
+  updateConfigurationWithDefaultData(): Observable<Action> {
+    return this.actions$.pipe(
+      ofType(updateConfigurationWithDefaultData),
       mergeMap((action) =>
         this.configService
-          .createConfiguration(action.data)
+          .updateConfigurationWithDefaultData(action.configuration)
           .pipe(
             map((data) => {
-
-              return loadConfiguration();
+              console.log({ RESULT: data });
+              return updateConfigurationWithDefaultDataSuccess({ data });
             }),
             catchError((error: any) => {
-              if (error && error.status && error.status === 404) {
-                return of(getDefaultConfig());
-              }
-              return of(checkConfigurationsFailure({ error }));
+              return of(updateConfigurationWithDefaultDataFailure({ error }));
             })
           )
       )
     );
   }
+
+  // @Effect()
+  // loadConfigurationSuccess(): Observable<Action> {
+  //   return this.actions$.pipe(
+  //     ofType(loadConfigurationSuccess),
+  //     withLatestFrom(getConfiguration),
+  //     tap(([action, configuration]) => {
+  //       console.log({ action, configuration });
+  //     })
+  //   );
+  // }
 
   @Effect()
   loadConfiguration(): Observable<Action> {
@@ -102,7 +139,6 @@ export class ConfigEffects implements OnInitEffects {
       mergeMap((action) =>
         this.configService.getAllConfigurations().pipe(
           map((data) => {
-            console.log({ RESULT: data });
             return loadConfigurationSuccess({ data });
           }),
           catchError((error: any) => {
@@ -115,9 +151,8 @@ export class ConfigEffects implements OnInitEffects {
       )
     );
   }
+
   ngrxOnInitEffects() {
     return checkConfigurations();
   }
 }
-
-
