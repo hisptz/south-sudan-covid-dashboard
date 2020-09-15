@@ -10,7 +10,7 @@ export function getDefaultDashboardConfig() {
 function getSectionOneDefaultConfig() {
   return {
     id: uuidv4(),
-    title: 'OVERALL SUMMARY',
+    title: 'Overall Summary',
     type: 'summary',
     dx: [
       { id: '', label: 'Suspected cases', dhis2Name: '', suffix: '' },
