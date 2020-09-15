@@ -14,7 +14,7 @@ import {
   loadConfigurationFailure,
 } from '../actions/config.actions';
 
-export const configFeatureKey = 'config';
+export const configFeatureKey = 'configs';
 
 export interface ConfigState extends EntityState<any> {
   loading: boolean;

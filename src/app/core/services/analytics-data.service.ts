@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { catchError, take } from 'rxjs/operators';
-import { throwError, from } from 'rxjs';
+import { throwError, from, Observable } from 'rxjs';
 import { flattenDeep, map, findIndex } from 'lodash';
 import { HttpClient } from '@angular/common/http';
+import { getStringFromArray } from '../helpers/get-string-from-array.helper';
 
 @Injectable({
   providedIn: 'root',
@@ -13,16 +14,23 @@ export class AnalyticsDataService {
     private http$: NgxDhis2HttpClientService,
     private httpClient: HttpClient
   ) {}
-  getAnalyticsDataValues(id: string, relativePeriod) {
+  getAnalyticsDataValues(dx: string, orgUnit: string, period: string) {
     return this.http$
       .get(
-        `analytics?dimension=dx:${id}&filter=pe:${relativePeriod}&filter=ou:he6RdNPCKhY`
+        `analytics?dimension=dx:${dx}&filter=pe:${period}&filter=ou:${orgUnit}`
       )
       .pipe(catchError((error) => throwError(error)));
   }
-  getAnalyticsDataValuesPromise(id: string, relativePeriod = '2020Q1'): any {
+  getRequestedAnalyticsDataValuesPromise(
+    dxArr: string[],
+    orgUnits: any[],
+    periods: any[]
+  ) {
+    const dxArrString = getStringFromArray(dxArr);
+    const orgUnitsString = getStringFromArray(orgUnits);
+    const periodsString = getStringFromArray(periods);
     return new Promise((resolve, reject) => {
-      this.getAnalyticsDataValues(id, relativePeriod)
+      this.getAnalyticsDataValues(dxArrString, orgUnitsString, periodsString)
         .pipe(take(1))
         .subscribe(
           (data) => {
@@ -34,6 +42,17 @@ export class AnalyticsDataService {
         );
     });
   }
+  getRequestedAnalyticsDataValues(
+    dxArr: string[],
+    orgUnits: any[],
+    periods: any[]
+  ): Observable<any> {
+    console.log({ dxArr, orgUnits, periods });
+    return from(
+      this.getRequestedAnalyticsDataValuesPromise(dxArr, orgUnits, periods)
+    );
+  }
+
   // getDefaultConfiguration() {
   //   return this.httpClient
   //     .get(`assets/json/default-config.json`)
@@ -105,7 +124,6 @@ export class AnalyticsDataService {
   //     return [];
   //   }
 
-  
   // }
   // getDefaultConfig() {
   //   return from(this.getAllAnalyticsDataValuesPromise());
