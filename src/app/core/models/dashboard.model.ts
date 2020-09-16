@@ -4,7 +4,10 @@ export enum SectionType {
     TESTS_CUNDUCTED = 'TESTS_CUNDUCTED',
     MAP = 'MAP',
     SUMMARY_TABLE = 'SUMMARY_TABLE',
-    SECTION_ONE = 'section1'
+    SECTION_ONE = 'section1',
+    SECTION_TWO = 'section2',
+    SECTION_THREE = 'section3',
+    SECTION_FOUR = 'section4'
 }
 export enum SectionTitle {
     CASE_SURVEILLANCE = 'CASE SURVEILLANCE AND TESTING',
