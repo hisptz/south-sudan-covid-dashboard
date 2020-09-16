@@ -13,11 +13,39 @@ function getSectionOneDefaultConfig() {
     title: 'Overall Summary',
     type: 'summary',
     dx: [
-      { id: '', label: 'Suspected cases', dhis2Name: '', suffix: '' },
-      { id: '', label: 'Tested cases', dhis2Name: '', suffix: '' },
-      { id: '', label: 'Confirmed cases', dhis2Name: '', suffix: '' },
-      { id: '', label: 'Recovered cases', dhis2Name: '', suffix: '' },
-      { id: '', label: 'Mortality', dhis2Name: '', suffix: '' },
+      { id: '', label: 'Suspected cases', dhis2Name: '', suffix: '', hasPercentage: false },
+      {
+        id: '',
+        label: 'Tested cases',
+        dhis2Name: '',
+        suffix: '',
+        hasPercentage: true,
+        percentageDx: ''
+      },
+      {
+        id: '',
+        label: 'Confirmed cases',
+        dhis2Name: '',
+        suffix: '',
+        hasPercentage: true,
+        percentageDx: ''
+      },
+      {
+        id: '',
+        label: 'Recovered cases',
+        dhis2Name: '',
+        suffix: '',
+        hasPercentage: true,
+        percentageDx: ''
+      },
+      {
+        id: '',
+        label: 'Mortality',
+        dhis2Name: '',
+        suffix: '',
+        hasPercentage: true,
+        percentageDx: ''
+      },
     ],
   };
 }
