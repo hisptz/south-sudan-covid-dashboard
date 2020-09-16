@@ -16,6 +16,7 @@ import { OrgUnitFilterDialogComponent } from './dialogs/org-unit-filter-dialog/o
 import { PeriodFilterDialogComponent } from './dialogs/period-filter-dialog/period-filter-dialog.component';
 import { SelectionFiltersComponent } from './dialogs/selection-filters/selection-filters.component';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatTabsModule} from '@angular/material/tabs';
 @NgModule({
   declarations: [
     GraphComponent,
@@ -36,7 +37,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     NgxDhis2DataFilterModule,
     NgxDhis2PeriodFilterModule,
     NgxDhis2OrgUnitFilterModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatTabsModule
   ],
   exports: [
     MatProgressBarModule,
@@ -54,7 +56,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     OrgUnitFilterDialogComponent,
     PeriodFilterDialogComponent,
     MatExpansionModule,
-    SelectionFiltersComponent
+    SelectionFiltersComponent,
+    MatTabsModule
   ],
   entryComponents: [
     DataFilterDialogComponent,
