@@ -45,3 +45,15 @@ export const loadConfigurationFailure = createAction(
   '[Config] Load Configuration Failure',
   props<{ error: any }>()
 );
+export const updateConfigurationWithDefaultData = createAction(
+  '[Config] Update Configuration With Default Data',
+  props<{ configuration: any }>()
+);
+export const updateConfigurationWithDefaultDataSuccess = createAction(
+  '[Config] Update Configuration With Default Data Success',
+  props<{ data: any }>()
+);
+export const updateConfigurationWithDefaultDataFailure = createAction(
+  '[Config] Update Configuration With Default Data Failure',
+  props<{ error: any }>()
+);

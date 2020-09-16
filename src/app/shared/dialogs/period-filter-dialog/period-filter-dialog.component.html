@@ -1,0 +1,9 @@
+<div>
+  <h2 style="padding: 0; margin: 0">{{ title }} (PERIOD FILTER)</h2>
+</div>
+<ngx-dhis2-period-filter
+  [selectedPeriods]="selectedPeriods"
+  [periodFilterConfig]="periodFilterConfig"
+  (update)="onPeriodUpdate($event, 'CHANGE')"
+  (close)="onPeriodUpdate($event, 'CLOSE')"
+></ngx-dhis2-period-filter>

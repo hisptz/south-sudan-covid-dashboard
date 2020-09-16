@@ -1,17 +1,25 @@
-<app-case-surveillance-testing></app-case-surveillance-testing>
-<div class="graph-maps-sction">
-  <div class="graph-section">
-    <app-confirmed-cases-and-deaths-section></app-confirmed-cases-and-deaths-section>
-    <div class="bottom-charts">
-      <div class="left-chart">
-        <app-tests-conducted-and-positive-cases></app-tests-conducted-and-positive-cases>
+<div style="width: 100%;">
+  <mat-tab-group mat-align-tabs="start">
+    <mat-tab label="CASE SURVEILLANCE AND TESTING">
+      <app-case-surveillance-testing></app-case-surveillance-testing>
+      <div class="graph-maps-sction">
+        <div class="graph-section">
+          <app-confirmed-cases-and-deaths-section></app-confirmed-cases-and-deaths-section>
+          <div class="bottom-charts">
+            <div class="left-chart">
+              <app-tests-conducted-and-positive-cases></app-tests-conducted-and-positive-cases>
+            </div>
+            <div class="right-chart">
+              <app-summary-table></app-summary-table>
+            </div>
+          </div>
+        </div>
+        <div class="map-section">
+          <app-map-sectction></app-map-sectction>
+        </div>
       </div>
-      <div class="right-chart">
-        <app-summary-table></app-summary-table>
-      </div>
-    </div>
-  </div>
-  <div class="map-section">
-    <app-map-sectction></app-map-sectction>
-  </div>
+    </mat-tab>
+    <mat-tab label="LABARATORY TESTS">Content 2</mat-tab>
+  </mat-tab-group>
+  
 </div>

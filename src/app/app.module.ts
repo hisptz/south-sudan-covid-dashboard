@@ -15,29 +15,28 @@ import { effects } from './store/effects';
 import { environment } from 'src/environments/environment';
 
 @NgModule({
-  declarations: [
-    AppComponent  
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     CoreModule,
+
+    StoreModule.forRoot(reducers, { metaReducers }),
+    EffectsModule.forRoot(effects),
     NgxDhis2MenuModule,
     NgxDhis2HttpClientModule.forRoot({
       version: 1,
       namespace: 'iapps',
       models: {
         organisationUnits: 'id,name,level',
-        organisationUnitLevels: 'id',
+        organisationUnitLevels: 'id,level',
         organisationUnitGroups: 'id',
       },
     }),
-    StoreModule.forRoot(reducers, { metaReducers }),
-    EffectsModule.forRoot(effects),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

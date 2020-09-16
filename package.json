@@ -27,7 +27,7 @@
     "@iapps/ngx-dhis2-http-client": "^2.0.8-rc.4",
     "@iapps/ngx-dhis2-menu": "^1.0.11-beta.8",
     "@iapps/ngx-dhis2-org-unit-filter": "^1.1.30",
-    "@iapps/ngx-dhis2-period-filter": "^2.0.0-rc.12",
+    "@iapps/ngx-dhis2-period-filter": "^2.0.0-beta.3",
     "@iapps/ngx-dhis2-selection-filters": "^1.0.8-beta.14",
     "@ngrx/effects": "^10.0.0",
     "@ngrx/entity": "^10.0.0",
@@ -41,11 +41,13 @@
     "highcharts-angular": "^2.8.0",
     "highcharts-grouped-categories": "^1.1.6",
     "lodash": "^4.17.20",
+    "moment": "^2.28.0",
     "ng2-dragula": "^2.1.1",
     "ngx-color-picker": "^10.0.1",
     "ngx-pagination": "^5.0.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
+    "uuid": "^8.3.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
