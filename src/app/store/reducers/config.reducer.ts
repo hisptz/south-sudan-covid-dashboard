@@ -71,7 +71,7 @@ export const configReducer = createReducer(
   }),
   on(createConfigurationFailure, (state, { error }) => {
     const message =
-      error && error.message ? error.message : 'Failed to load scorecards';
+      error && error.message ? error.message : 'Failed to create configuration';
     return {
       ...state,
       loading: false,

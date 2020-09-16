@@ -84,12 +84,10 @@ export class ConfigEffects implements OnInitEffects {
       mergeMap((action) =>
         this.configService.createConfiguration(action.data).pipe(
           map((data) => {
-            this.store.dispatch(
-              updateConfigurationWithDefaultData({
-                configuration: action?.data,
-              })
-            );
-            return loadConfiguration();
+            // this.store.dispatch(loadConfiguration());
+            return updateConfigurationWithDefaultData({
+              configuration: action?.data,
+            });
           }),
           catchError((error: any) => {
             if (error && error.status && error.status === 404) {
@@ -111,6 +109,7 @@ export class ConfigEffects implements OnInitEffects {
           .pipe(
             map((data) => {
               console.log({ RESULT: data });
+              this.store.dispatch(loadConfiguration());
               return updateConfigurationWithDefaultDataSuccess({ data });
             }),
             catchError((error: any) => {
