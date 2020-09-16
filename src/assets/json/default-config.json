@@ -1,16 +1,67 @@
 {
-    "programIndicators": [
-        {
-            "id": "zCaomudM2hO"
-        },
-        {
-            "id": "zslpvuaEqGP"
-        }, 
-        {
-            "id": "FHfk4aoGBFG"
-        },
-        {
-            "id": "k4BY4UHodO1"
-        }
-    ]
+  "section1": [
+    {
+      "id": "zCaomudM2hO",
+      "name": "Suspected cases"
+    },
+    {
+      "id": "lDDNIwULlwv",
+      "name": "Tested cases",
+      "percentageDx": {
+        "id": "lDDNIwULlwv",
+        "name": "% Tested cases"
+      }
+    },
+    {
+      "id": "F4EVkALCrm1",
+      "name": "Confirmed cases",
+      "percentageDx": {
+        "id": "F4EVkALCrm1",
+        "name": "% Confirmed cases"
+      }
+    },
+    {
+      "id": "IscKKNJXRR6",
+      "name": "Recovered cases",
+      "percentageDx": {
+        "id": "IscKKNJXRR6",
+        "name": "% Recovered cases"
+      }
+    },
+    {
+      "id": "LvpUocz7ZdR",
+      "name": "Mortality",
+      "percentageDx": {
+        "id": "LvpUocz7ZdR",
+        "name": "% Mortality"
+      }
+    }
+  ],
+  "section2": [
+    {
+      "id": "lDDNIwULlwv"
+    },
+    {
+      "id": "LvpUocz7ZdR"
+    }
+  ],
+  "section3": [
+    {
+      "id": "HVgXXXkNM18"
+    },
+    {
+      "id": "F4EVkALCrm1"
+    }
+  ],
+  "section4": [
+    {
+      "id": "zCaomudM2hO"
+    },
+    {
+      "id": "vVcjDvIsL78"
+    },
+    {
+      "id": "LvpUocz7ZdR"
+    }
+  ]
 }

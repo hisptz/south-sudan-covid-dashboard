@@ -14,12 +14,15 @@ import {
   loadConfigurationFailure,
 } from '../actions/config.actions';
 
-export const configFeatureKey = 'config';
+export const configFeatureKey = 'configs';
 
 export interface ConfigState extends EntityState<any> {
   loading: boolean;
   loaded: boolean;
-  config: any;
+  configuration: any;
+  userId: string;
+  userOrgUnits: Array<any>;
+  userName: string;
   error: any;
   notification: any;
 }
@@ -28,7 +31,10 @@ export const adapter: EntityAdapter<any> = createEntityAdapter<any>();
 export const initialState: ConfigState = adapter.getInitialState({
   loading: false,
   loaded: false,
-  config: null,
+  configuration: null,
+  userId: null,
+  userOrgUnits: [],
+  userName: null,
   error: null,
   notification: null,
 });
@@ -65,7 +71,7 @@ export const configReducer = createReducer(
   }),
   on(createConfigurationFailure, (state, { error }) => {
     const message =
-      error && error.message ? error.message : 'Failed to load scorecards';
+      error && error.message ? error.message : 'Failed to create configuration';
     return {
       ...state,
       loading: false,
@@ -105,10 +111,20 @@ export const configReducer = createReducer(
     return { ...state, loading: true, loaded: false };
   }),
   on(loadConfigurationSuccess, (state, { data }) => {
+    const userName = data && data.userName ? data.userName : '';
+    const userId = data && data.userId ? data.userId : '';
+    const userOrgUnits = data && data.orgUnits ? data.orgUnits : [];
+    const configuration = data && data.config ? data.config : null;
+    const notification = { type: 'SUCCESS', message: 'Configurations loaded succcessfully'}
     return {
       ...state,
       loaded: true,
       loading: false,
+      configuration,
+      userId,
+      userName,
+      userOrgUnits,
+      notification
     };
   }),
   on(loadConfigurationFailure, (state, { error }) => {

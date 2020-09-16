@@ -1,13 +1,16 @@
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from 'src/environments/environment';
+import { analyticReducer, AnalyticState } from './analytic.reducer';
 import { ConfigState, configReducer } from './config.reducer';
 
 export interface State {
-  config: ConfigState;
+  configs: ConfigState;
+  analytics: AnalyticState;
 }
 
 export const reducers: ActionReducerMap<State> = {
-  config: configReducer
+  configs: configReducer,
+  analytics: analyticReducer,
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production
