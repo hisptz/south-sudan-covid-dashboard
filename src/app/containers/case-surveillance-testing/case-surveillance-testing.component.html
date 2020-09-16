@@ -1,22 +1,44 @@
-<div id="case-surve-container" class="mat-elevation-z1">
+<div
+  id="case-surve-container"
+  class="mat-elevation-z1"
+  *ngIf="!(configLoadingStatus$ | async) && !(sectionLoadingStatus$ | async)"
+>
   <div class="case-container-header">
-    <h2>CASE SURVEILLANCE AND TESTING</h2>
+    <h2>{{ (sectionOneConfig$ | async)?.title }}</h2>
     <app-selection-filters-menu
-    [section]="sectionType"
-    (dataFilterEvent)="updateData($event)"
+      [section]="sectionType"
+      (dataFilterEvent)="updateData($event)"
     ></app-selection-filters-menu>
   </div>
 
-  <div class="case-items-container">
-    <div class="case-item">
-      <p class="case-item-title">Suspected Cases</p>
-      <span>200</span>
-      <div class="case-progress">
-        <mat-progress-bar mode="determinate" value="20">20</mat-progress-bar
-        ><i>20%</i>
+  <div
+    class="case-items-container"
+    *ngIf="
+      (sectionOneConfig$ | async) &&
+      (sectionOneAnalytics$ | async) as analyticsData
+    "
+  >
+    <div
+      class="case-item"
+      *ngFor="let config of (sectionOneConfig$ | async)?.dx"
+    >
+      <p class="case-item-title">{{ config?.label }}</p>
+      <span>{{ getValueFromAnalytics(config?.id, analyticsData) }}</span>
+      <div class="case-progress" *ngIf="config?.percentageDx">
+        <mat-progress-bar
+          mode="determinate"
+          value="{{
+            getValueFromAnalytics(config?.percentageDx?.id, analyticsData)
+          }}"
+        ></mat-progress-bar
+        ><i
+          >{{
+            getValueFromAnalytics(config?.percentageDx?.id, analyticsData)
+          }}%</i
+        >
       </div>
     </div>
-    <div class="case-item">
+    <!-- <div class="case-item">
       <p class="case-item-title">Confirmed Cases</p>
       <span>200</span>
       <div class="case-progress">
@@ -39,6 +61,17 @@
         <mat-progress-bar mode="determinate" value="90"></mat-progress-bar
         ><i>60%</i>
       </div>
-    </div>
+    </div> -->
+  </div>
+</div>
+
+<div
+  id="case-surve-container"
+  class="mat-elevation-z1"
+  *ngIf="(configLoadingStatus$ | async) || (sectionLoadingStatus$ | async)"
+>
+  <div style="margin-top: auto; margin-bottom: auto; text-align: center">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <i>Loading data</i>
   </div>
 </div>
