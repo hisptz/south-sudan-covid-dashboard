@@ -36,14 +36,22 @@ export class AnalyticEffects {
         const dxArr = configuration[action?.sectionType].dx || [];
         const dx = getIdsFromDx(dxArr);
         return this.analyticsService
-          .getRequestedAnalyticsDataValues(dx, orgUnits, action.periods)
+          .getRequestedAnalyticsDataValues(
+            dx,
+            orgUnits,
+            action.periods,
+            action.sectionType
+          )
           .pipe(
             map((data) => {
               console.log({ response: data });
-              return loadAnalyticsDataSuccess({ sectionType:action.sectionType, data });
+              return loadAnalyticsDataSuccess({
+                sectionType: action.sectionType,
+                data,
+              });
             }),
             catchError((error: any) => {
-              console.log({error})
+              console.log({ error });
               return of(loadAnalyticsDataFailure({ error }));
             })
           );

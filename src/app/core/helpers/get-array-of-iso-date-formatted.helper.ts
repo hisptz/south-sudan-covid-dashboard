@@ -5,7 +5,7 @@ export function getArrayOfIsoFormattedDates(
 ): Array<string> {
   let isoDates = [];
   if (dates && dates.length) {
-    for (const date of isoDates) {
+    for (const date of dates) {
       const isoDate = formatDateToISO(date);
       isoDates = isoDate ? [...isoDates, isoDate] : [...isoDates];
     }

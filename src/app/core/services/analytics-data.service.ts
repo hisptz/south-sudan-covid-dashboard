@@ -5,6 +5,7 @@ import { throwError, from, Observable } from 'rxjs';
 import { flattenDeep, map, findIndex } from 'lodash';
 import { HttpClient } from '@angular/common/http';
 import { getStringFromArray } from '../helpers/get-string-from-array.helper';
+import { SectionType } from '../models/dashboard.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,23 +15,40 @@ export class AnalyticsDataService {
     private http$: NgxDhis2HttpClientService,
     private httpClient: HttpClient
   ) {}
-  getAnalyticsDataValues(dx: string, orgUnit: string, period: string) {
+  getAnalyticsDataValues(
+    dx: string,
+    orgUnit: string,
+    period: string,
+    sectionType: SectionType
+  ) {
+    let peURLType = '';
+    if (sectionType === SectionType.SECTION_TWO) {
+      peURLType = 'dimension';
+    } else {
+      peURLType = 'filter';
+    }
     return this.http$
       .get(
-        `analytics?dimension=dx:${dx}&dimension=pe:${period}&filter=ou:${orgUnit}`
+        `analytics?dimension=dx:${dx}&${peURLType}=pe:${period}&filter=ou:${orgUnit}`
       )
       .pipe(catchError((error) => throwError(error)));
   }
   getRequestedAnalyticsDataValuesPromise(
     dxArr: string[],
     orgUnits: any[],
-    periods: any[]
+    periods: any[],
+    sectionType: SectionType
   ): any {
     const dxArrString = getStringFromArray(dxArr);
     const orgUnitsString = getStringFromArray(orgUnits);
     const periodsString = getStringFromArray(periods);
     return new Promise((resolve, reject) => {
-      this.getAnalyticsDataValues(dxArrString, orgUnitsString, periodsString)
+      this.getAnalyticsDataValues(
+        dxArrString,
+        orgUnitsString,
+        periodsString,
+        sectionType
+      )
         .pipe(take(1))
         .subscribe(
           (data) => {
@@ -45,16 +63,25 @@ export class AnalyticsDataService {
   getRequestedAnalyticsDataValues(
     dxArr: string[],
     orgUnits: any[],
-    periods: any[]
+    periods: any[],
+    sectionType: SectionType
   ): Observable<any> {
     console.log({ dxArr, orgUnits, periods });
-    return from(this.getMappedSectionData(dxArr, orgUnits, periods));
+    return from(
+      this.getMappedSectionData(dxArr, orgUnits, periods, sectionType)
+    );
   }
-  async getMappedSectionData(dxArr: string[], orgUnits: any[], periods: any[]) {
+  async getMappedSectionData(
+    dxArr: string[],
+    orgUnits: any[],
+    periods: any[],
+    sectionType: SectionType
+  ) {
     const response = await this.getRequestedAnalyticsDataValuesPromise(
       dxArr,
       orgUnits,
-      periods
+      periods,
+      sectionType
     );
     console.log({ serverResponse: response });
     const { headers, metaData, rows } = response;
