@@ -41,6 +41,7 @@
     "highcharts-angular": "^2.8.0",
     "highcharts-grouped-categories": "^1.1.6",
     "lodash": "^4.17.20",
+    "moment": "^2.28.0",
     "ng2-dragula": "^2.1.1",
     "ngx-color-picker": "^10.0.1",
     "ngx-pagination": "^5.0.0",
