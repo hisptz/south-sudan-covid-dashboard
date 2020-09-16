@@ -17,7 +17,7 @@ export class AnalyticsDataService {
   getAnalyticsDataValues(dx: string, orgUnit: string, period: string) {
     return this.http$
       .get(
-        `analytics?dimension=dx:${dx}&filter=pe:${period}&filter=ou:${orgUnit}`
+        `analytics?dimension=dx:${dx}&dimension=pe:${period}&filter=ou:${orgUnit}`
       )
       .pipe(catchError((error) => throwError(error)));
   }
@@ -25,7 +25,7 @@ export class AnalyticsDataService {
     dxArr: string[],
     orgUnits: any[],
     periods: any[]
-  ) {
+  ): any {
     const dxArrString = getStringFromArray(dxArr);
     const orgUnitsString = getStringFromArray(orgUnits);
     const periodsString = getStringFromArray(periods);
@@ -48,8 +48,57 @@ export class AnalyticsDataService {
     periods: any[]
   ): Observable<any> {
     console.log({ dxArr, orgUnits, periods });
-    return from(
-      this.getRequestedAnalyticsDataValuesPromise(dxArr, orgUnits, periods)
+    return from(this.getMappedSectionData(dxArr, orgUnits, periods));
+  }
+  async getMappedSectionData(dxArr: string[], orgUnits: any[], periods: any[]) {
+    const response = await this.getRequestedAnalyticsDataValuesPromise(
+      dxArr,
+      orgUnits,
+      periods
+    );
+    console.log({ serverResponse: response });
+    const { headers, metaData, rows } = response;
+    const dxIndex =
+      headers && headers.length
+        ? headers.findIndex((item) => item.name === 'dx')
+        : -1;
+    const periodIndex =
+      headers && headers.length
+        ? headers.findIndex((item) => item.name === 'pe')
+        : -1;
+    const valueIndex =
+      headers && headers.length
+        ? headers.findIndex((item) => item.name === 'value')
+        : -1;
+
+    const mappedData = this.getMappedDataFromRows(
+      metaData,
+      rows,
+      dxIndex,
+      valueIndex,
+      periodIndex
+    );
+    return mappedData;
+  }
+
+  getMappedDataFromRows(
+    metaData: any,
+    rows: any[],
+    dxIndex: number,
+    valueIndex: number,
+    periodIndex: number
+  ) {
+    return flattenDeep(
+      map(rows || [], (row) => {
+        const id = row[dxIndex] || '';
+        const value = row[valueIndex] || '';
+        const period = row[periodIndex] || '';
+        const { items } = metaData;
+        // console.log({ dxIndex, valueIndex, row, id, value, items });
+        const name = items[id].name || '';
+
+        return { ...{}, id, name, value, period } || [];
+      })
     );
   }
 
