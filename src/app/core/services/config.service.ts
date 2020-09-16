@@ -143,7 +143,8 @@ export class ConfigService {
           map(defaultData[key] || [], (dataKey, i) => {
             const configDx = config[key].dx;
             const id = dataKey.id || '';
-            return { ...configDx[i], id } || [];
+            const percentageDx = dataKey.percentageDx || '';
+            return { ...configDx[i], id, percentageDx } || [];
           })
         );
         const updatedConfig = { [key]: { ...config[key], dx } };
