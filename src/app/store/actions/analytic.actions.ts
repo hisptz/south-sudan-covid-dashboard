@@ -8,7 +8,7 @@ export const loadAnalyticsData = createAction(
 
 export const loadAnalyticsDataSuccess = createAction(
   '[Analytic] Load Analytics Success',
-  props<{ data: any }>()
+  props<{ sectionType: SectionType, data: any }>()
 );
 
 export const loadAnalyticsDataFailure = createAction(
