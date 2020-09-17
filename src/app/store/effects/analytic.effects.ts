@@ -33,11 +33,10 @@ export class AnalyticEffects {
         this.store.select(getConfiguration)
       ),
       mergeMap(([action, orgUnits, configuration]) => {
-        const dxArr = configuration[action?.sectionType].dx || [];
-        const dx = getIdsFromDx(dxArr);
+      
         return this.analyticsService
           .getRequestedAnalyticsDataValues(
-            dx,
+            configuration,
             orgUnits,
             action.periods,
             action.sectionType

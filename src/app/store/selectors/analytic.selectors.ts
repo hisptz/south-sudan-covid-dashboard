@@ -22,6 +22,16 @@ export const getSectionOneLoadingStatus = createSelector(
     return false;
   }
 );
+export const getSectionTwoLoadingStatus = createSelector(
+  getAnalyticState,
+  getLoadingSections,
+  (state, loadingSections) => {
+    if (loadingSections.includes(SectionType.SECTION_TWO)) {
+      return true;
+    }
+    return false;
+  }
+);
 export const getSectionOneAnalyticsData = createSelector(
   getAnalyticState,
   (state) => {

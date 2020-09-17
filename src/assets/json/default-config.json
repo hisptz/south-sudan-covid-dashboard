@@ -8,7 +8,7 @@
       "id": "lDDNIwULlwv",
       "name": "Tested cases",
       "percentageDx": {
-        "id": "lDDNIwULlwv",
+        "id": "xg5cJiTHTJz",
         "name": "% Tested cases"
       }
     },
@@ -16,7 +16,7 @@
       "id": "F4EVkALCrm1",
       "name": "Confirmed cases",
       "percentageDx": {
-        "id": "F4EVkALCrm1",
+        "id": "iwFjzTgx8zo",
         "name": "% Confirmed cases"
       }
     },
@@ -24,7 +24,7 @@
       "id": "IscKKNJXRR6",
       "name": "Recovered cases",
       "percentageDx": {
-        "id": "IscKKNJXRR6",
+        "id": "qcaHDYQv1G6",
         "name": "% Recovered cases"
       }
     },
@@ -32,25 +32,33 @@
       "id": "LvpUocz7ZdR",
       "name": "Mortality",
       "percentageDx": {
-        "id": "LvpUocz7ZdR",
+        "id": "xedPwOuJiEd",
         "name": "% Mortality"
       }
     }
   ],
   "section2": [
     {
-      "id": "lDDNIwULlwv"
+      "id": "F4EVkALCrm1",
+      "name": "Confirmed cases",
+      "position": "left"
     },
     {
-      "id": "LvpUocz7ZdR"
+      "id": "cJ9jP3kr3DD",
+      "name": "Death cases",
+      "position": "right"
     }
   ],
   "section3": [
     {
-      "id": "HVgXXXkNM18"
+      "id": "HVgXXXkNM18",
+      "name": "Tests conducted",
+      "position": "left"
     },
     {
-      "id": "F4EVkALCrm1"
+      "id": "F4EVkALCrm1",
+      "name": "Tests conducted",
+      "position": "left"
     }
   ],
   "section4": [
