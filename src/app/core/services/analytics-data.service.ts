@@ -117,12 +117,17 @@ export class AnalyticsDataService {
   ) {
     return flattenDeep(
       map(rows || [], (row) => {
-        const id = row[dxIndex] || '';
-        const value = row[valueIndex] || '';
-        const period = row[periodIndex] || '';
+        const id = row && row[dxIndex] ? row[dxIndex] : '';
+        const value = row && row[valueIndex] ? row[valueIndex] : '';
+        const periodID = row && row[periodIndex] ? row[periodIndex] : '';
+
         const { items } = metaData;
         // console.log({ dxIndex, valueIndex, row, id, value, items });
-        const name = items[id].name || '';
+        const name = items && items[id] && items[id].name ? items[id].name : '';
+        const period =
+          items && items[periodID] && items[periodID].name
+            ? items[periodID].name
+            : '';
 
         return { ...{}, id, name, value, period } || [];
       })
