@@ -58,7 +58,7 @@ export class SummaryTableComponent implements OnInit {
         analyticsData || [],
         (item) => item.id === configItem.id && item.orgUnit === orgUnitId
       );
-      value = dxObj && dxObj.value ? dxObj.value : '';
+      value = dxObj && dxObj.value ? dxObj.value : 0;
     }
 
     return value;
