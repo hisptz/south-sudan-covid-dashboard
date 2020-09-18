@@ -23,17 +23,23 @@ export class AnalyticsDataService {
     sectionType: SectionType
   ) {
     let peURLType = '';
+    let ouURLType = '';
     if (
       sectionType === SectionType.SECTION_TWO ||
       sectionType === SectionType.SECTION_THREE
     ) {
       peURLType = 'dimension';
-    } else {
+      ouURLType = 'filter';
+    } else if (sectionType === SectionType.SECTION_FOUR) {
       peURLType = 'filter';
+      ouURLType = 'dimension';
+    } else {
+      peURLType = ouURLType = 'filter';
+      ouURLType = 'filter';
     }
     return this.http$
       .get(
-        `analytics?dimension=dx:${dx}&${peURLType}=pe:${period}&filter=ou:${orgUnit}`
+        `analytics?dimension=dx:${dx}&${peURLType}=pe:${period}&${ouURLType}=ou:${orgUnit}`
       )
       .pipe(catchError((error) => throwError(error)));
   }
@@ -70,7 +76,6 @@ export class AnalyticsDataService {
     periods: any[],
     sectionType: SectionType
   ): Observable<any> {
-    console.log({ dxArr, orgUnits, periods });
     return from(
       this.getMappedSectionData(dxArr, orgUnits, periods, sectionType)
     );
@@ -94,7 +99,7 @@ export class AnalyticsDataService {
       periods,
       sectionType
     );
-    console.log({ serverResponse: response });
+
     const { headers, metaData, rows } = response;
     const dxIndex =
       headers && headers.length
@@ -108,13 +113,18 @@ export class AnalyticsDataService {
       headers && headers.length
         ? headers.findIndex((item) => item.name === 'value')
         : -1;
+    const ouIndex =
+      headers && headers.length
+        ? headers.findIndex((item) => item.name === 'ou')
+        : -1;
 
     const mappedData = this.getMappedDataFromRows(
       metaData,
       rows,
       dxIndex,
       valueIndex,
-      periodIndex
+      periodIndex,
+      ouIndex
     );
     const sanitizedMappedData = this.getSanitizedMappedData(
       configuration,
@@ -129,13 +139,15 @@ export class AnalyticsDataService {
     rows: any[],
     dxIndex: number,
     valueIndex: number,
-    periodIndex: number
+    periodIndex: number,
+    ouIndex
   ) {
     return flattenDeep(
       map(rows || [], (row) => {
         const id = row && row[dxIndex] ? row[dxIndex] : '';
         const value = row && row[valueIndex] ? row[valueIndex] : '';
         const periodID = row && row[periodIndex] ? row[periodIndex] : '';
+        const orgUnit = row && row[ouIndex] ? row[ouIndex] : '';
 
         const { items } = metaData;
         const name = items && items[id] && items[id].name ? items[id].name : '';
@@ -144,7 +156,7 @@ export class AnalyticsDataService {
             ? items[periodID].name
             : '';
 
-        return { ...{}, id, name, value, period } || [];
+        return { ...{}, id, name, value, period, orgUnit } || [];
       })
     );
   }

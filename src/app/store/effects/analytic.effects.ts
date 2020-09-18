@@ -13,6 +13,7 @@ import {
 import { State } from '../reducers';
 import {
   getConfiguration,
+  getUserOrgUnitIds,
   getUserOrgUnits,
 } from '../selectors/config.selectors';
 
@@ -29,7 +30,7 @@ export class AnalyticEffects {
     return this.actions$.pipe(
       ofType(loadAnalyticsData),
       withLatestFrom(
-        this.store.select(getUserOrgUnits),
+        this.store.select(getUserOrgUnitIds),
         this.store.select(getConfiguration)
       ),
       mergeMap(([action, orgUnits, configuration]) => {
@@ -43,7 +44,6 @@ export class AnalyticEffects {
           )
           .pipe(
             map((data) => {
-              console.log({ response: data });
               return loadAnalyticsDataSuccess({
                 sectionType: action.sectionType,
                 data,

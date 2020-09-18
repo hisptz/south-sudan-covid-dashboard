@@ -63,13 +63,16 @@
   ],
   "section4": [
     {
-      "id": "zCaomudM2hO"
+      "id": "zCaomudM2hO",
+      "name": "Suspected cases"
     },
     {
-      "id": "vVcjDvIsL78"
+      "id": "F4EVkALCrm1",
+      "name": "Confirmed cases"
     },
     {
-      "id": "LvpUocz7ZdR"
+      "id": "cJ9jP3kr3DD",
+      "name": "Death cases"
     }
   ]
 }

@@ -17,13 +17,16 @@ export const getConfigurationLoadedStatus = createSelector(
   getConfigState,
   (state) => state.loading
 );
-export const getUserOrgUnits = createSelector(getConfigState, (state) => {
+export const getUserOrgUnitIds = createSelector(getConfigState, (state) => {
   return flattenDeep(
     map(state.userOrgUnits || [], (orgUnit) => {
       return orgUnit.id || [];
     })
   );
-}); //
+});
+export const getUserOrgUnits = createSelector(getConfigState, (state) => {
+  return state && state.userOrgUnits ? state.userOrgUnits : [];
+});
 export const getSectionOneConfiguration = createSelector(
   getConfigState,
   (state) => {
@@ -53,6 +56,17 @@ export const getSectionThreeConfiguration = createSelector(
     if (state && state.configuration) {
       const sectionConfig = state.configuration;
       data = sectionConfig[SectionType.SECTION_THREE] || {};
+    }
+    return data;
+  }
+);
+export const getSectionFourConfiguration = createSelector(
+  getConfigState,
+  (state) => {
+    let data = {};
+    if (state && state.configuration) {
+      const sectionConfig = state.configuration;
+      data = sectionConfig[SectionType.SECTION_FOUR] || {};
     }
     return data;
   }
