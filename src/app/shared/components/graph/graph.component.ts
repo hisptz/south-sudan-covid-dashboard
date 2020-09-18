@@ -28,8 +28,8 @@ export class GraphComponent implements OnInit {
         text: this.chartTitle,
         align: 'left',
         style: {
-          fontWeight: 'bold'
-        }
+          fontWeight: 'bold',
+        },
       },
       subtitle: {
         text: 'Source: southsudanhis.org/',

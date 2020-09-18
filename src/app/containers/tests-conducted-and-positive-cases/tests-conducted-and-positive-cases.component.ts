@@ -1,13 +1,34 @@
 import { Component, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { getArrayOfIsoFormattedDates } from 'src/app/core/helpers/get-array-of-iso-date-formatted.helper';
+import { getLastNthDates } from 'src/app/core/helpers/get-last-nth-dates.helper';
+import { SectionType } from 'src/app/core/models/dashboard.model';
+import { loadAnalyticsData } from 'src/app/store/actions/analytic.actions';
+import { State } from 'src/app/store/reducers';
+import {
+  getSectionThreeAnalyticsData,
+  getSectionThreeLoadingStatus,
+} from 'src/app/store/selectors/analytic.selectors';
+import {
+  getConfiguration,
+  getConfigurationLoadingStatus,
+  getSectionThreeConfiguration,
+} from 'src/app/store/selectors/config.selectors';
 
 @Component({
   selector: 'app-tests-conducted-and-positive-cases',
   templateUrl: './tests-conducted-and-positive-cases.component.html',
-  styleUrls: ['./tests-conducted-and-positive-cases.component.scss']
+  styleUrls: ['./tests-conducted-and-positive-cases.component.scss'],
 })
 export class TestsConductedAndPositiveCasesComponent implements OnInit {
+  config$: Observable<any>;
+  sectionThreeAnalytics$: Observable<any>;
+  sectionThreeConfig$: Observable<any>;
+  sectionLoadingStatus$: Observable<any>;
+  configLoadingStatus$: Observable<any>;
 
-  constructor() { }
+  constructor(private store: Store<State>) {}
   days = [
     '19 August 2020',
     '20 August 2020',
@@ -40,22 +61,7 @@ export class TestsConductedAndPositiveCasesComponent implements OnInit {
     200,
     221,
   ];
-  postiveCases = [
-    3,
-    6,
-    9,
-    14,
-    18,
-    21,
-    25,
-    26,
-    23,
-    28,
-    40,
-    52,
-    49,
-    60,
-  ];
+  postiveCases = [3, 6, 9, 14, 18, 21, 25, 26, 23, 28, 40, 52, 49, 60];
   // cumulativeDeathCases = [
   //   7,
   //   13,
@@ -80,7 +86,34 @@ export class TestsConductedAndPositiveCasesComponent implements OnInit {
   xAxisTitle = 'Date';
 
   ngOnInit(): void {
+    const last14days = getLastNthDates(14);
+    const last14ISOdates = getArrayOfIsoFormattedDates(last14days);
+    this.config$ = this.store.select(getConfiguration);
+    this.sectionThreeConfig$ = this.store.select(getSectionThreeConfiguration);
+    this.sectionLoadingStatus$ = this.store.select(
+      getSectionThreeLoadingStatus
+    );
+    this.configLoadingStatus$ = this.store.select(
+      getConfigurationLoadingStatus
+    );
+    this.sectionThreeAnalytics$ = this.store.pipe(
+      select(getSectionThreeAnalyticsData)
+    );
+    this.config$.subscribe((conf) => {
+      if (conf) {
+        this.store.dispatch(
+          loadAnalyticsData({
+            sectionType: SectionType.SECTION_THREE,
+            periods: last14ISOdates,
+          })
+        );
+      }
+    });
   }
-  
-
+  getLastItem(arr: Array<any>) {
+    return arr[arr.length - 1];
+}
+getTotalFromArr(arr: Array<any>) {
+  return arr.reduce((a, b) => a + b, 0);
+}
 }
