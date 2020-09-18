@@ -21,7 +21,7 @@ export class ConfigService {
   }
   getUserData() {
     return this.http$
-      .get(`me?fields=id,name,organisationUnits[id,name]`)
+      .get(`me?fields=id,name,organisationUnits[id,name, children[id, name]]`)
       .pipe(catchError((error) => throwError(error)));
   }
   getConfigurationSection() {
