@@ -199,8 +199,8 @@ export class AnalyticsDataService {
       let sanitizedData = {};
       for (const dxItem of sectionTwoConfig.dx) {
         let sanitizedItem = {};
-        let dx = [];
-        let xAxis = [];
+        const dx = [];
+        const xAxis = [];
         for (const mappedItem of mappedData) {
           if (
             mappedItem &&
@@ -212,11 +212,11 @@ export class AnalyticsDataService {
           ) {
             let value = mappedItem && mappedItem.value ? mappedItem.value : '0';
             value = parseInt(value, 10);
-            dx = [...dx, value];
-            xAxis =
-              mappedItem && mappedItem.period
-                ? [...xAxis, mappedItem.period]
-                : [...xAxis, 'Date'];
+            dx.unshift(value);
+
+            mappedItem && mappedItem.period
+              ? xAxis.unshift(mappedItem.period)
+              : xAxis.unshift('Date');
             sanitizedItem = { ...sanitizedItem, [dxItem.position]: dx, xAxis };
           }
           sanitizedData = { ...sanitizedData, ...sanitizedItem };
