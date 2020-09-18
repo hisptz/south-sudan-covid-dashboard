@@ -23,7 +23,10 @@ export class AnalyticsDataService {
     sectionType: SectionType
   ) {
     let peURLType = '';
-    if (sectionType === SectionType.SECTION_TWO) {
+    if (
+      sectionType === SectionType.SECTION_TWO ||
+      sectionType === SectionType.SECTION_THREE
+    ) {
       peURLType = 'dimension';
     } else {
       peURLType = 'filter';
@@ -154,6 +157,7 @@ export class AnalyticsDataService {
       case SectionType.SECTION_ONE:
         return mappedData;
       case SectionType.SECTION_TWO:
+      case SectionType.SECTION_THREE:
         const sanitizedMappedData = this.getSectionTwoSanitizedData(
           configuration,
           mappedData,
