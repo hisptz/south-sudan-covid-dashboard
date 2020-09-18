@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { catchError, take } from 'rxjs/operators';
 import { throwError, from, Observable } from 'rxjs';
-import { flattenDeep, map, findIndex } from 'lodash';
+import { flattenDeep, map, findIndex, filter, find } from 'lodash';
 import { HttpClient } from '@angular/common/http';
 import { getStringFromArray } from '../helpers/get-string-from-array.helper';
+import { SectionType } from '../models/dashboard.model';
+import { getIdsFromDx } from '../helpers/get-ids-from-dx.helper';
 
 @Injectable({
   providedIn: 'root',
@@ -14,23 +16,49 @@ export class AnalyticsDataService {
     private http$: NgxDhis2HttpClientService,
     private httpClient: HttpClient
   ) {}
-  getAnalyticsDataValues(dx: string, orgUnit: string, period: string) {
+  getAnalyticsDataValues(
+    dx: string,
+    orgUnit: string,
+    period: string,
+    sectionType: SectionType
+  ) {
+    let peURLType = '';
+    let ouURLType = '';
+    if (
+      sectionType === SectionType.SECTION_TWO ||
+      sectionType === SectionType.SECTION_THREE
+    ) {
+      peURLType = 'dimension';
+      ouURLType = 'filter';
+    } else if (sectionType === SectionType.SECTION_FOUR) {
+      peURLType = 'filter';
+      ouURLType = 'dimension';
+    } else {
+      peURLType = ouURLType = 'filter';
+      ouURLType = 'filter';
+    }
     return this.http$
       .get(
-        `analytics?dimension=dx:${dx}&dimension=pe:${period}&filter=ou:${orgUnit}`
+        `analytics?dimension=dx:${dx}&${peURLType}=pe:${period}&${ouURLType}=ou:${orgUnit}`
       )
       .pipe(catchError((error) => throwError(error)));
   }
   getRequestedAnalyticsDataValuesPromise(
     dxArr: string[],
     orgUnits: any[],
-    periods: any[]
+    periods: any[],
+    sectionType: SectionType
   ): any {
     const dxArrString = getStringFromArray(dxArr);
     const orgUnitsString = getStringFromArray(orgUnits);
     const periodsString = getStringFromArray(periods);
     return new Promise((resolve, reject) => {
-      this.getAnalyticsDataValues(dxArrString, orgUnitsString, periodsString)
+      this.getAnalyticsDataValues(
+        dxArrString,
+        orgUnitsString,
+        periodsString,
+        sectionType
+      )
         .pipe(take(1))
         .subscribe(
           (data) => {
@@ -45,18 +73,33 @@ export class AnalyticsDataService {
   getRequestedAnalyticsDataValues(
     dxArr: string[],
     orgUnits: any[],
-    periods: any[]
+    periods: any[],
+    sectionType: SectionType
   ): Observable<any> {
-    console.log({ dxArr, orgUnits, periods });
-    return from(this.getMappedSectionData(dxArr, orgUnits, periods));
+    return from(
+      this.getMappedSectionData(dxArr, orgUnits, periods, sectionType)
+    );
   }
-  async getMappedSectionData(dxArr: string[], orgUnits: any[], periods: any[]) {
+  async getMappedSectionData(
+    configuration: any,
+    orgUnits: any[],
+    periods: any[],
+    sectionType: SectionType
+  ) {
+    const dx =
+      configuration &&
+      configuration[sectionType] &&
+      configuration[sectionType].dx
+        ? configuration[sectionType].dx
+        : [];
+    const dxArr = getIdsFromDx(dx);
     const response = await this.getRequestedAnalyticsDataValuesPromise(
       dxArr,
       orgUnits,
-      periods
+      periods,
+      sectionType
     );
-    console.log({ serverResponse: response });
+
     const { headers, metaData, rows } = response;
     const dxIndex =
       headers && headers.length
@@ -70,15 +113,25 @@ export class AnalyticsDataService {
       headers && headers.length
         ? headers.findIndex((item) => item.name === 'value')
         : -1;
+    const ouIndex =
+      headers && headers.length
+        ? headers.findIndex((item) => item.name === 'ou')
+        : -1;
 
     const mappedData = this.getMappedDataFromRows(
       metaData,
       rows,
       dxIndex,
       valueIndex,
-      periodIndex
+      periodIndex,
+      ouIndex
     );
-    return mappedData;
+    const sanitizedMappedData = this.getSanitizedMappedData(
+      configuration,
+      mappedData,
+      sectionType
+    );
+    return sanitizedMappedData;
   }
 
   getMappedDataFromRows(
@@ -86,95 +139,91 @@ export class AnalyticsDataService {
     rows: any[],
     dxIndex: number,
     valueIndex: number,
-    periodIndex: number
+    periodIndex: number,
+    ouIndex
   ) {
     return flattenDeep(
       map(rows || [], (row) => {
-        const id = row[dxIndex] || '';
-        const value = row[valueIndex] || '';
-        const period = row[periodIndex] || '';
-        const { items } = metaData;
-        // console.log({ dxIndex, valueIndex, row, id, value, items });
-        const name = items[id].name || '';
+        const id = row && row[dxIndex] ? row[dxIndex] : '';
+        const value = row && row[valueIndex] ? row[valueIndex] : '';
+        const periodID = row && row[periodIndex] ? row[periodIndex] : '';
+        const orgUnit = row && row[ouIndex] ? row[ouIndex] : '';
 
-        return { ...{}, id, name, value, period } || [];
+        const { items } = metaData;
+        const name = items && items[id] && items[id].name ? items[id].name : '';
+        const period =
+          items && items[periodID] && items[periodID].name
+            ? items[periodID].name
+            : '';
+
+        return { ...{}, id, name, value, period, orgUnit } || [];
       })
     );
   }
-
-  // getDefaultConfiguration() {
-  //   return this.httpClient
-  //     .get(`assets/json/default-config.json`)
-  //     .pipe(catchError((error) => throwError(error)));
-  // }
-  // getDefaultConfigurationPromise(): any {
-  //   return new Promise((resolve, reject) => {
-  //     this.getDefaultConfiguration()
-  //       .pipe(take(1))
-  //       .subscribe(
-  //         (data) => {
-  //           resolve(data);
-  //         },
-  //         (error) => {
-  //           reject(error);
-  //         }
-  //       );
-  //   });
-  // }
-
-  // async createConfigItem(dataId, relativePeriod = '2020Q1') {
-  //   const analyticsData = dataId
-  //     ? await this.getAnalyticsDataValuesPromise(dataId, relativePeriod)
-  //     : null;
-  //   const configItemArr = [];
-  //   const { headers, metaData, rows } = analyticsData;
-  //   const dxIndex = findIndex(headers || [], (header) => header.name === 'dx');
-  //   const valueIndex = findIndex(
-  //     headers || [],
-  //     (header) => header.name === 'value'
-  //   );
-  //   if (rows && rows.length) {
-  //     for (let i = 0; i < rows.length; i++) {
-  //       let rowItem = { id: '', name: '', value: '' };
-  //       const id = rows[i][dxIndex] ? rows[i][dxIndex] : '';
-  //       const name =
-  //         metaData && metaData.items
-  //           ? metaData.items[rows[i][dxIndex]].name || ''
-  //           : '';
-  //       const value = rows[i][valueIndex] ? rows[i][valueIndex] : '';
-  //       rowItem = { ...rowItem, id, name, value };
-  //       configItemArr.push(rowItem);
-  //     }
-  //   }
-  //   return configItemArr;
-  // }
-
-  // async getAllAnalyticsDataValuesPromise() {
-  //   try {
-  //     const config = await this.getDefaultConfigurationPromise();
-  //     let dataValues = [];
-  //     if (config) {
-  //       const configValues = Object.keys(config) || [];
-  //       let valuesArr = [];
-  //       if (configValues && configValues.length) {
-  //         for (const configValue of configValues) {
-  //           valuesArr = [...valuesArr, ...config[configValue]]; // TODO Check for duplicates
-  //         }
-  //         if (valuesArr && valuesArr.length) {
-  //           for (const value of valuesArr) {
-  //             const configItem = await this.createConfigItem(value?.id);
-  //             dataValues = [...dataValues, ...configItem];
-  //           }
-  //         }
-  //       }
-  //     }
-  //     return dataValues;
-  //   } catch (e) {
-  //     return [];
-  //   }
-
-  // }
-  // getDefaultConfig() {
-  //   return from(this.getAllAnalyticsDataValuesPromise());
-  // }
+  getSanitizedMappedData(
+    configuration: any,
+    mappedData: any,
+    sectionType: SectionType
+  ) {
+    switch (sectionType) {
+      case SectionType.SECTION_ONE:
+        return mappedData;
+      case SectionType.SECTION_TWO:
+      case SectionType.SECTION_THREE:
+        const sanitizedMappedData = this.getSectionTwoSanitizedData(
+          configuration,
+          mappedData,
+          sectionType
+        );
+        return sanitizedMappedData;
+      default:
+        return mappedData;
+    }
+  }
+  getSectionTwoSanitizedData(
+    configuration: any,
+    mappedData: any,
+    sectionType: SectionType
+  ) {
+    const sectionTwoConfig =
+      configuration && configuration[sectionType]
+        ? configuration[sectionType]
+        : {};
+    if (
+      sectionTwoConfig &&
+      sectionTwoConfig.dx &&
+      sectionTwoConfig.dx.length &&
+      mappedData &&
+      mappedData.length
+    ) {
+      let sanitizedData = {};
+      for (const dxItem of sectionTwoConfig.dx) {
+        let sanitizedItem = {};
+        let dx = [];
+        let xAxis = [];
+        for (const mappedItem of mappedData) {
+          if (
+            mappedItem &&
+            dxItem &&
+            mappedItem.id &&
+            dxItem.id &&
+            dxItem.position &&
+            mappedItem.id === dxItem.id
+          ) {
+            let value = mappedItem && mappedItem.value ? mappedItem.value : '0';
+            value = parseInt(value, 10);
+            dx = [...dx, value];
+            xAxis =
+              mappedItem && mappedItem.period
+                ? [...xAxis, mappedItem.period]
+                : [...xAxis, 'Date'];
+            sanitizedItem = { ...sanitizedItem, [dxItem.position]: dx, xAxis };
+          }
+          sanitizedData = { ...sanitizedData, ...sanitizedItem };
+        }
+      }
+      return sanitizedData;
+    }
+    return mappedData;
+  }
 }

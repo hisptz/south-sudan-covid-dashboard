@@ -1,31 +1,50 @@
-<div class="ccads-container mat-elevation-z1" >
-  <app-graph
-  [xAxisCategories]="days"
-  [lineChartYAxisData]="confirmedCases"
-  [barChartYAxisData]="deathCases"
-  [tertiaryYaxisData]="cumulativeDeathCases"
-  [chartTitle]="chartTitle"
-  [leftYAxisTitle]="leftYAxisTitle"
-  [rightYAxisTitle]="rightYAxisTitle"
-  [rightTertiaryYAxisTitle]="rightTertiaryYAxisTitle"
-></app-graph>
-<div class="ccads-stats-ops">
-  <div>
-    <button style="float: right;" mat-icon-button><mat-icon>create</mat-icon></button>
+<div
+  class="ccads-container mat-elevation-z1"
+  *ngIf="!(configLoadingStatus$ | async) && !(sectionLoadingStatus$ | async)"
+>
+  <div
+    class="graph-container"
+    *ngIf="sectionTwoAnalytics$ | async as analyticsData"
+  >
+    <app-graph
+      [xAxisCategories]="(sectionTwoAnalytics$ | async)?.xAxis"
+      [lineChartYAxisData]="(sectionTwoAnalytics$ | async)?.right"
+      [barChartYAxisData]="(sectionTwoAnalytics$ | async)?.left"
+      [tertiaryYaxisData]="getCumulativeData(analyticsData?.right)"
+      [chartTitle]="(sectionTwoConfig$ | async)?.title"
+      [leftYAxisTitle]="leftYAxisTitle"
+      [rightYAxisTitle]="rightYAxisTitle"
+      [rightTertiaryYAxisTitle]="rightTertiaryYAxisTitle"
+    ></app-graph>
   </div>
-  
-  <div class="stat-item">
-    <h4>Confirmed Cases</h4>
-    <p>200</p>
-  </div>
-  <div class="stat-item">
-    <h4>Death Cases</h4>
-    <p>6</p>
-  </div>
-  <div  class="stat-item">
-    <h4>Total Death Cases</h4>
-    <p>170</p>
-  </div>
-</div>
-</div>
 
+  <div class="ccads-stats-ops" *ngIf="sectionTwoAnalytics$ | async as analyticsData">
+    <div>
+      <button style="float: right" mat-icon-button>
+        <mat-icon>create</mat-icon>
+      </button>
+    </div>
+
+    <div class="stat-item">
+      <h4>Confirmed Cases</h4>
+      <p>{{ getLastItem(analyticsData?.left)}}</p>
+    </div>
+    <div class="stat-item">
+      <h4>Death Cases</h4>
+      <p>{{ getLastItem(analyticsData?.right)}}</p>
+    </div>
+    <div class="stat-item">
+      <h4>Total Death Cases</h4>
+      <p>{{ getTotalFromArr(analyticsData?.right)}}</p>
+    </div>
+  </div>
+</div>
+<div
+  class="ccads-container mat-elevation-z1"
+  *ngIf="(configLoadingStatus$ | async) || (sectionLoadingStatus$ | async)"
+>
+  <div class="loading-spinner-container">
+    <mat-spinner></mat-spinner>
+    <i>Loading Chart</i>
+  </div>
+</div>

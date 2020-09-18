@@ -1,82 +1,73 @@
 import { Component, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { Chart } from 'angular-highcharts';
+import { Observable } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { State } from 'src/app/store/reducers';
+import { loadAnalyticsData } from 'src/app/store/actions/analytic.actions';
+import { SectionType } from 'src/app/core/models/dashboard.model';
+import { getLastNthDates } from 'src/app/core/helpers/get-last-nth-dates.helper';
+import { getArrayOfIsoFormattedDates } from 'src/app/core/helpers/get-array-of-iso-date-formatted.helper';
+import {
+  getConfiguration,
+  getConfigurationLoadingStatus,
+  getSectionTwoConfiguration,
+} from 'src/app/store/selectors/config.selectors';
+import {
+  getSectionTwoAnalyticsData,
+  getSectionTwoLoadingStatus,
+} from 'src/app/store/selectors/analytic.selectors';
+import { generateCumulativeFrequency } from 'src/app/core/helpers/generate-cumulative-frequency.helper';
 @Component({
   selector: 'app-confirmed-cases-and-deaths-section',
   templateUrl: './confirmed-cases-and-deaths-section.component.html',
   styleUrls: ['./confirmed-cases-and-deaths-section.component.scss'],
 })
 export class ConfirmedCasesAndDeathsSectionComponent implements OnInit {
-  constructor() {}
- days = [
-    '19 August 2020',
-    '20 August 2020',
-    '21 August 2020',
-    '22 August 2020',
-    '23 August 2020',
-    '24 August 2020',
-    '25 August 2020',
-    '26 August 2020',
-    '27 August 2020',
-    '28 August 2020',
-    '29 August 2020',
-    '30 August 2020',
-    '31 August 2020',
-    '1 September 2020',
-  ];
-  confirmedCases = [
-    49,
-    71,
-    106,
-    129,
-    144,
-    176,
-    135,
-    148,
-    216,
-    200,
-    187,
-    194,
-    95,
-    54,
-  ];
-  deathCases = [
-    7,
-    6,
-    9,
-    14,
-    18,
-    21,
-    25,
-    26,
-    23,
-    18,
-    15,
-    8,
-    13,
-    9,
-  ];
-  cumulativeDeathCases = [
-    7,
-    13,
-    22,
-    36,
-    54,
-    75,
-    100,
-    126,
-    149,
-    167,
-    172,
-    180,
-    193,
-    202,
-  ]
+  constructor(private store: Store<State>) {}
+  config$: Observable<any>;
+  sectionTwoAnalytics$: Observable<any>;
+  sectionTwoConfig$: Observable<any>;
+  sectionLoadingStatus$: Observable<any>;
+  configLoadingStatus$: Observable<any>;
+  
 
   chartTitle = 'CONFIRMED CASES AND DEATHS IN LAST 14 DAYS';
   rightYAxisTitle = 'Death cases';
   leftYAxisTitle = 'Confirmed cases';
   rightTertiaryYAxisTitle = 'Cumulative Death Cases';
-  xAxisTitle = 'Date'
-  ngOnInit(): void {}
+  xAxisTitle = 'Date';
+  ngOnInit(): void {
+    const last14days = getLastNthDates(14);
+    const last14ISOdates = getArrayOfIsoFormattedDates(last14days);
+    this.config$ = this.store.select(getConfiguration);
+    this.sectionTwoConfig$ = this.store.select(getSectionTwoConfiguration);
+    this.sectionLoadingStatus$ = this.store.select(getSectionTwoLoadingStatus);
+    this.configLoadingStatus$ = this.store.select(
+      getConfigurationLoadingStatus
+    );
+    this.sectionTwoAnalytics$ = this.store.pipe(
+      select(getSectionTwoAnalyticsData)
+    );
+    this.config$.subscribe((conf) => {
+      if (conf) {
+        this.store.dispatch(
+          loadAnalyticsData({
+            sectionType: SectionType.SECTION_TWO,
+            periods: last14ISOdates,
+          })
+        );
+      }
+    });
+  }
+
+  getCumulativeData(data) {
+    return generateCumulativeFrequency(data);
+  }
+  getLastItem(arr: Array<any>) {
+      return arr[arr.length - 1];
+  }
+  getTotalFromArr(arr: Array<any>) {
+    return arr.reduce((a, b) => a + b, 0);
+  }
 }
