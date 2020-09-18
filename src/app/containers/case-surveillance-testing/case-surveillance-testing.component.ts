@@ -18,6 +18,8 @@ import {
   getSectionOneConfiguration,
 } from 'src/app/store/selectors/config.selectors';
 import * as moment from 'moment';
+import { getLastNthDates } from 'src/app/core/helpers/get-last-nth-dates.helper';
+import { getArrayOfIsoFormattedDates } from 'src/app/core/helpers/get-array-of-iso-date-formatted.helper';
 
 @Component({
   selector: 'app-case-surveillance-testing',
@@ -36,7 +38,9 @@ export class CaseSurveillanceTestingComponent implements OnInit {
 
   ngOnInit(): void {
     // this.store.dispatch(loadConfiguration());
-   
+    const last14days = getLastNthDates(14);
+    const last14ISOdates = getArrayOfIsoFormattedDates(last14days);
+
     this.configLoadingStatus$ = this.store.pipe(
       select(getConfigurationLoadingStatus)
     );
@@ -59,7 +63,7 @@ export class CaseSurveillanceTestingComponent implements OnInit {
         this.store.dispatch(
           loadAnalyticsData({
             sectionType: SectionType.SECTION_ONE,
-            periods: ['LAST_SIX_MONTH'],
+            periods: last14ISOdates,
           })
         );
       }

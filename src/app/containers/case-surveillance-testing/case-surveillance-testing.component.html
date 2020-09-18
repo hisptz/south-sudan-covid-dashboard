@@ -33,7 +33,7 @@
         ></mat-progress-bar
         ><i
           >{{
-            getValueFromAnalytics(config?.percentageDx?.id, analyticsData)
+            getValueFromAnalytics(config?.percentageDx?.id, analyticsData) || '0.0'
           }}%</i
         >
       </div>
