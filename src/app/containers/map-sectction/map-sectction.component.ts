@@ -2,6 +2,10 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import * as Highcharts from 'highcharts/highmaps';
 import { MAP_GEO } from './map-geo';
 import * as _ from 'lodash';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { State } from 'src/app/store/reducers';
+import { getConfiguration } from 'src/app/store/selectors/config.selectors';
 
 @Component({
   selector: 'app-map-sectction',
@@ -14,11 +18,40 @@ export class MapSectctionComponent implements OnInit, AfterViewInit {
   currentChart: any;
   currentDevice: string;
 
-  constructor() {
+
+  config$: Observable<any>;
+  sectionFiveAnalytics$: Observable<any>;
+  sectionFiveConfig$: Observable<any>;
+  sectionLoadingStatus$: Observable<any>;
+  configLoadingStatus$: Observable<any>;
+  userOrgUnits$: Observable<Array<any>>;
+
+  constructor(private store: Store<State>) {
     this.mapGeo = MAP_GEO.ss;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // this.config$ = this.store.select(getConfiguration);
+    // this.sectionFiveConfig$ = this.store.select(getSectionFiveConfiguration);
+    // this.sectionLoadingStatus$ = this.store.select(getSectionFiveLoadingStatus);
+    // this.userOrgUnits$ = this.store.pipe(select(getUserOrgUnits));
+    // this.configLoadingStatus$ = this.store.select(
+    //   getConfigurationLoadingStatus
+    // );
+    // this.sectionFourAnalytics$ = this.store.pipe(
+    //   select(getSectionFourAnalyticsData)
+    // );
+    // this.config$.subscribe((conf) => {
+    //   if (conf) {
+    //     this.store.dispatch(
+    //       loadAnalyticsData({
+    //         sectionType: SectionType.SECTION_FOUR,
+    //         periods: ['LAST_12_MONTHS'],
+    //       })
+    //     );
+    //   }
+    // });
+  }
 
   ngAfterViewInit() {
     this.drawMap();

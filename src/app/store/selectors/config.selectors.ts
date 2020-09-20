@@ -71,3 +71,14 @@ export const getSectionFourConfiguration = createSelector(
     return data;
   }
 );
+export const getSectioniveConfiguration = createSelector(
+  getConfigState,
+  (state) => {
+    let data = {};
+    if (state && state.configuration) {
+      const sectionConfig = state.configuration;
+      data = sectionConfig[SectionType.SECTION_FIVE] || {};
+    }
+    return data;
+  }
+);

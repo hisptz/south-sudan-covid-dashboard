@@ -52,6 +52,16 @@ export const getSectionFourLoadingStatus = createSelector(
     return false;
   }
 );
+export const getSectionFiveLoadingStatus = createSelector(
+  getAnalyticState,
+  getLoadingSections,
+  (state, loadingSections) => {
+    if (loadingSections.includes(SectionType.SECTION_FIVE)) {
+      return true;
+    }
+    return false;
+  }
+);
 export const getSectionOneAnalyticsData = createSelector(
   getAnalyticState,
   (state) => {
@@ -74,5 +84,11 @@ export const getSectionFourAnalyticsData = createSelector(
   getAnalyticState,
   (state) => {
     return state[SectionType.SECTION_FOUR];
+  }
+);
+export const getSectionFiveAnalyticsData = createSelector(
+  getAnalyticState,
+  (state) => {
+    return state[SectionType.SECTION_FIVE];
   }
 );
