@@ -5,6 +5,7 @@ import {
   loadAnalyticsData,
   loadAnalyticsDataFailure,
   loadAnalyticsDataSuccess,
+  loadMapAnalyticsData,
 } from '../actions/analytic.actions';
 
 export const analyticFeatureKey = 'analytics';
@@ -35,6 +36,13 @@ export const initialState: AnalyticState = adapter.getInitialState({
 export const analyticReducer = createReducer(
   initialState,
   on(loadAnalyticsData, (state, { sectionType }) => {
+    const sectionsLoading =
+      state.sectionsLoading && state.sectionsLoading.includes(sectionType)
+        ? [...state.sectionsLoading]
+        : [...state.sectionsLoading, sectionType];
+    return { ...state, sectionsLoading };
+  }),
+  on(loadMapAnalyticsData, (state, { sectionType }) => {
     const sectionsLoading =
       state.sectionsLoading && state.sectionsLoading.includes(sectionType)
         ? [...state.sectionsLoading]

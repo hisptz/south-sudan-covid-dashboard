@@ -30,7 +30,10 @@ export class AnalyticsDataService {
     ) {
       peURLType = 'dimension';
       ouURLType = 'filter';
-    } else if (sectionType === SectionType.SECTION_FOUR) {
+    } else if (
+      sectionType === SectionType.SECTION_FOUR ||
+      sectionType === SectionType.SECTION_FIVE
+    ) {
       peURLType = 'filter';
       ouURLType = 'dimension';
     } else {
