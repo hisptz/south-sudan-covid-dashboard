@@ -1,3 +1,4 @@
+import { getSectionFiveAnalyticsData } from 'src/app/store/selectors/analytic.selectors';
 import { v4 as uuidv4 } from 'uuid';
 export function getDefaultDashboardConfig() {
   return {
@@ -5,6 +6,7 @@ export function getDefaultDashboardConfig() {
     section2: getSectionTwoDefaultConfig(),
     section3: getSectionThreeDefaultConfig(),
     section4: getSectionFourDefaultConfig(),
+    section5: getSectionFiveDefaultConfig(),
   };
 }
 function getSectionOneDefaultConfig() {
@@ -13,14 +15,20 @@ function getSectionOneDefaultConfig() {
     title: 'Overall Summary',
     type: 'summary',
     dx: [
-      { id: '', label: 'Suspected cases', dhis2Name: '', suffix: '', hasPercentage: false },
+      {
+        id: '',
+        label: 'Suspected cases',
+        dhis2Name: '',
+        suffix: '',
+        hasPercentage: false,
+      },
       {
         id: '',
         label: 'Tested cases',
         dhis2Name: '',
         suffix: '',
         hasPercentage: true,
-        percentageDx: ''
+        percentageDx: '',
       },
       {
         id: '',
@@ -28,7 +36,7 @@ function getSectionOneDefaultConfig() {
         dhis2Name: '',
         suffix: '',
         hasPercentage: true,
-        percentageDx: ''
+        percentageDx: '',
       },
       {
         id: '',
@@ -36,7 +44,7 @@ function getSectionOneDefaultConfig() {
         dhis2Name: '',
         suffix: '',
         hasPercentage: true,
-        percentageDx: ''
+        percentageDx: '',
       },
       {
         id: '',
@@ -44,7 +52,7 @@ function getSectionOneDefaultConfig() {
         dhis2Name: '',
         suffix: '',
         hasPercentage: true,
-        percentageDx: ''
+        percentageDx: '',
       },
     ],
   };
@@ -127,6 +135,21 @@ function getSectionFourDefaultConfig() {
         suffix: '',
         hasCumulative: false,
         tablepositionIndex: 2,
+      },
+    ],
+  };
+}
+function getSectionFiveDefaultConfig() {
+  return {
+    id: uuidv4(),
+    title: 'Map displaying Geographical distribution of confirmed cases',
+    type: 'map',
+    dx: [
+      {
+        id: '',
+        label: 'Confirmed cases',
+        dhis2Name: '',
+        suffix: '',
       },
     ],
   };

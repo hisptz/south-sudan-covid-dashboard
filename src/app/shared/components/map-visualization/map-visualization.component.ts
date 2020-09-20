@@ -1,25 +1,30 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
 import * as Highcharts from 'highcharts/highmaps';
 import { MAP_GEO } from './map-geo';
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'app-map-sectction',
-  templateUrl: './map-sectction.component.html',
-  styleUrls: ['./map-sectction.component.scss'],
+  selector: 'app-map-visualization',
+  templateUrl: './map-visualization.component.html',
+  styleUrls: ['./map-visualization.component.scss'],
 })
-export class MapSectctionComponent implements OnInit, AfterViewInit {
+export class MapVisualizationComponent implements OnInit, AfterViewInit {
   mapGeo: any;
+  mappingOrgUnits: any;
+  @Input() mapData = [];
+  @Input() orgUnits = [];
+  @Input() orgUnitIds = [];
+  @Input() analyticsData = [];
 
   currentChart: any;
   currentDevice: string;
-
   constructor() {
     this.mapGeo = MAP_GEO.ss;
+    this.mappingOrgUnits = MAP_GEO.ssOrgUnits;
   }
 
-  ngOnInit(): void {}
-
+  ngOnInit(): void {
+  }
   ngAfterViewInit() {
     this.drawMap();
   }
@@ -77,9 +82,26 @@ export class MapSectctionComponent implements OnInit, AfterViewInit {
     const mapData = [];
     for (const feature of this.mapGeo.features) {
       const key = feature.properties['hc-key'];
-      const value = _.random(100, 500);
+      const value = this.getAnalyticsValue(key);
       mapData.push([key, value]);
     }
     return mapData;
+  }
+  getAnalyticsValue(key) {
+    const mapConfig =
+      this.mappingOrgUnits && this.mappingOrgUnits.mapConfig
+        ? this.mappingOrgUnits.mapConfig
+        : [];
+    const mappingObj = _.find(
+      mapConfig || [],
+      (config) => config['hc-key'] === key
+    );
+    const orgUnitId =
+      mappingObj && mappingObj.orgUnitId ? mappingObj.orgUnitId : null;
+    const analyticsObj = orgUnitId
+      ? _.find(this.analyticsData || [], (item) => item.orgUnit === orgUnitId)
+      : null;
+    const value = analyticsObj && analyticsObj.value ? analyticsObj.value : 0;
+    return value ? value : 0;
   }
 }

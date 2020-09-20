@@ -27,6 +27,49 @@ export const getUserOrgUnitIds = createSelector(getConfigState, (state) => {
 export const getUserOrgUnits = createSelector(getConfigState, (state) => {
   return state && state.userOrgUnits ? state.userOrgUnits : [];
 });
+export const getAllUserOrgUnits = createSelector(
+  getConfigState,
+  getUserOrgUnits,
+  (state, orgUnits) => {
+    let newOrgUnits = [];
+    if (orgUnits && orgUnits.length) {
+      for (const orgUnit of orgUnits) {
+        newOrgUnits.push(orgUnit);
+        if (orgUnit && orgUnit.children) {
+          newOrgUnits = [...newOrgUnits, ...orgUnit.children];
+        }
+      }
+    }
+   
+    return newOrgUnits;
+  }
+);
+export const getLowerLevelUserOrgUnits = createSelector(
+  getConfigState,
+  getAllUserOrgUnits,
+  (state, orgUnits) => {
+    let newOrgUnits = [];
+    if (orgUnits && orgUnits.length) {
+      for (const orgUnit of orgUnits) {
+        if (orgUnit && !orgUnit.children) {
+          newOrgUnits = [...newOrgUnits, orgUnit];
+        }
+      }
+    }
+    return newOrgUnits;
+  }
+);
+export const getLowerLevelUserOrgUnitIds = createSelector(
+  getConfigState,
+  getLowerLevelUserOrgUnits,
+  (state, orgUnits) => {
+    return flattenDeep(
+      map(orgUnits || [], (orgUnit) => {
+        return orgUnit.id || [];
+      })
+    );
+  }
+);
 export const getSectionOneConfiguration = createSelector(
   getConfigState,
   (state) => {
@@ -67,6 +110,17 @@ export const getSectionFourConfiguration = createSelector(
     if (state && state.configuration) {
       const sectionConfig = state.configuration;
       data = sectionConfig[SectionType.SECTION_FOUR] || {};
+    }
+    return data;
+  }
+);
+export const getSectionFiveConfiguration = createSelector(
+  getConfigState,
+  (state) => {
+    let data = {};
+    if (state && state.configuration) {
+      const sectionConfig = state.configuration;
+      data = sectionConfig[SectionType.SECTION_FIVE] || {};
     }
     return data;
   }
