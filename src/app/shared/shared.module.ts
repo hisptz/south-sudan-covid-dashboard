@@ -18,6 +18,7 @@ import { SelectionFiltersComponent } from './dialogs/selection-filters/selection
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MapVisualizationComponent } from './components/map-visualization/map-visualization.component';
 @NgModule({
   declarations: [
     GraphComponent,
@@ -26,6 +27,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     OrgUnitFilterDialogComponent,
     PeriodFilterDialogComponent,
     SelectionFiltersComponent,
+    MapVisualizationComponent,
   ],
   imports: [
     CommonModule,
@@ -60,7 +62,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatExpansionModule,
     SelectionFiltersComponent,
     MatTabsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MapVisualizationComponent,
   ],
   entryComponents: [
     DataFilterDialogComponent,

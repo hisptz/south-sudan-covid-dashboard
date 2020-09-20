@@ -1,0 +1,15 @@
+.map-section-container {
+    margin-left: 0.5em;
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    flex-direction: row;
+    // padding-left: 0.5em;
+    .map-visualization-container {
+        width: 90%;
+       
+    }
+    button {
+        width: 4%;
+    }
+}
