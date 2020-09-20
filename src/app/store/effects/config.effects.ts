@@ -108,7 +108,6 @@ export class ConfigEffects implements OnInitEffects {
           .updateConfigurationWithDefaultData(action.configuration)
           .pipe(
             map((data) => {
-              console.log({ RESULT: data });
               this.store.dispatch(loadConfiguration());
               return updateConfigurationWithDefaultDataSuccess({ data });
             }),

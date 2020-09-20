@@ -9,10 +9,12 @@ import {
   loadAnalyticsData,
   loadAnalyticsDataFailure,
   loadAnalyticsDataSuccess,
+  loadMapAnalyticsData,
 } from '../actions/analytic.actions';
 import { State } from '../reducers';
 import {
   getConfiguration,
+  getLowerLevelUserOrgUnitIds,
   getUserOrgUnitIds,
   getUserOrgUnits,
 } from '../selectors/config.selectors';
@@ -34,7 +36,6 @@ export class AnalyticEffects {
         this.store.select(getConfiguration)
       ),
       mergeMap(([action, orgUnits, configuration]) => {
-      
         return this.analyticsService
           .getRequestedAnalyticsDataValues(
             configuration,
@@ -51,6 +52,37 @@ export class AnalyticEffects {
             }),
             catchError((error: any) => {
               console.log({ error });
+              return of(loadAnalyticsDataFailure({ error }));
+            })
+          );
+      })
+    );
+  }
+
+  @Effect()
+  loadMapAnalyticsData(): Observable<Action> {
+    return this.actions$.pipe(
+      ofType(loadMapAnalyticsData),
+      withLatestFrom(
+        this.store.select(getLowerLevelUserOrgUnitIds),
+        this.store.select(getConfiguration)
+      ),
+      mergeMap(([action, orgUnits, configuration]) => {
+        return this.analyticsService
+          .getRequestedAnalyticsDataValues(
+            configuration,
+            orgUnits,
+            action.periods,
+            action.sectionType
+          )
+          .pipe(
+            map((data) => {
+              return loadAnalyticsDataSuccess({
+                sectionType: action.sectionType,
+                data,
+              });
+            }),
+            catchError((error: any) => {
               return of(loadAnalyticsDataFailure({ error }));
             })
           );

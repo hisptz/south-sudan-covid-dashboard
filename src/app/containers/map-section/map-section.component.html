@@ -1,0 +1,34 @@
+<!-- <div class="map-visualization-container mx-4">
+    <div class="px-2" [id]="'mapVisualization'"></div>
+  </div> -->
+<div
+  style="width: 100%"
+  *ngIf="
+    !(configLoadingStatus$ | async) &&
+    !(sectionLoadingStatus$ | async) &&
+    (sectionFiveAnalytics$ | async) !== 'undefined'
+  "
+>
+  <app-map-visualization
+    [analyticsData]="sectionFiveAnalytics$ | async"
+  ></app-map-visualization>
+</div>
+
+<div
+  style="
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin-left: 2em !important;
+    justify-content: center;
+  "
+  *ngIf="(configLoadingStatus$ | async) || (sectionLoadingStatus$ | async)"
+>
+  <div
+    style="width: 100%; height: 100%; margin-top: auto; margin-bottom: auto"
+    class="loading-spinner-container"
+  >
+    <mat-spinner></mat-spinner>
+    <i>Loading Map</i>
+  </div>
+</div>

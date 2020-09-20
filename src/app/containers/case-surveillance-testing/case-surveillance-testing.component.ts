@@ -71,7 +71,7 @@ export class CaseSurveillanceTestingComponent implements OnInit {
   }
 
   updateData(data) {
-    console.log({ data });
+  
   }
 
   getValueFromAnalytics(dx, analyticsData: any[]) {
