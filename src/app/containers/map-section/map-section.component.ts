@@ -68,15 +68,12 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
         this.store.dispatch(
           loadMapAnalyticsData({
             sectionType: SectionType.SECTION_FIVE,
-            periods: last14ISOdates,
+            periods: ['LAST_12_MONTHS'],
           })
         );
       }
     });
   }
 
-  ngAfterViewInit() {
-  }
-
-  
+  ngAfterViewInit() {}
 }
