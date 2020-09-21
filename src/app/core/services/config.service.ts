@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { throwError, from } from 'rxjs';
 import { catchError, take } from 'rxjs/operators';
-import { SectionType } from '../models/dashboard.model';
+import { JSON_FILES } from '../helpers/json-files';
 import { map, flattenDeep } from 'lodash';
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,6 @@ import { map, flattenDeep } from 'lodash';
 export class ConfigService {
   constructor(
     private http$: NgxDhis2HttpClientService,
-    private httpClient$: HttpClient
   ) {}
 
   getConfigurations() {
@@ -112,28 +111,28 @@ export class ConfigService {
     return from(this.getAllConfigurationsPromise());
   }
 
-  getDefaultDataConfiguration() {
-    return this.httpClient$
-      .get(`assets/json/default-config.json`)
-      .pipe(catchError((error) => throwError(error)));
-  }
-  getDefaultConfigurationPromise(): any {
-    return new Promise((resolve, reject) => {
-      this.getDefaultDataConfiguration()
-        .pipe(take(1))
-        .subscribe(
-          (data) => {
-            resolve(data);
-          },
-          (error) => {
-            reject(error);
-          }
-        );
-    });
-  }
+  // getDefaultDataConfiguration() {
+  //   return this.httpClient$
+  //     .get(`assets/json/default-config.json`)
+  //     .pipe(catchError((error) => throwError(error)));
+  // }
+  // getDefaultConfigurationPromise(): any {
+  //   return new Promise((resolve, reject) => {
+  //     this.getDefaultDataConfiguration()
+  //       .pipe(take(1))
+  //       .subscribe(
+  //         (data) => {
+  //           resolve(data);
+  //         },
+  //         (error) => {
+  //           reject(error);
+  //         }
+  //       );
+  //   });
+  // }
   async updateConfigurationWithDefaultDataPromise(configuration) {
     let config = { ...{}, ...configuration };
-    const defaultData = await this.getDefaultConfigurationPromise();
+    const defaultData = JSON_FILES.defaultDataConfig;
     let updateConfigResponse = null;
     if (config) {
       const configKeys = Object.keys(config);

@@ -3,7 +3,6 @@ import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { catchError, take } from 'rxjs/operators';
 import { throwError, from, Observable } from 'rxjs';
 import { flattenDeep, map, findIndex, filter, find } from 'lodash';
-import { HttpClient } from '@angular/common/http';
 import { getStringFromArray } from '../helpers/get-string-from-array.helper';
 import { SectionType } from '../models/dashboard.model';
 import { getIdsFromDx } from '../helpers/get-ids-from-dx.helper';
@@ -14,7 +13,6 @@ import { getIdsFromDx } from '../helpers/get-ids-from-dx.helper';
 export class AnalyticsDataService {
   constructor(
     private http$: NgxDhis2HttpClientService,
-    private httpClient: HttpClient
   ) {}
   getAnalyticsDataValues(
     dx: string,
