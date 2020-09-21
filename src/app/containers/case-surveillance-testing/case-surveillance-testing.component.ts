@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { SectionType } from 'src/app/core/models/dashboard.model';
-import { loadAnalyticsData } from 'src/app/store/actions/analytic.actions';
+import {
+  loadAnalyticsData,
+  prepareToLoadAnalyticsData,
+} from 'src/app/store/actions/analytic.actions';
 import { loadConfiguration } from 'src/app/store/actions/config.actions';
 import { State } from 'src/app/store/reducers';
 import {
@@ -31,44 +34,44 @@ export class CaseSurveillanceTestingComponent implements OnInit {
   configLoadingStatus$: Observable<boolean>;
   sectionLoadingStatus$: Observable<boolean>;
   configLoadedStatus$: Observable<boolean>;
+  @Input() configuration;
   config$: Observable<any>;
   sectionOneAnalytics$: Observable<any>;
   constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
+    if (this.configuration) {
+      this.configLoadingStatus$ = this.store.pipe(
+        select(getConfigurationLoadingStatus)
+      );
+      this.configLoadedStatus$ = this.store.pipe(
+        select(getConfigurationLoadedStatus)
+      );
+      this.sectionLoadingStatus$ = this.store.pipe(
+        select(getSectionOneLoadingStatus)
+      );
 
-    this.configLoadingStatus$ = this.store.pipe(
-      select(getConfigurationLoadingStatus)
-    );
-    this.configLoadedStatus$ = this.store.pipe(
-      select(getConfigurationLoadedStatus)
-    );
-    this.sectionLoadingStatus$ = this.store.pipe(
-      select(getSectionOneLoadingStatus)
-    );
-
-    this.config$ = this.store.select(getConfiguration);
-    this.sectionOneConfig$ = this.store.pipe(
-      select(getSectionOneConfiguration)
-    );
-    this.sectionOneAnalytics$ = this.store.pipe(
-      select(getSectionOneAnalyticsData)
-    );
-    this.config$.subscribe((conf) => {
-      if (conf) {
-        this.store.dispatch(
-          loadAnalyticsData({
-            sectionType: SectionType.SECTION_ONE,
-            periods: ['LAST_12_MONTHS'],
-          })
-        );
-      }
-    });
+      this.config$ = this.store.select(getConfiguration);
+      this.sectionOneConfig$ = this.store.pipe(
+        select(getSectionOneConfiguration)
+      );
+      this.sectionOneAnalytics$ = this.store.pipe(
+        select(getSectionOneAnalyticsData)
+      );
+      // this.config$.subscribe((conf) => {
+      //   if (conf) {
+      this.store.dispatch(
+        loadAnalyticsData({
+          sectionType: SectionType.SECTION_ONE,
+          periods: ['LAST_12_MONTHS'],
+        })
+      );
+      //   }
+      // });
+    }
   }
 
-  updateData(data) {
-  
-  }
+  updateData(data) {}
 
   getValueFromAnalytics(dx, analyticsData: any[]) {
     let value = '';

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { SectionType } from 'src/app/core/models/dashboard.model';
@@ -28,28 +28,30 @@ export class SummaryTableComponent implements OnInit {
   sectionLoadingStatus$: Observable<any>;
   configLoadingStatus$: Observable<any>;
   userOrgUnits$: Observable<Array<any>>;
+  @Input() configuration;
 
   ngOnInit(): void {
-    this.config$ = this.store.select(getConfiguration);
-    this.sectionFourConfig$ = this.store.select(getSectionFourConfiguration);
-    this.sectionLoadingStatus$ = this.store.select(getSectionFourLoadingStatus);
-    this.userOrgUnits$ = this.store.pipe(select(getUserOrgUnits));
-    this.configLoadingStatus$ = this.store.select(
-      getConfigurationLoadingStatus
-    );
-    this.sectionFourAnalytics$ = this.store.pipe(
-      select(getSectionFourAnalyticsData)
-    );
-    this.config$.subscribe((conf) => {
-      if (conf) {
-        this.store.dispatch(
-          loadAnalyticsData({
-            sectionType: SectionType.SECTION_FOUR,
-            periods: ['LAST_12_MONTHS'],
-          })
-        );
-      }
-    });
+    if (this.configuration) {
+      this.config$ = this.store.select(getConfiguration);
+      this.sectionFourConfig$ = this.store.select(getSectionFourConfiguration);
+      this.sectionLoadingStatus$ = this.store.select(
+        getSectionFourLoadingStatus
+      );
+      this.userOrgUnits$ = this.store.pipe(select(getUserOrgUnits));
+      this.configLoadingStatus$ = this.store.select(
+        getConfigurationLoadingStatus
+      );
+      this.sectionFourAnalytics$ = this.store.pipe(
+        select(getSectionFourAnalyticsData)
+      );
+
+      this.store.dispatch(
+        loadAnalyticsData({
+          sectionType: SectionType.SECTION_FOUR,
+          periods: ['LAST_12_MONTHS'],
+        })
+      );
+    }
   }
   getAnalyticValue(orgUnitId, configItem, analyticsData) {
     let value = '';

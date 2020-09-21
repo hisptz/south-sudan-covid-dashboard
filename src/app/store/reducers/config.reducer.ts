@@ -29,7 +29,7 @@ export interface ConfigState extends EntityState<any> {
 export const adapter: EntityAdapter<any> = createEntityAdapter<any>();
 
 export const initialState: ConfigState = adapter.getInitialState({
-  loading: false,
+  loading: true,
   loaded: false,
   configuration: null,
   userId: null,

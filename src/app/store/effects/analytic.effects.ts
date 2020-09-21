@@ -2,14 +2,23 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
 import { Store, Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { mergeMap, catchError, map, withLatestFrom } from 'rxjs/operators';
+import {
+  mergeMap,
+  catchError,
+  map,
+  withLatestFrom,
+  tap,
+  switchMap,
+} from 'rxjs/operators';
 import { getIdsFromDx } from 'src/app/core/helpers/get-ids-from-dx.helper';
 import { AnalyticsDataService } from 'src/app/core/services/analytics-data.service';
 import {
+  configurationNotLoaded,
   loadAnalyticsData,
   loadAnalyticsDataFailure,
   loadAnalyticsDataSuccess,
   loadMapAnalyticsData,
+  prepareToLoadAnalyticsData,
 } from '../actions/analytic.actions';
 import { State } from '../reducers';
 import {
@@ -26,6 +35,8 @@ export class AnalyticEffects {
     private analyticsService: AnalyticsDataService,
     private store: Store<State>
   ) {}
+
+ 
 
   @Effect()
   loadAnalyticsData(): Observable<Action> {

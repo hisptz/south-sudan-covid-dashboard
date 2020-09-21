@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { getArrayOfIsoFormattedDates } from 'src/app/core/helpers/get-array-of-iso-date-formatted.helper';
@@ -27,6 +27,7 @@ export class TestsConductedAndPositiveCasesComponent implements OnInit {
   sectionThreeConfig$: Observable<any>;
   sectionLoadingStatus$: Observable<any>;
   configLoadingStatus$: Observable<any>;
+  @Input() configuration;
 
   constructor(private store: Store<State>) {}
   days = [
@@ -86,34 +87,35 @@ export class TestsConductedAndPositiveCasesComponent implements OnInit {
   xAxisTitle = 'Date';
 
   ngOnInit(): void {
-    const last14days = getLastNthDates(14);
-    const last14ISOdates = getArrayOfIsoFormattedDates(last14days);
-    this.config$ = this.store.select(getConfiguration);
-    this.sectionThreeConfig$ = this.store.select(getSectionThreeConfiguration);
-    this.sectionLoadingStatus$ = this.store.select(
-      getSectionThreeLoadingStatus
-    );
-    this.configLoadingStatus$ = this.store.select(
-      getConfigurationLoadingStatus
-    );
-    this.sectionThreeAnalytics$ = this.store.pipe(
-      select(getSectionThreeAnalyticsData)
-    );
-    this.config$.subscribe((conf) => {
-      if (conf) {
-        this.store.dispatch(
-          loadAnalyticsData({
-            sectionType: SectionType.SECTION_THREE,
-            periods: last14ISOdates,
-          })
-        );
-      }
-    });
+    if (this.configuration) {
+      const last14days = getLastNthDates(14);
+      const last14ISOdates = getArrayOfIsoFormattedDates(last14days);
+      this.config$ = this.store.select(getConfiguration);
+      this.sectionThreeConfig$ = this.store.select(
+        getSectionThreeConfiguration
+      );
+      this.sectionLoadingStatus$ = this.store.select(
+        getSectionThreeLoadingStatus
+      );
+      this.configLoadingStatus$ = this.store.select(
+        getConfigurationLoadingStatus
+      );
+      this.sectionThreeAnalytics$ = this.store.pipe(
+        select(getSectionThreeAnalyticsData)
+      );
+
+      this.store.dispatch(
+        loadAnalyticsData({
+          sectionType: SectionType.SECTION_THREE,
+          periods: last14ISOdates,
+        })
+      );
+    }
   }
   getLastItem(arr: Array<any>) {
     return arr[arr.length - 1];
-}
-getTotalFromArr(arr: Array<any>) {
-  return arr.reduce((a, b) => a + b, 0);
-}
+  }
+  getTotalFromArr(arr: Array<any>) {
+    return arr.reduce((a, b) => a + b, 0);
+  }
 }
