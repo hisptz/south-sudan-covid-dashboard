@@ -85,7 +85,6 @@ export class MapVisualizationComponent implements OnInit, AfterViewInit {
     for (const feature of this.mapGeo.features) {
       const key = feature.properties['hc-key'];
       const value = this.getAnalyticsValue(key);
-     
       mapData.push([key, value]);
     }
     return mapData;
@@ -104,7 +103,6 @@ export class MapVisualizationComponent implements OnInit, AfterViewInit {
     const analyticsObj = orgUnitId
       ? _.find(this.analyticsData || [], (item) => item.orgUnit === orgUnitId)
       : null;
-    console.log({ analyticsObj });  
     const value = analyticsObj && analyticsObj.value ? analyticsObj.value : 0;
     return value ? value : 0;
   }
