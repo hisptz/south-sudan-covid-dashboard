@@ -63,7 +63,7 @@ export class CaseSurveillanceTestingComponent implements OnInit {
       this.store.dispatch(
         loadAnalyticsData({
           sectionType: SectionType.SECTION_ONE,
-          periods: ['LAST_12_MONTHS'],
+          periods: ['THIS_YEAR'],
         })
       );
       //   }

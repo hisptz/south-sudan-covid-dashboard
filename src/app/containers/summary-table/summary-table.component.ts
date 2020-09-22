@@ -48,7 +48,7 @@ export class SummaryTableComponent implements OnInit {
       this.store.dispatch(
         loadAnalyticsData({
           sectionType: SectionType.SECTION_FOUR,
-          periods: ['LAST_12_MONTHS'],
+          periods: ['THIS_YEAR'],
         })
       );
     }
