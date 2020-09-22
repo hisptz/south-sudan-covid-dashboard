@@ -27,7 +27,7 @@ import { environment } from 'src/environments/environment';
     NgxDhis2MenuModule,
     NgxDhis2HttpClientModule.forRoot({
       version: 1,
-      namespace: 'iapps',
+      namespace: 'covid19-dashboard',
       models: {
         organisationUnits: 'id,name,level',
         organisationUnitLevels: 'id,level',

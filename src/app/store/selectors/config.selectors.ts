@@ -15,7 +15,7 @@ export const getConfigurationLoadingStatus = createSelector(
 );
 export const getConfigurationLoadedStatus = createSelector(
   getConfigState,
-  (state) => state.loading
+  (state) => state.loaded
 );
 export const getUserOrgUnitIds = createSelector(getConfigState, (state) => {
   return flattenDeep(

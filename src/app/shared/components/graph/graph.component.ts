@@ -20,6 +20,11 @@ export class GraphComponent implements OnInit {
   chart;
   constructor() {}
   initializeGraph() {
+    const xAxisData = this.xAxisCategories.slice(0, -1);
+    const leftYAxis = this.barChartYAxisData.slice(0, -1);
+    const rightYAxis = this.lineChartYAxisData.slice(0, -1);
+    const tertiaryRightYAxis = this.tertiaryYaxisData.slice(0, -1);
+
     this.chart = new Chart({
       chart: {
         zoomType: 'xy',
@@ -37,7 +42,7 @@ export class GraphComponent implements OnInit {
       },
       xAxis: [
         {
-          categories: this.xAxisCategories,
+          categories: xAxisData,
           crosshair: true,
         },
       ],
@@ -111,7 +116,7 @@ export class GraphComponent implements OnInit {
           name: this.leftYAxisTitle,
           type: 'column',
           yAxis: 1,
-          data: this.lineChartYAxisData,
+          data: rightYAxis,
           tooltip: {
             valueSuffix: ' ',
           },
@@ -120,7 +125,7 @@ export class GraphComponent implements OnInit {
           name: this.rightTertiaryYAxisTitle,
           type: 'spline',
           yAxis: 2,
-          data: this.tertiaryYaxisData,
+          data: tertiaryRightYAxis,
           marker: {
             enabled: false,
           },
@@ -133,7 +138,7 @@ export class GraphComponent implements OnInit {
         {
           name: this.rightYAxisTitle,
           type: 'spline',
-          data: this.barChartYAxisData,
+          data: leftYAxis,
           tooltip: {
             valueSuffix: ' ',
           },

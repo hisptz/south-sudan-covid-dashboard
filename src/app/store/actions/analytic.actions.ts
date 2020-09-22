@@ -1,6 +1,14 @@
 import { createAction, props } from '@ngrx/store';
 import { SectionType } from 'src/app/core/models/dashboard.model';
 
+export const prepareToLoadAnalyticsData = createAction(
+  '[Analytic] Prepare To Load Analytics Data',
+  props<{ sectionType: SectionType, periods: any[] }>()
+);
+export const configurationNotLoaded = createAction(
+  '[Analytic] Configuration Not Loaded',
+)
+
 export const loadAnalyticsData = createAction(
   '[Analytic] Load Analytics',
   props<{ sectionType: SectionType, periods: any[] }>()

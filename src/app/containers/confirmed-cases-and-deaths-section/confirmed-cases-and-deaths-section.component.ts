@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { Chart } from 'angular-highcharts';
 import { Observable } from 'rxjs';
@@ -30,7 +30,7 @@ export class ConfirmedCasesAndDeathsSectionComponent implements OnInit {
   sectionTwoConfig$: Observable<any>;
   sectionLoadingStatus$: Observable<any>;
   configLoadingStatus$: Observable<any>;
-  
+  @Input() configuration;
 
   chartTitle = 'CONFIRMED CASES AND DEATHS IN LAST 14 DAYS';
   rightYAxisTitle = 'Death cases';
@@ -38,34 +38,35 @@ export class ConfirmedCasesAndDeathsSectionComponent implements OnInit {
   rightTertiaryYAxisTitle = 'Cumulative Death Cases';
   xAxisTitle = 'Date';
   ngOnInit(): void {
-    const last14days = getLastNthDates(14);
-    const last14ISOdates = getArrayOfIsoFormattedDates(last14days);
-    this.config$ = this.store.select(getConfiguration);
-    this.sectionTwoConfig$ = this.store.select(getSectionTwoConfiguration);
-    this.sectionLoadingStatus$ = this.store.select(getSectionTwoLoadingStatus);
-    this.configLoadingStatus$ = this.store.select(
-      getConfigurationLoadingStatus
-    );
-    this.sectionTwoAnalytics$ = this.store.pipe(
-      select(getSectionTwoAnalyticsData)
-    );
-    this.config$.subscribe((conf) => {
-      if (conf) {
-        this.store.dispatch(
-          loadAnalyticsData({
-            sectionType: SectionType.SECTION_TWO,
-            periods: last14ISOdates,
-          })
-        );
-      }
-    });
+    if (this.configuration) {
+      const last14days = getLastNthDates(15);
+      const last14ISOdates = getArrayOfIsoFormattedDates(last14days);
+      this.config$ = this.store.select(getConfiguration);
+      this.sectionTwoConfig$ = this.store.select(getSectionTwoConfiguration);
+      this.sectionLoadingStatus$ = this.store.select(
+        getSectionTwoLoadingStatus
+      );
+      this.configLoadingStatus$ = this.store.select(
+        getConfigurationLoadingStatus
+      );
+      this.sectionTwoAnalytics$ = this.store.pipe(
+        select(getSectionTwoAnalyticsData)
+      );
+
+      this.store.dispatch(
+        loadAnalyticsData({
+          sectionType: SectionType.SECTION_TWO,
+          periods: last14ISOdates,
+        })
+      );
+    }
   }
 
   getCumulativeData(data) {
     return generateCumulativeFrequency(data);
   }
   getLastItem(arr: Array<any>) {
-      return arr[arr.length - 1];
+    return arr[arr.length - 1];
   }
   getTotalFromArr(arr: Array<any>) {
     return arr.reduce((a, b) => a + b, 0);

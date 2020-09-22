@@ -1,25 +1,62 @@
-<div style="width: 100%;">
+<div
+  style="width: 100%"
+  *ngIf="!(configLoadingStatus$ | async) && (configLoadedStatus$ | async)"
+>
   <mat-tab-group mat-align-tabs="start">
     <mat-tab label="CASE SURVEILLANCE AND TESTING">
-      <app-case-surveillance-testing></app-case-surveillance-testing>
+      <app-case-surveillance-testing
+        style="margin-top: 1em;"
+        [configuration]="config$ | async"
+      ></app-case-surveillance-testing>
       <div class="graph-maps-sction">
         <div class="graph-section">
-          <app-confirmed-cases-and-deaths-section></app-confirmed-cases-and-deaths-section>
+          <app-confirmed-cases-and-deaths-section
+            [configuration]="config$ | async"
+          ></app-confirmed-cases-and-deaths-section>
           <div class="bottom-charts">
             <div class="left-chart">
-              <app-tests-conducted-and-positive-cases></app-tests-conducted-and-positive-cases>
+              <app-tests-conducted-and-positive-cases
+                [configuration]="config$ | async"
+              ></app-tests-conducted-and-positive-cases>
             </div>
             <div class="right-chart">
-              <app-summary-table></app-summary-table>
+              <app-summary-table
+                [configuration]="config$ | async"
+              ></app-summary-table>
             </div>
           </div>
         </div>
         <div class="map-section">
-          <app-map-section></app-map-section>
+          <app-map-section [configuration]="config$ | async"></app-map-section>
         </div>
       </div>
     </mat-tab>
     <mat-tab label="LABARATORY TESTS">Content 2</mat-tab>
   </mat-tab-group>
-  
+</div>
+
+<div
+  *ngIf="configLoadingStatus$ | async"
+  class="app-content home-content"
+  style="
+    position: relative;
+    margin-top: 200px;
+    height: 100%;
+    padding-top: 300px;
+    text-align: center;
+  "
+>
+  <img
+    style="
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%, -50%);
+    "
+    src="assets/icons/balls-5.svg"
+    alt=""
+  />
+  <h4 style="margin-top: 10px">Discovering Dashboard</h4>
 </div>

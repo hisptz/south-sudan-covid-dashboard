@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import * as Highcharts from 'highcharts/highmaps';
 import { MAP_GEO } from './map-geo';
 import * as _ from 'lodash';
@@ -42,37 +42,39 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
   configLoadingStatus$: Observable<any>;
   stateOrgUnits$: Observable<Array<any>>;
   stateOrgUnitIds$: Observable<Array<any>>;
+  @Input() configuration;
 
   constructor(private store: Store<State>) {
     this.mapGeo = MAP_GEO.ss;
   }
 
   ngOnInit(): void {
-    const last14days = getLastNthDates(14);
-    const last14ISOdates = getArrayOfIsoFormattedDates(last14days);
-    this.config$ = this.store.select(getConfiguration);
-    this.sectionFiveConfig$ = this.store.select(getSectionFiveConfiguration);
-    this.sectionLoadingStatus$ = this.store.select(getSectionFiveLoadingStatus);
-    this.stateOrgUnits$ = this.store.pipe(select(getLowerLevelUserOrgUnits));
-    this.stateOrgUnitIds$ = this.store.pipe(
-      select(getLowerLevelUserOrgUnitIds)
-    );
-    this.configLoadingStatus$ = this.store.select(
-      getConfigurationLoadingStatus
-    );
-    this.sectionFiveAnalytics$ = this.store.pipe(
-      select(getSectionFiveAnalyticsData)
-    );
-    this.config$.subscribe((conf) => {
-      if (conf) {
-        this.store.dispatch(
-          loadMapAnalyticsData({
-            sectionType: SectionType.SECTION_FIVE,
-            periods: ['LAST_12_MONTHS'],
-          })
-        );
-      }
-    });
+    if (this.configuration) {
+      const last14days = getLastNthDates(14);
+      const last14ISOdates = getArrayOfIsoFormattedDates(last14days);
+      this.config$ = this.store.select(getConfiguration);
+      this.sectionFiveConfig$ = this.store.select(getSectionFiveConfiguration);
+      this.sectionLoadingStatus$ = this.store.select(
+        getSectionFiveLoadingStatus
+      );
+      this.stateOrgUnits$ = this.store.pipe(select(getLowerLevelUserOrgUnits));
+      this.stateOrgUnitIds$ = this.store.pipe(
+        select(getLowerLevelUserOrgUnitIds)
+      );
+      this.configLoadingStatus$ = this.store.select(
+        getConfigurationLoadingStatus
+      );
+      this.sectionFiveAnalytics$ = this.store.pipe(
+        select(getSectionFiveAnalyticsData)
+      );
+
+      this.store.dispatch(
+        loadMapAnalyticsData({
+          sectionType: SectionType.SECTION_FIVE,
+          periods: ['THIS_YEAR'],
+        })
+      );
+    }
   }
 
   ngAfterViewInit() {}

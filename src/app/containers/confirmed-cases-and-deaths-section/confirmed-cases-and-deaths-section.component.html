@@ -1,5 +1,6 @@
 <div
-  class="ccads-container mat-elevation-z1"
+
+  class="ccads-container mat-elevation-z1 section-border"
   *ngIf="!(configLoadingStatus$ | async) && !(sectionLoadingStatus$ | async)"
 >
   <div
@@ -26,15 +27,15 @@
     </div>
 
     <div class="stat-item">
-      <h4>Confirmed Cases</h4>
+      <h4>Today's confirmed cases</h4>
       <p>{{ getLastItem(analyticsData?.left)}}</p>
     </div>
     <div class="stat-item">
-      <h4>Death Cases</h4>
+      <h4>Today's death cases</h4>
       <p>{{ getLastItem(analyticsData?.right)}}</p>
     </div>
     <div class="stat-item">
-      <h4>Total Death Cases</h4>
+      <h4>Total death cases</h4>
       <p>{{ getTotalFromArr(analyticsData?.right)}}</p>
     </div>
   </div>
