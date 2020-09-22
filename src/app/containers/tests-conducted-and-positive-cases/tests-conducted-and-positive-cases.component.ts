@@ -88,7 +88,7 @@ export class TestsConductedAndPositiveCasesComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.configuration) {
-      const last14days = getLastNthDates(14);
+      const last14days = getLastNthDates(15);
       const last14ISOdates = getArrayOfIsoFormattedDates(last14days);
       this.config$ = this.store.select(getConfiguration);
       this.sectionThreeConfig$ = this.store.select(

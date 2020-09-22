@@ -10,7 +10,7 @@
       [xAxisCategories]="(sectionThreeAnalytics$ | async)?.xAxis"
       [lineChartYAxisData]="(sectionThreeAnalytics$ | async)?.left"
       [barChartYAxisData]="(sectionThreeAnalytics$ | async)?.right"
-      [chartTitle]="chartTitle"
+      [chartTitle]="(sectionThreeConfig$ | async)?.title "
       [leftYAxisTitle]="leftYAxisTitle"
       [rightYAxisTitle]="rightYAxisTitle"
     ></app-graph>
@@ -26,11 +26,11 @@
     </div> -->
 
     <div class="stat-item">
-      <h4>Tests</h4>
+      <h4>Today's tests</h4>
       <p>{{ getLastItem(analyticsData?.left) }}</p>
     </div>
     <div class="stat-item">
-      <h4>Positive cases</h4>
+      <h4>Today's +ve cases</h4>
       <p>{{ getLastItem(analyticsData?.right) }}</p>
     </div>
     <div class="stat-item">

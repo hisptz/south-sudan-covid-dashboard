@@ -15,6 +15,7 @@ export class MapVisualizationComponent implements OnInit, AfterViewInit {
   @Input() orgUnits = [];
   @Input() orgUnitIds = [];
   @Input() analyticsData = [];
+  @Input() mapTitle = '';
 
   currentChart: any;
   currentDevice: string;
@@ -23,10 +24,11 @@ export class MapVisualizationComponent implements OnInit, AfterViewInit {
     this.mappingOrgUnits = MAP_GEO.ssOrgUnits;
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
   ngAfterViewInit() {
-    this.drawMap();
+    if (this.analyticsData) {
+      this.drawMap();
+    }
   }
 
   drawMap() {
@@ -40,7 +42,7 @@ export class MapVisualizationComponent implements OnInit, AfterViewInit {
         renderTo: container,
       },
       title: {
-        text: 'MAP DISPLAYING GEOGRAPHICAL DISTRIBUTION OF CONFIRMED CASES',
+        text: this.mapTitle,
       },
       subtitle: {
         text: 'South Sudan',
@@ -63,7 +65,7 @@ export class MapVisualizationComponent implements OnInit, AfterViewInit {
         {
           type: undefined,
           data: this.getRandomData(),
-          name: 'death counts',
+          name: 'Confirmed cases',
           states: {
             hover: {
               color: '#FFFFFF',
@@ -83,6 +85,7 @@ export class MapVisualizationComponent implements OnInit, AfterViewInit {
     for (const feature of this.mapGeo.features) {
       const key = feature.properties['hc-key'];
       const value = this.getAnalyticsValue(key);
+     
       mapData.push([key, value]);
     }
     return mapData;
@@ -101,6 +104,7 @@ export class MapVisualizationComponent implements OnInit, AfterViewInit {
     const analyticsObj = orgUnitId
       ? _.find(this.analyticsData || [], (item) => item.orgUnit === orgUnitId)
       : null;
+    console.log({ analyticsObj });  
     const value = analyticsObj && analyticsObj.value ? analyticsObj.value : 0;
     return value ? value : 0;
   }
