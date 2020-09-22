@@ -13,7 +13,7 @@
       }
     },
     {
-      "id": "F4EVkALCrm1",
+      "id": "XX87aQO48lt",
       "name": "Confirmed cases",
       "percentageDx": {
         "id": "iwFjzTgx8zo",
@@ -39,12 +39,12 @@
   ],
   "section2": [
     {
-      "id": "F4EVkALCrm1",
+      "id": "XX87aQO48lt",
       "name": "Confirmed cases",
       "position": "left"
     },
     {
-      "id": "cJ9jP3kr3DD",
+      "id": "LvpUocz7ZdR",
       "name": "Death cases",
       "position": "right"
     }
@@ -67,7 +67,7 @@
       "name": "Suspected cases"
     },
     {
-      "id": "F4EVkALCrm1",
+      "id": "XX87aQO48lt",
       "name": "Confirmed cases"
     },
     {
@@ -77,7 +77,7 @@
   ],
   "section5": [
     {
-      "id": "F4EVkALCrm1",
+      "id": "XX87aQO48lt",
       "name": "Confirmed cases"
     }
   ]
