@@ -34,3 +34,13 @@
         margin-left: 1em;
     }
 }
+.configuration-btn-container {
+    width: 17%;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

@@ -2,6 +2,11 @@
   style="width: 100%"
   *ngIf="!(configLoadingStatus$ | async) && (configLoadedStatus$ | async)"
 >
+  <div class="configuration-btn-container">
+    <button mat-stroked-button>Metadata</button>
+    <button mat-stroked-button>Org unit</button>
+    <button mat-stroked-button>Period</button>
+  </div>
   <mat-tab-group mat-align-tabs="start">
     <mat-tab label="CASE SURVEILLANCE AND TESTING">
       <app-case-surveillance-testing
