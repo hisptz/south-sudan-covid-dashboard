@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { configFeatureKey, ConfigState } from '../reducers/config.reducer';
-import { map, flattenDeep } from 'lodash';
+import { map, flattenDeep, values } from 'lodash';
 import { getRootState } from '../reducers';
 import { SectionType } from 'src/app/core/models/dashboard.model';
 
@@ -8,6 +8,14 @@ const getConfigState = createFeatureSelector<ConfigState>(configFeatureKey);
 export const getConfiguration = createSelector(
   getConfigState,
   (state) => state.configuration
+);
+export const getConfigurationList = createSelector(
+  getConfigState,
+  (state) => {
+    return state && state.configuration
+      ? values(state.configuration) || []
+      : [];
+  }
 );
 export const getConfigurationLoadingStatus = createSelector(
   getConfigState,
@@ -40,7 +48,7 @@ export const getAllUserOrgUnits = createSelector(
         }
       }
     }
-   
+
     return newOrgUnits;
   }
 );
