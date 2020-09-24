@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { DataFilterDialogComponent } from '../shared/dialogs/data-filter-dialog/data-filter-dialog.component';
 import { State } from '../store/reducers';
 import { getConfiguration, getConfigurationLoadedStatus, getConfigurationLoadingStatus } from '../store/selectors/config.selectors';
 
@@ -14,7 +16,7 @@ export class ContainersComponent implements OnInit {
   configLoadedStatus$: Observable<boolean>;
   config$: Observable<any>;
 
-  constructor(private store: Store<State>) {}
+  constructor(private store: Store<State>, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.configLoadingStatus$ = this.store.pipe(
@@ -24,5 +26,14 @@ export class ContainersComponent implements OnInit {
       select(getConfigurationLoadedStatus)
     );
     this.config$ = this.store.select(getConfiguration);
+  }
+  openMetadataDialog() {
+    const dialogRef = this.dialog.open(DataFilterDialogComponent, {
+      width: '1500px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }

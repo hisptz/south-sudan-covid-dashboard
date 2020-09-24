@@ -3,7 +3,7 @@
   *ngIf="!(configLoadingStatus$ | async) && (configLoadedStatus$ | async)"
 >
   <div class="configuration-btn-container">
-    <button mat-stroked-button>Metadata</button>
+    <button mat-stroked-button (click)="openMetadataDialog()">Metadata</button>
     <button mat-stroked-button>Org unit</button>
     <button mat-stroked-button>Period</button>
   </div>
