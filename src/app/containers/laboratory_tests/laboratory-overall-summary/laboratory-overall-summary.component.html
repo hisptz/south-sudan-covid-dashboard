@@ -2,21 +2,21 @@
   id="overall-summary-container"
   class="mat-elevation-z1 section-border"
 >
-<!-- <div class="case-container-header">
-    <h2>{{ (sectionOneConfig$ | async)?.title }}</h2>
+<div class="case-container-header">
+    <h2>{{ (sectionSixConfig$ | async)?.title }}</h2>
    
   </div>
 
   <div
     class="case-items-container"
     *ngIf="
-      (sectionOneConfig$ | async) &&
-      (sectionOneAnalytics$ | async) as analyticsData
+      (sectionSixConfig$ | async) &&
+      (sectionSixAnalytics$ | async) as analyticsData
     "
   >
     <div
       class="case-item"
-      *ngFor="let config of (sectionOneConfig$ | async)?.dx"
+      *ngFor="let config of (sectionSixConfig$ | async)?.dx"
     >
       <p class="case-item-title">{{ config?.label }}</p>
       <span>{{ getValueFromAnalytics(config?.id, analyticsData) }}</span>
@@ -33,9 +33,9 @@
           }}%</i
         >
       </div>
-    </div> -->
+    </div>
   </div>
-  <!-- <div
+  <div
   id="case-surve-container"
   class="mat-elevation-z1"
   *ngIf="(configLoadingStatus$ | async) || (sectionLoadingStatus$ | async)"
@@ -44,4 +44,4 @@
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     <i>Loading data</i>
   </div>
-</div> -->
+</div>

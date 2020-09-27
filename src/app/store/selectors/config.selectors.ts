@@ -141,3 +141,14 @@ export const getSectionFiveConfiguration = createSelector(
     return data;
   }
 );
+export const getSectionSixConfiguration = createSelector(
+  getConfigState,
+  (state) => {
+    let data = {};
+    if (state && state.configuration) {
+      const sectionConfig = state.configuration;
+      data = sectionConfig[SectionType.SECTION_SIX] || {};
+    }
+    return data;
+  }
+);

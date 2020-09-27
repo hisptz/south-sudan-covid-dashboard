@@ -7,6 +7,7 @@ export function getDefaultDashboardConfig() {
     section3: getSectionThreeDefaultConfig(),
     section4: getSectionFourDefaultConfig(),
     section5: getSectionFiveDefaultConfig(),
+    section6: getSectionSixDefaultConfig()
   };
 }
 function getSectionOneDefaultConfig() {
@@ -161,6 +162,49 @@ function getSectionFiveDefaultConfig() {
         dhis2Name: '',
         suffix: '',
       },
+    ],
+  };
+}
+
+function getSectionSixDefaultConfig() {
+  return {
+    id: uuidv4(),
+    title: 'Laboratory Overall Summary',
+    type: 'summary',
+    hasOrgUnitConfig: true,
+    hasPeriodConfig: true,
+    dx: [
+      {
+        id: '',
+        label: 'Total Tested cases',
+        dhis2Name: '',
+        suffix: '',
+        hasPercentage: false,
+      },
+      {
+        id: '',
+        label: 'Sample rejected',
+        dhis2Name: '',
+        suffix: '',
+        hasPercentage: true,
+        percentageDx: '',
+      },
+      {
+        id: '',
+        label: 'Tested positive',
+        dhis2Name: '',
+        suffix: '',
+        hasPercentage: true,
+        percentageDx: '',
+      },
+      {
+        id: '',
+        label: 'Average Turnaround Time',
+        dhis2Name: '',
+        suffix: '',
+        hasPercentage: true,
+        percentageDx: '',
+      }
     ],
   };
 }

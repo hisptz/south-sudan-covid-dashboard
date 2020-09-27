@@ -37,7 +37,10 @@
       </div>
     </mat-tab>
     <mat-tab label="LABARATORY TESTS">
-      <app-laboratory-overall-summary></app-laboratory-overall-summary>
+      <app-laboratory-overall-summary
+      style="margin-top: 1em;"
+      [configuration]="config$ | async"
+      ></app-laboratory-overall-summary>
     </mat-tab>
   </mat-tab-group>
 </div>
