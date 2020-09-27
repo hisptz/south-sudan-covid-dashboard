@@ -36,7 +36,7 @@ export class AnalyticsDataService {
       ouURLType = 'dimension';
     } else {
       peURLType = ouURLType = 'filter';
-      ouURLType = 'filter';
+      ouURLType = 'dimension';
     }
     return this.http$
       .get(

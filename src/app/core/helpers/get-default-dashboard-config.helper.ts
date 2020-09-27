@@ -14,6 +14,8 @@ function getSectionOneDefaultConfig() {
     id: uuidv4(),
     title: 'Overall Summary',
     type: 'summary',
+    hasOrgUnitConfig: true,
+    hasPeriodConfig: true,
     dx: [
       {
         id: '',
@@ -62,6 +64,8 @@ function getSectionTwoDefaultConfig() {
     id: uuidv4(),
     title: 'Confirmed cases and deaths in last 14 days',
     type: 'chart',
+    hasOrgUnitConfig: true,
+    hasPeriodConfig: false,
     dx: [
       {
         id: '',
@@ -87,6 +91,8 @@ function getSectionThreeDefaultConfig() {
     id: uuidv4(),
     title: 'Tests conducted and positive cases in last 14 days',
     type: 'chart',
+    hasOrgUnitConfig: true,
+    hasPeriodConfig: false,
     dx: [
       {
         id: '',
@@ -112,6 +118,8 @@ function getSectionFourDefaultConfig() {
     id: uuidv4(),
     title: 'Summary of suspects, confirmed and death cases by state',
     type: 'table',
+    hasOrgUnitConfig: true,
+    hasPeriodConfig: true,
     dx: [
       {
         id: '',
@@ -144,6 +152,8 @@ function getSectionFiveDefaultConfig() {
     id: uuidv4(),
     title: 'Map displaying Geographical distribution of confirmed cases',
     type: 'map',
+    hasOrgUnitConfig: false,
+    hasPeriodConfig: true,
     dx: [
       {
         id: '',

@@ -1,6 +1,12 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { OrgUnitFilterConfig } from '@iapps/ngx-dhis2-org-unit-filter';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { State } from 'src/app/store/reducers';
+import { getConfigurationList } from 'src/app/store/selectors/config.selectors';
+import { getAllSectionAnalytics } from 'src/app/store/selectors/analytic.selectors';
+import { find } from 'lodash';
 
 @Component({
   selector: 'app-org-unit-filter-dialog',
@@ -9,7 +15,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class OrgUnitFilterDialogComponent implements OnInit {
   title = '';
-  selectedOrgUnitItems: any[] = [];
+  selectedItems: any[] = [];
   orgUnitFilterConfig: OrgUnitFilterConfig = {
     singleSelection: true,
     showUserOrgUnitSection: false,
@@ -20,17 +26,19 @@ export class OrgUnitFilterDialogComponent implements OnInit {
     additionalQueryFields: ['dataSets'],
     batchSize: 400,
   };
+
+  configurations$: Observable<any>;
+  analytics$: Observable<any>;
   constructor(
+    private store$: Store<State>,
     public dialogRef: MatDialogRef<OrgUnitFilterDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data
   ) {}
 
   ngOnInit(): void {
-    this.selectedOrgUnitItems =
-      this.data && this.data.selectedItems && this.data.selectedItems.length
-        ? this.data.selectedItems
-        : [];
-    this.title = this.data && this.data.title ? this.data.title : '';
+    this.selectedItems = [];
+    this.configurations$ = this.store$.pipe(select(getConfigurationList));
+    this.analytics$ = this.store$.pipe(select(getAllSectionAnalytics));
   }
   onOrgUnitUpdate(data: any, action: string) {
     if (action === 'CHANGE') {
@@ -38,5 +46,15 @@ export class OrgUnitFilterDialogComponent implements OnInit {
     } else {
       this.dialogRef.close();
     }
+  }
+  showFilter(itemId, analyticsData, section) {
+    const analyticsObj = find(
+      analyticsData[section] || [],
+      (data) => data.id === itemId
+    );
+    this.selectedItems =
+      analyticsObj && analyticsObj.orgUnit
+        ? [...[], { id: analyticsObj.orgUnit }]
+        : [];
   }
 }

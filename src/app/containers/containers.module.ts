@@ -8,6 +8,7 @@ import { MapSectionComponent } from './surveillance/map-section/map-section.comp
 import { ConfirmedCasesAndDeathsSectionComponent } from './surveillance/confirmed-cases-and-deaths-section/confirmed-cases-and-deaths-section.component';
 import { TestsConductedAndPositiveCasesComponent } from './surveillance/tests-conducted-and-positive-cases/tests-conducted-and-positive-cases.component';
 import { SummaryTableComponent } from './surveillance/summary-table/summary-table.component';
+import { LaboratoryOverallSummaryComponent } from './laboratory_tests/laboratory-overall-summary/laboratory-overall-summary.component';
 const routes: Routes = [
   {
     path: '',
@@ -23,6 +24,7 @@ const routes: Routes = [
     ConfirmedCasesAndDeathsSectionComponent,
     TestsConductedAndPositiveCasesComponent,
     SummaryTableComponent,
+    LaboratoryOverallSummaryComponent,
   ],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule],
 })

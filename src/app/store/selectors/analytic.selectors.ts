@@ -92,3 +92,14 @@ export const getSectionFiveAnalyticsData = createSelector(
     return state[SectionType.SECTION_FIVE];
   }
 );
+export const getAllSectionAnalytics = createSelector(
+  getAnalyticState,
+  getSectionOneAnalyticsData,
+  getSectionTwoAnalyticsData,
+  getSectionThreeAnalyticsData,
+  getSectionFourAnalyticsData,
+  getSectionFiveAnalyticsData,
+  (state, section1, section2, section3, section4, section5) => {
+    return { ...[], section1, section2, section3, section4, section5 };
+  }
+);

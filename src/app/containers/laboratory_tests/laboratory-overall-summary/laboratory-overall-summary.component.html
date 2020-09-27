@@ -1,14 +1,10 @@
 <div
-  id="case-surve-container"
+  id="overall-summary-container"
   class="mat-elevation-z1 section-border"
-  *ngIf="!(configLoadingStatus$ | async) && !(sectionLoadingStatus$ | async)"
 >
-  <div class="case-container-header">
+<!-- <div class="case-container-header">
     <h2>{{ (sectionOneConfig$ | async)?.title }}</h2>
-    <!-- <app-selection-filters-menu
-      [section]="sectionType"
-      (dataFilterEvent)="updateData($event)"
-    ></app-selection-filters-menu> -->
+   
   </div>
 
   <div
@@ -37,11 +33,9 @@
           }}%</i
         >
       </div>
-    </div>
+    </div> -->
   </div>
-</div>
-
-<div
+  <!-- <div
   id="case-surve-container"
   class="mat-elevation-z1"
   *ngIf="(configLoadingStatus$ | async) || (sectionLoadingStatus$ | async)"
@@ -50,4 +44,4 @@
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     <i>Loading data</i>
   </div>
-</div>
+</div> -->

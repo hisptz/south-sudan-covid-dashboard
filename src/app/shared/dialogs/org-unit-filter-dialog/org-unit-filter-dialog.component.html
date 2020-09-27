@@ -1,9 +1,35 @@
-<div>
-  <h2 style="padding: 0; margin: 0">{{ title }} (ORG UNIT FILTER)</h2>
+<div class="metadata-container">
+  <div style="width: 100%" class="tables-container">
+    <div
+      class="table-responsive"
+      *ngFor="let config of configurations$ | async"
+    >
+      <strong style="font-size: 1.2em" *ngIf="config?.hasOrgUnitConfig">{{
+        config?.title
+      }}</strong>
+      <table class="table table-bordered" *ngIf="config?.hasOrgUnitConfig">
+        <thead>
+          <tr>
+            <th *ngFor="let dxItem of config?.dx">{{ dxItem?.label }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="section-row" *ngIf="analytics$ | async as analyticsData">
+            <td
+              class="cursor-pointer"
+              matRipple
+              *ngFor="let dxItem of config?.dx"
+              (click)="showFilter(dxItem?.id, analyticsData, config?.section)"
+            >
+              {{ dxItem?.label }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="filter-container" *ngIf="selectedItems?.length">
+    <app-org-unit-filter [selectedItems]="selectedItems"></app-org-unit-filter>
+  </div>
 </div>
-<ngx-dhis2-org-unit-filter
-  [orgUnitFilterConfig]="orgUnitFilterConfig"
-  [selectedOrgUnitItems]="selectedOrgUnitItems"
-  (orgUnitUpdate)="onOrgUnitUpdate($event, 'CHANGE')"
-  (orgUnitClose)="onOrgUnitUpdate($event, 'CLOSE')"
-></ngx-dhis2-org-unit-filter>

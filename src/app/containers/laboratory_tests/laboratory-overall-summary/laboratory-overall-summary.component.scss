@@ -1,0 +1,19 @@
+#overall-summary-container {
+    box-sizing: border-box;
+    overflow: hidden;
+    width: 100%;
+    padding: 0 1em 1em 1em;
+    // border-bottom: 2px solid lightgray;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    .case-container-header {
+        width: 100%;
+        display: flex;
+        box-sizing: border-box;
+        overflow: hidden;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
