@@ -57,3 +57,14 @@ export const updateConfigurationWithDefaultDataFailure = createAction(
   '[Config] Update Configuration With Default Data Failure',
   props<{ error: any }>()
 );
+export const loadLaboratories = createAction(
+  '[Config] Load Configuration',
+);
+export const loadLaboratoriesSuccess = createAction(
+  '[Config] Load Configuration Success',
+  props<{ data: any }>()
+);
+export const loadLaboratoriesFailure = createAction(
+  '[Config] Load Configuration Failure',
+  props<{ error: any }>()
+);

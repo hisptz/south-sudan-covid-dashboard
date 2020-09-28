@@ -5,15 +5,16 @@ import { throwError, from, Observable } from 'rxjs';
 import { flattenDeep, map, findIndex, filter, find } from 'lodash';
 import { getStringFromArray } from '../helpers/get-string-from-array.helper';
 import { SectionType } from '../models/dashboard.model';
-import { getIdsFromDx } from '../helpers/get-ids-from-dx.helper';
+import {
+  getIdsFromDx,
+  getNamesFromDx,
+} from '../helpers/get-ids-from-dx.helper';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AnalyticsDataService {
-  constructor(
-    private http$: NgxDhis2HttpClientService,
-  ) {}
+  constructor(private http$: NgxDhis2HttpClientService) {}
   getAnalyticsDataValues(
     dx: string,
     orgUnit: string,
@@ -81,6 +82,7 @@ export class AnalyticsDataService {
       this.getMappedSectionData(dxArr, orgUnits, periods, sectionType)
     );
   }
+
   async getMappedSectionData(
     configuration: any,
     orgUnits: any[],
@@ -161,6 +163,82 @@ export class AnalyticsDataService {
       })
     );
   }
+  getLabPeriods(periodDimensions: Array<any>, items) {
+    return map(periodDimensions || [], (dimension) => {
+      const period =
+        items && items[dimension] && items[dimension].name
+          ? items[dimension].name
+          : '';
+      return period;
+    });
+  }
+  getLabMappedDataValues(
+    dxDimensions: Array<any>,
+    periodDimensions: Array<any>,
+    items,
+    rows: Array<any>,
+    dxIndex,
+    periodIndex,
+    valueIndex
+  ) {
+    let dataValues = [];
+    if (dxDimensions && dxDimensions.length) {
+      for (const dxDim of dxDimensions) {
+        let obj = {};
+        let values = [];
+        const name =
+          items && items[dxDim] && items[dxDim].name ? items[dxDim].name : '';
+        if (periodDimensions && periodDimensions.length) {
+          for (const peDim of periodDimensions) {
+            let value = 0;
+            if (rows && rows.length) {
+              for (const row of rows) {
+                if (name === row[dxIndex] && peDim === row[periodIndex]) {
+                  value = row && row[valueIndex] ? row[valueIndex] : '';
+                  value =
+                    typeof value === 'string' ? parseInt(value, 10) : value;
+                } else {
+                  value = 0;
+                }
+              }
+            }
+            values = [...values, value];
+          }
+        }
+        obj = { ...{}, name, data: values };
+        dataValues = [...dataValues, obj];
+      }
+    }
+    return dataValues;
+  }
+  getLabMappedDataFromRows(
+    metaData: any,
+    rows: any[],
+    dxIndex: number,
+    valueIndex: number,
+    periodIndex: number,
+    ouIndex
+  ) {
+    const dimensions =
+      metaData && metaData.dimensions ? metaData.dimensions : null;
+    const periodDimensions = dimensions && dimensions.pe ? dimensions.pe : [];
+    const dxDimensions =
+      dimensions && dimensions.bujqZ6Dqn4m ? dimensions.bujqZ6Dqn4m : [];
+    const items = metaData && metaData.items ? metaData.items : null;
+
+    const periods = this.getLabPeriods(periodDimensions, items);
+    const data = this.getLabMappedDataValues(
+      dxDimensions,
+      periodDimensions,
+      items,
+      rows,
+      dxIndex,
+      periodIndex,
+      valueIndex
+    );
+
+    return { ...{}, periods, data };
+  } // End of getLabMappedDataFromRows
   getSanitizedMappedData(
     configuration: any,
     mappedData: any,
@@ -226,5 +304,108 @@ export class AnalyticsDataService {
       return sanitizedData;
     }
     return mappedData;
+  }
+
+  getLabRequestedAnalyticsDataValues(
+    labArr: string[],
+    orgUnits: any[],
+    periods: any[],
+    sectionType: SectionType
+  ): Observable<any> {
+    return from(
+      this.getLabMappedSectionData(labArr, orgUnits, periods, sectionType)
+    );
+  }
+
+  async getLabMappedSectionData(
+    labs,
+    orgUnits: any[],
+    periods: any[],
+    sectionType: SectionType
+  ) {
+    const dxArr = getNamesFromDx(labs);
+
+    const response = await this.getLabRequestedAnalyticsDataValuesPromise(
+      dxArr,
+      orgUnits,
+      periods,
+      sectionType
+    );
+    console.log({ response });
+
+    const { headers, metaData, rows } = response;
+    const dxIndex =
+      headers && headers.length
+        ? headers.findIndex((item) => item.name === 'bujqZ6Dqn4m')
+        : -1;
+    const periodIndex =
+      headers && headers.length
+        ? headers.findIndex((item) => item.name === 'pe')
+        : -1;
+    const valueIndex =
+      headers && headers.length
+        ? headers.findIndex((item) => item.name === 'value')
+        : -1;
+    const ouIndex =
+      headers && headers.length
+        ? headers.findIndex((item) => item.name === 'ou')
+        : -1;
+
+    const mappedData = this.getLabMappedDataFromRows(
+      metaData,
+      rows,
+      dxIndex,
+      valueIndex,
+      periodIndex,
+      ouIndex
+    );
+    console.log({ mappedData });
+    // const sanitizedMappedData = this.getSanitizedMappedData(
+    //   configuration,
+    //   mappedData,
+    //   sectionType
+    // );
+    // return sanitizedMappedData;
+    return [];
+  }
+
+  getLabAnalyticsDataValues(
+    dx: string,
+    orgUnit: string,
+    period: string,
+    sectionType: SectionType
+  ) {
+    return this.http$
+      .get(
+        `analytics/events/aggregate/uYjxkTbwRNf.json?dimension=bujqZ6Dqn4m:IN:${dx}&dimension=pe:${period}&filter=ou:${orgUnit}`
+      )
+      .pipe(catchError((error) => throwError(error)));
+  }
+  getLabRequestedAnalyticsDataValuesPromise(
+    dxArr: string[],
+    orgUnits: any[],
+    periods: any[],
+    sectionType: SectionType
+  ): any {
+    const dxArrString = getStringFromArray(dxArr);
+    const orgUnitsString = getStringFromArray(orgUnits);
+    const periodsString = getStringFromArray(periods);
+    return new Promise((resolve, reject) => {
+      this.getLabAnalyticsDataValues(
+        dxArrString,
+        orgUnitsString,
+        periodsString,
+        sectionType
+      )
+        .pipe(take(1))
+        .subscribe(
+          (data) => {
+            resolve(data);
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+    });
   }
 }

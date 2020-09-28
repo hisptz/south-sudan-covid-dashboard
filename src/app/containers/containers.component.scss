@@ -44,3 +44,20 @@
     flex-direction: row;
     justify-content: space-between;
 }
+.laboratory-graph-section {
+    margin-top: 1em;
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row; 
+    .lab-graph-section {
+        width: 50%;
+        height: 750px;
+        box-sizing: border-box;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column; 
+    } 
+}

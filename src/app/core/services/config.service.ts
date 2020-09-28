@@ -9,13 +9,18 @@ import { map, flattenDeep } from 'lodash';
   providedIn: 'root',
 })
 export class ConfigService {
-  constructor(
-    private http$: NgxDhis2HttpClientService,
-  ) {}
+  constructor(private http$: NgxDhis2HttpClientService) {}
 
   getConfigurations() {
     return this.http$
       .get(`dataStore/covid19Dashboard/config`)
+      .pipe(catchError((error) => throwError(error)));
+  }
+  getDataElementWithOptionSet(dataElementId) {
+    return this.http$
+      .get(
+        `/dataElements/${dataElementId}.json?fields=id,name,optionSet[id,name,options[id,name]]`
+      )
       .pipe(catchError((error) => throwError(error)));
   }
   getUserData() {
@@ -41,6 +46,20 @@ export class ConfigService {
   updateConfigurationPromise(config: any): any {
     return new Promise((resolve, reject) => {
       this.updateConfiguration(config)
+        .pipe(take(1))
+        .subscribe(
+          (data) => {
+            resolve(data);
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+    });
+  }
+  getDataElementWithOptionSetPromise(dataElementId): any {
+    return new Promise((resolve, reject) => {
+      this.getDataElementWithOptionSet(dataElementId)
         .pipe(take(1))
         .subscribe(
           (data) => {
@@ -94,7 +113,7 @@ export class ConfigService {
         );
     });
   }
-  async getAllConfigurationsPromise() {
+  async getAllConfigurationsPromise(dataElementId = 'bujqZ6Dqn4m') {
     try {
       const config = await this.getConfigurationSectionPromise();
       const user = await this.getUserDataPromise();
@@ -102,13 +121,24 @@ export class ConfigService {
       const orgUnits =
         user && user.organisationUnits ? user.organisationUnits : [];
       const userName = user && user.name ? user.name : '';
-      return { config, userId, orgUnits, userName };
+      const laboratories = await this.getLaboratoriesListPromise(dataElementId);
+      return { config, userId, orgUnits, userName, laboratories };
     } catch (e) {
       throw new Error('Failed to load configurations');
     }
   }
   getAllConfigurations() {
     return from(this.getAllConfigurationsPromise());
+  }
+  async getLaboratoriesListPromise(dataElementId) {
+    const dataElement = await this.getDataElementWithOptionSetPromise(
+      dataElementId
+    );
+    const optionSet =
+      dataElement && dataElement.optionSet ? dataElement.optionSet : null;
+    const laboratories =
+      optionSet && optionSet.options ? optionSet.options : [];
+    return laboratories;
   }
 
   // getDefaultDataConfiguration() {

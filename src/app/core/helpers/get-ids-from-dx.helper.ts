@@ -14,3 +14,19 @@ export function getIdsFromDx(dx: Array<any>) {
     )
   );
 }
+export function getNamesFromDx(dx: Array<any>) {
+  return flattenDeep(
+    concat(
+      map(dx || [], (dxItem) => {
+        return dxItem.name || [];
+      }),
+      map(dx || [], (dxItem) => {
+        if (dxItem.percentageDx) {
+          return dxItem.percentageDx.name || [];
+        }
+        return [];
+      })
+    )
+  );
+}
+

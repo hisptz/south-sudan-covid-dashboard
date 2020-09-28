@@ -38,3 +38,17 @@ export const loadMapAnalyticsDataFailure = createAction(
   '[Analytic] Load Map Analytics Failure',
   props<{ error: any }>()
 );
+export const loadLabAnalyticsData = createAction(
+  '[Analytic] Load Lab Analytics',
+  props<{ sectionType: SectionType, periods: any[] }>()
+);
+
+export const loadLabAnalyticsDataSuccess = createAction(
+  '[Analytic] Load Lab Analytics Success',
+  props<{ sectionType: SectionType, data: any }>()
+);
+
+export const loadLabAnalyticsDataFailure = createAction(
+  '[Analytic] Load Lab Analytics Failure',
+  props<{ error: any }>()
+);

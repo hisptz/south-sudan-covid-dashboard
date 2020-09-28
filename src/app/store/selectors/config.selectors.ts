@@ -43,6 +43,9 @@ export const getUserOrgUnitIds = createSelector(getConfigState, (state) => {
 export const getUserOrgUnits = createSelector(getConfigState, (state) => {
   return state && state.userOrgUnits ? state.userOrgUnits : [];
 });
+export const getLaboratories = createSelector(getConfigState, (state) => {
+  return state && state.laboratories ? state.laboratories : [];
+});
 export const getAllUserOrgUnits = createSelector(
   getConfigState,
   getUserOrgUnits,

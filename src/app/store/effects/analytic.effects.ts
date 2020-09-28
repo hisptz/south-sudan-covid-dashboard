@@ -17,12 +17,14 @@ import {
   loadAnalyticsData,
   loadAnalyticsDataFailure,
   loadAnalyticsDataSuccess,
+  loadLabAnalyticsData,
   loadMapAnalyticsData,
   prepareToLoadAnalyticsData,
 } from '../actions/analytic.actions';
 import { State } from '../reducers';
 import {
   getConfiguration,
+  getLaboratories,
   getLowerLevelUserOrgUnitIds,
   getUserOrgUnitIds,
   getUserOrgUnits,
@@ -82,6 +84,37 @@ export class AnalyticEffects {
         return this.analyticsService
           .getRequestedAnalyticsDataValues(
             configuration,
+            orgUnits,
+            action.periods,
+            action.sectionType
+          )
+          .pipe(
+            map((data) => {
+              return loadAnalyticsDataSuccess({
+                sectionType: action.sectionType,
+                data,
+              });
+            }),
+            catchError((error: any) => {
+              return of(loadAnalyticsDataFailure({ error }));
+            })
+          );
+      })
+    );
+  }
+
+  @Effect()
+  loadLabAnalyticsData(): Observable<Action> {
+    return this.actions$.pipe(
+      ofType(loadLabAnalyticsData),
+      withLatestFrom(
+        this.store.select(getUserOrgUnitIds),
+        this.store.select(getLaboratories)
+      ),
+      mergeMap(([action, orgUnits, labs]) => {
+        return this.analyticsService
+          .getLabRequestedAnalyticsDataValues(
+            labs,
             orgUnits,
             action.periods,
             action.sectionType

@@ -9,6 +9,8 @@ import { ConfirmedCasesAndDeathsSectionComponent } from './surveillance/confirme
 import { TestsConductedAndPositiveCasesComponent } from './surveillance/tests-conducted-and-positive-cases/tests-conducted-and-positive-cases.component';
 import { SummaryTableComponent } from './surveillance/summary-table/summary-table.component';
 import { LaboratoryOverallSummaryComponent } from './laboratory_tests/laboratory-overall-summary/laboratory-overall-summary.component';
+import { TestsAndPositiveComponent } from './laboratory_tests/tests-and-positive/tests-and-positive.component';
+import { PositiveTestsPerLabComponent } from './laboratory_tests/positive-tests-per-lab/positive-tests-per-lab.component';
 const routes: Routes = [
   {
     path: '',
@@ -25,6 +27,8 @@ const routes: Routes = [
     TestsConductedAndPositiveCasesComponent,
     SummaryTableComponent,
     LaboratoryOverallSummaryComponent,
+    TestsAndPositiveComponent,
+    PositiveTestsPerLabComponent,
   ],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule],
 })

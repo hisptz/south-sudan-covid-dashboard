@@ -41,6 +41,15 @@
       style="margin-top: 1em;"
       [configuration]="config$ | async"
       ></app-laboratory-overall-summary>
+      <div class="laboratory-graph-section">
+        <div class="lab-graph-section">
+          <app-tests-conducted-and-positive-cases
+          [configuration]="config$ | async"
+        ></app-tests-conducted-and-positive-cases>
+        </div>
+        <app-positive-tests-per-lab  [configuration]="config$ | async"></app-positive-tests-per-lab>
+
+      </div>
     </mat-tab>
   </mat-tab-group>
 </div>
