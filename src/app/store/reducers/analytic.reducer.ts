@@ -5,7 +5,9 @@ import {
   loadAnalyticsData,
   loadAnalyticsDataFailure,
   loadAnalyticsDataSuccess,
+  loadLabAnalyticsData,
   loadMapAnalyticsData,
+  loadTypeOfTestsAnalyticsData,
 } from '../actions/analytic.actions';
 
 export const analyticFeatureKey = 'analytics';
@@ -43,6 +45,20 @@ export const analyticReducer = createReducer(
     return { ...state, sectionsLoading };
   }),
   on(loadMapAnalyticsData, (state, { sectionType }) => {
+    const sectionsLoading =
+      state.sectionsLoading && state.sectionsLoading.includes(sectionType)
+        ? [...state.sectionsLoading]
+        : [...state.sectionsLoading, sectionType];
+    return { ...state, sectionsLoading };
+  }),
+  on(loadLabAnalyticsData, (state, { sectionType }) => {
+    const sectionsLoading =
+      state.sectionsLoading && state.sectionsLoading.includes(sectionType)
+        ? [...state.sectionsLoading]
+        : [...state.sectionsLoading, sectionType];
+    return { ...state, sectionsLoading };
+  }),
+  on(loadTypeOfTestsAnalyticsData, (state, { sectionType }) => {
     const sectionsLoading =
       state.sectionsLoading && state.sectionsLoading.includes(sectionType)
         ? [...state.sectionsLoading]

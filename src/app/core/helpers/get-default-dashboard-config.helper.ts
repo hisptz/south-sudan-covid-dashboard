@@ -7,7 +7,9 @@ export function getDefaultDashboardConfig() {
     section3: getSectionThreeDefaultConfig(),
     section4: getSectionFourDefaultConfig(),
     section5: getSectionFiveDefaultConfig(),
-    section6: getSectionSixDefaultConfig()
+    section6: getSectionSixDefaultConfig(),
+    section7: getSectionSevenDefaultConfig(),
+    section8: getSectionEightDefaultConfig(),
   };
 }
 function getSectionOneDefaultConfig() {
@@ -204,7 +206,21 @@ function getSectionSixDefaultConfig() {
         suffix: '',
         hasPercentage: true,
         percentageDx: '',
-      }
+      },
     ],
+  };
+}
+function getSectionSevenDefaultConfig() {
+  return {
+    id: uuidv4(),
+    title: 'Positive tests per Lab',
+    type: 'chart',
+  };
+}
+function getSectionEightDefaultConfig() {
+  return {
+    id: uuidv4(),
+    title: 'Type of Tests per Lab',
+    type: 'chart',
   };
 }

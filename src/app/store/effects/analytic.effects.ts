@@ -19,6 +19,7 @@ import {
   loadAnalyticsDataSuccess,
   loadLabAnalyticsData,
   loadMapAnalyticsData,
+  loadTypeOfTestsAnalyticsData,
   prepareToLoadAnalyticsData,
 } from '../actions/analytic.actions';
 import { State } from '../reducers';
@@ -37,8 +38,6 @@ export class AnalyticEffects {
     private analyticsService: AnalyticsDataService,
     private store: Store<State>
   ) {}
-
- 
 
   @Effect()
   loadAnalyticsData(): Observable<Action> {
@@ -130,6 +129,30 @@ export class AnalyticEffects {
               return of(loadAnalyticsDataFailure({ error }));
             })
           );
+      })
+    );
+  }
+
+  @Effect()
+  loadTypeOfTestsAnalyticsData(): Observable<Action> {
+    return this.actions$.pipe(
+      ofType(loadTypeOfTestsAnalyticsData),
+      withLatestFrom(
+        this.store.select(getUserOrgUnitIds),
+        this.store.select(getLaboratories)
+      ),
+      mergeMap(([action, orgUnits, labs]) => {
+        return this.analyticsService.getRequestedTypeOfTests().pipe(
+          map((data) => {
+            return loadAnalyticsDataSuccess({
+              sectionType: action.sectionType,
+              data,
+            });
+          }),
+          catchError((error: any) => {
+            return of(loadAnalyticsDataFailure({ error }));
+          })
+        );
       })
     );
   }

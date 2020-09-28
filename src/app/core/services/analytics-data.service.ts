@@ -194,11 +194,10 @@ export class AnalyticsDataService {
             if (rows && rows.length) {
               for (const row of rows) {
                 if (name === row[dxIndex] && peDim === row[periodIndex]) {
-                  value = row && row[valueIndex] ? row[valueIndex] : '';
+                  value = row && row[valueIndex] ? row[valueIndex] : 0;
+
                   value =
                     typeof value === 'string' ? parseInt(value, 10) : value;
-                } else {
-                  value = 0;
                 }
               }
             }
@@ -331,7 +330,6 @@ export class AnalyticsDataService {
       periods,
       sectionType
     );
-    console.log({ response });
 
     const { headers, metaData, rows } = response;
     const dxIndex =
@@ -359,14 +357,7 @@ export class AnalyticsDataService {
       periodIndex,
       ouIndex
     );
-    console.log({ mappedData });
-    // const sanitizedMappedData = this.getSanitizedMappedData(
-    //   configuration,
-    //   mappedData,
-    //   sectionType
-    // );
-    // return sanitizedMappedData;
-    return [];
+    return mappedData;
   }
 
   getLabAnalyticsDataValues(
@@ -407,5 +398,91 @@ export class AnalyticsDataService {
           }
         );
     });
+  }
+
+  // TODO: Remove hard coded values
+
+  getTypeOfTestsAnalytics() {
+    return this.http$
+      .get(
+        `analytics/events/aggregate/uYjxkTbwRNf.json?dimension=D0RBm3alWd9:IN:ELISA;GeneXpert;PCR;RDT&dimension=pe:LAST_12_WEEKS&filter=ou:he6RdNPCKhY&stage=iR8O4hSLHnu&displayProperty=NAME&outputType=EVENT&sortOrder=DESC`
+      )
+      .pipe(catchError((error) => throwError(error)));
+  }
+  getTypeOfTestsAnalyticsPromise(): any {
+    return new Promise((resolve, reject) => {
+      this.getTypeOfTestsAnalytics()
+        .pipe(take(1))
+        .subscribe(
+          (data) => {
+            resolve(data);
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+    });
+  }
+
+  async getRequestedTypeOfTestsPromise() {
+    const response = await this.getTypeOfTestsAnalyticsPromise();
+    const { headers, metaData, rows } = response;
+    const dxIndex =
+      headers && headers.length
+        ? headers.findIndex((item) => item.name === 'D0RBm3alWd9')
+        : -1;
+    const periodIndex =
+      headers && headers.length
+        ? headers.findIndex((item) => item.name === 'pe')
+        : -1;
+    const valueIndex =
+      headers && headers.length
+        ? headers.findIndex((item) => item.name === 'value')
+        : -1;
+    const ouIndex =
+      headers && headers.length
+        ? headers.findIndex((item) => item.name === 'ou')
+        : -1;
+
+    const mappedData = this.getTypeOfTestsMappedDataFromRows(
+      metaData,
+      rows,
+      dxIndex,
+      valueIndex,
+      periodIndex,
+      ouIndex
+    );
+    return mappedData;
+  }
+  getTypeOfTestsMappedDataFromRows(
+    metaData: any,
+    rows: any[],
+    dxIndex: number,
+    valueIndex: number,
+    periodIndex: number,
+    ouIndex
+  ) {
+    const dimensions =
+      metaData && metaData.dimensions ? metaData.dimensions : null;
+    const periodDimensions = dimensions && dimensions.pe ? dimensions.pe : [];
+    const dxDimensions =
+      dimensions && dimensions.D0RBm3alWd9 ? dimensions.D0RBm3alWd9 : [];
+    const items = metaData && metaData.items ? metaData.items : null;
+
+    const periods = this.getLabPeriods(periodDimensions, items);
+    const data = this.getLabMappedDataValues(
+      dxDimensions,
+      periodDimensions,
+      items,
+      rows,
+      dxIndex,
+      periodIndex,
+      valueIndex
+    );
+
+    return { ...{}, periods, data };
+  } // End of getLabMappedDataFromRows
+  getRequestedTypeOfTests(): Observable<any> {
+    return from(this.getRequestedTypeOfTestsPromise());
   }
 }

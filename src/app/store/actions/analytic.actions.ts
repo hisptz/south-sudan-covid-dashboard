@@ -42,7 +42,10 @@ export const loadLabAnalyticsData = createAction(
   '[Analytic] Load Lab Analytics',
   props<{ sectionType: SectionType, periods: any[] }>()
 );
-
+export const loadTypeOfTestsAnalyticsData = createAction(
+  '[Analytic] Load Type of Tests Analytics',
+  props<{ sectionType: SectionType, periods: any[] }>()
+);
 export const loadLabAnalyticsDataSuccess = createAction(
   '[Analytic] Load Lab Analytics Success',
   props<{ sectionType: SectionType, data: any }>()

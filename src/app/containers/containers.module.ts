@@ -11,6 +11,7 @@ import { SummaryTableComponent } from './surveillance/summary-table/summary-tabl
 import { LaboratoryOverallSummaryComponent } from './laboratory_tests/laboratory-overall-summary/laboratory-overall-summary.component';
 import { TestsAndPositiveComponent } from './laboratory_tests/tests-and-positive/tests-and-positive.component';
 import { PositiveTestsPerLabComponent } from './laboratory_tests/positive-tests-per-lab/positive-tests-per-lab.component';
+import { TypeOfTetsPerLabComponent } from './laboratory_tests/type-of-tets-per-lab/type-of-tets-per-lab.component';
 const routes: Routes = [
   {
     path: '',
@@ -29,6 +30,7 @@ const routes: Routes = [
     LaboratoryOverallSummaryComponent,
     TestsAndPositiveComponent,
     PositiveTestsPerLabComponent,
+    TypeOfTetsPerLabComponent,
   ],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule],
 })

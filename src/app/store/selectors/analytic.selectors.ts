@@ -72,6 +72,26 @@ export const getSectionSixLoadingStatus = createSelector(
     return false;
   }
 );
+export const getSectionSevenLoadingStatus = createSelector(
+  getAnalyticState,
+  getLoadingSections,
+  (state, loadingSections) => {
+    if (loadingSections.includes(SectionType.SECTION_SEVEN)) {
+      return true;
+    }
+    return false;
+  }
+);
+export const getSectionEightLoadingStatus = createSelector(
+  getAnalyticState,
+  getLoadingSections,
+  (state, loadingSections) => {
+    if (loadingSections.includes(SectionType.SECTION_EIGHT)) {
+      return true;
+    }
+    return false;
+  }
+);
 export const getSectionOneAnalyticsData = createSelector(
   getAnalyticState,
   (state) => {
@@ -108,6 +128,18 @@ export const getSectionSixAnalyticsData = createSelector(
     return state[SectionType.SECTION_SIX];
   }
 );
+export const getSectionSevenAnalyticsData = createSelector(
+  getAnalyticState,
+  (state) => {
+    return state[SectionType.SECTION_SEVEN];
+  }
+);
+export const getSectionEightAnalyticsData = createSelector(
+  getAnalyticState,
+  (state) => {
+    return state[SectionType.SECTION_EIGHT];
+  }
+);
 export const getAllSectionAnalytics = createSelector(
   getAnalyticState,
   getSectionOneAnalyticsData,
@@ -117,6 +149,14 @@ export const getAllSectionAnalytics = createSelector(
   getSectionFiveAnalyticsData,
   getSectionSixAnalyticsData,
   (state, section1, section2, section3, section4, section5, section6) => {
-    return { ...[], section1, section2, section3, section4, section5, section6 };
+    return {
+      ...[],
+      section1,
+      section2,
+      section3,
+      section4,
+      section5,
+      section6,
+    };
   }
 );

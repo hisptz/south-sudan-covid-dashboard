@@ -155,3 +155,25 @@ export const getSectionSixConfiguration = createSelector(
     return data;
   }
 );
+export const getSectionSevenConfiguration = createSelector(
+  getConfigState,
+  (state) => {
+    let data = {};
+    if (state && state.configuration) {
+      const sectionConfig = state.configuration;
+      data = sectionConfig[SectionType.SECTION_SEVEN] || {};
+    }
+    return data;
+  }
+);
+export const getSectionEightConfiguration = createSelector(
+  getConfigState,
+  (state) => {
+    let data = {};
+    if (state && state.configuration) {
+      const sectionConfig = state.configuration;
+      data = sectionConfig[SectionType.SECTION_EIGHT] || {};
+    }
+    return data;
+  }
+);

@@ -10,7 +10,8 @@ export enum SectionType {
     SECTION_FOUR = 'section4',
     SECTION_FIVE = 'section5',
     SECTION_SIX = 'section6',
-    SECTION_SEVEN = 'section7'
+    SECTION_SEVEN = 'section7',
+    SECTION_EIGHT = 'section8'
 }
 export enum SectionTitle {
     CASE_SURVEILLANCE = 'CASE SURVEILLANCE AND TESTING',

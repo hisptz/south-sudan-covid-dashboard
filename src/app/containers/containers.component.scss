@@ -52,12 +52,19 @@
     overflow: hidden;
     display: flex;
     flex-direction: row; 
+    justify-content: space-between;
     .lab-graph-section {
-        width: 50%;
-        height: 750px;
+        width: 48%;
+      
         box-sizing: border-box;
         overflow: hidden;
         display: flex;
         flex-direction: column; 
     } 
+}
+.bottom-chart {
+    width: 100%;
+    padding: 0;
+    height: 750px; 
+    margin-top: 1em;
 }

@@ -22,6 +22,7 @@ import { MapVisualizationComponent } from './components/map-visualization/map-vi
 import {MatRippleModule} from '@angular/material/core';
 import { MetadataFilterComponent } from './components/metadata-filter/metadata-filter.component';
 import { OrgUnitFilterComponent } from './components/org-unit-filter/org-unit-filter.component';
+import { BarChartComponent } from './components/bar-chart/bar-chart.component';
 @NgModule({
   declarations: [
     GraphComponent,
@@ -33,6 +34,7 @@ import { OrgUnitFilterComponent } from './components/org-unit-filter/org-unit-fi
     MapVisualizationComponent,
     MetadataFilterComponent,
     OrgUnitFilterComponent,
+    BarChartComponent,
   ],
   imports: [
     CommonModule,
@@ -70,7 +72,8 @@ import { OrgUnitFilterComponent } from './components/org-unit-filter/org-unit-fi
     MatTabsModule,
     MatProgressSpinnerModule,
     MapVisualizationComponent,
-    MatRippleModule
+    MatRippleModule,
+    BarChartComponent,
   ],
   entryComponents: [
     DataFilterDialogComponent,

@@ -10,7 +10,7 @@
   <mat-tab-group mat-align-tabs="start">
     <mat-tab label="CASE SURVEILLANCE AND TESTING">
       <app-case-surveillance-testing
-        style="margin-top: 1em;"
+        style="margin-top: 1em"
         [configuration]="config$ | async"
       ></app-case-surveillance-testing>
       <div class="graph-maps-sction">
@@ -37,18 +37,28 @@
       </div>
     </mat-tab>
     <mat-tab label="LABARATORY TESTS">
-      <app-laboratory-overall-summary
-      style="margin-top: 1em;"
-      [configuration]="config$ | async"
-      ></app-laboratory-overall-summary>
-      <div class="laboratory-graph-section">
-        <div class="lab-graph-section">
-          <app-tests-conducted-and-positive-cases
+      <div style="width: 100%">
+        <app-laboratory-overall-summary
+          style="margin-top: 1em"
           [configuration]="config$ | async"
-        ></app-tests-conducted-and-positive-cases>
+        ></app-laboratory-overall-summary>
+        <div class="laboratory-graph-section">
+          <div class="lab-graph-section">
+            <app-tests-conducted-and-positive-cases
+              [configuration]="config$ | async"
+            ></app-tests-conducted-and-positive-cases>
+          </div>
+          <div class="lab-graph-section">
+            <app-positive-tests-per-lab
+              [configuration]="config$ | async"
+            ></app-positive-tests-per-lab>
+          </div>
         </div>
-        <app-positive-tests-per-lab  [configuration]="config$ | async"></app-positive-tests-per-lab>
-
+        <div class="bottom-chart">
+          <app-tests-and-positive
+            [configuration]="config$ | async"
+          ></app-tests-and-positive>
+        </div>
       </div>
     </mat-tab>
   </mat-tab-group>
