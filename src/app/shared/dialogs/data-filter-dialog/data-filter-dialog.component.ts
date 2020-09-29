@@ -15,11 +15,7 @@ export class DataFilterDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.selectedItems =
-      this.data && this.data.selectedItems && this.data.selectedItems.length
-        ? this.data.selectedItems
-        : [];
-    this.title = this.data && this.data.title ? this.data.title : '';
+    this.selectedItems = [];
   }
   onDataUpdate(data: any, action: string) {
     if (action === 'CHANGE') {
