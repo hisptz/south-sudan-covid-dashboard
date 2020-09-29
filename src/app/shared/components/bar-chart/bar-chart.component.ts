@@ -30,13 +30,13 @@ export class BarChartComponent implements OnInit {
         text: 'Source: southsudanhis.org/',
       },
       legend: {
-        layout: 'vertical',
+        layout: 'horizontal',
         align: 'left',
-        verticalAlign: 'top',
-        x: 250,
-        y: 100,
-        floating: true,
-        borderWidth: 1,
+        verticalAlign: 'bottom',
+        x: 5,
+        y: 0,
+        floating: false,
+       
 
         backgroundColor:
           Highcharts.defaultOptions.legend.backgroundColor || // theme
