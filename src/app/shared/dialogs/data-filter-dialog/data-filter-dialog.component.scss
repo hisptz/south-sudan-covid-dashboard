@@ -1,0 +1,16 @@
+.metadata-container {
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    .tables-container {
+        width: 55%;
+    }
+    .filter-container {
+        width: 45%;
+    }
+}
+.section-row {
+    height: 60px;
+}

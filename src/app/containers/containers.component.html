@@ -2,15 +2,15 @@
   style="width: 100%"
   *ngIf="!(configLoadingStatus$ | async) && (configLoadedStatus$ | async)"
 >
-  <div class="configuration-btn-container">
-    <button mat-stroked-button>Metadata</button>
-    <button mat-stroked-button>Org unit</button>
-    <button mat-stroked-button>Period</button>
-  </div>
+  <!-- <div class="configuration-btn-container">
+    <button mat-stroked-button (click)="openSelectionDialog(dialogType?.metadata)">Metadata</button>
+    <button mat-stroked-button (click)="openSelectionDialog(dialogType?.orgUnit)">Org unit</button>
+    <button mat-stroked-button (click)="openSelectionDialog(dialogType?.period)">Period</button>
+  </div> -->
   <mat-tab-group mat-align-tabs="start">
     <mat-tab label="CASE SURVEILLANCE AND TESTING">
       <app-case-surveillance-testing
-        style="margin-top: 1em;"
+        style="margin-top: 1em"
         [configuration]="config$ | async"
       ></app-case-surveillance-testing>
       <div class="graph-maps-sction">
@@ -36,7 +36,31 @@
         </div>
       </div>
     </mat-tab>
-    <mat-tab label="LABARATORY TESTS">Content 2</mat-tab>
+    <mat-tab label="LABARATORY TESTS">
+      <div style="width: 100%">
+        <app-laboratory-overall-summary
+          style="margin-top: 1em"
+          [configuration]="config$ | async"
+        ></app-laboratory-overall-summary>
+        <div class="laboratory-graph-section">
+          <div class="lab-graph-section">
+            <app-tests-conducted-and-positive-cases
+              [configuration]="config$ | async"
+            ></app-tests-conducted-and-positive-cases>
+          </div>
+          <div class="lab-graph-section">
+            <app-positive-tests-per-lab
+              [configuration]="config$ | async"
+            ></app-positive-tests-per-lab>
+          </div>
+        </div>
+        <div class="bottom-chart">
+          <app-tests-and-positive
+            [configuration]="config$ | async"
+          ></app-tests-and-positive>
+        </div>
+      </div>
+    </mat-tab>
   </mat-tab-group>
 </div>
 

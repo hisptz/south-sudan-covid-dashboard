@@ -1,0 +1,25 @@
+<div
+  class="ptpl-container mat-elevation-z1 section-border"
+  *ngIf="!(configLoadingStatus$ | async) && !(sectionLoadingStatus$ | async)"
+>
+  <div
+    class="graph-container"
+    *ngIf="sectionEightAnalytics$ | async as analyticsData"
+  >
+    <app-bar-chart
+      [xAxisData]="analyticsData?.periods"
+      [yAxisData]="analyticsData?.data"
+      [chartTitle]="(sectionEightConfig$ | async)?.title"
+    >
+    </app-bar-chart>
+  </div>
+</div>
+<div
+  class="ptpl-container mat-elevation-z1"
+  *ngIf="(configLoadingStatus$ | async) || (sectionLoadingStatus$ | async)"
+>
+  <div class="loading-spinner-container">
+    <mat-spinner></mat-spinner>
+    <i>Loading Chart</i>
+  </div>
+</div>

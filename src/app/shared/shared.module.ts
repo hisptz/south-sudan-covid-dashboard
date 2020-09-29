@@ -19,6 +19,10 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MapVisualizationComponent } from './components/map-visualization/map-visualization.component';
+import {MatRippleModule} from '@angular/material/core';
+import { MetadataFilterComponent } from './components/metadata-filter/metadata-filter.component';
+import { OrgUnitFilterComponent } from './components/org-unit-filter/org-unit-filter.component';
+import { BarChartComponent } from './components/bar-chart/bar-chart.component';
 @NgModule({
   declarations: [
     GraphComponent,
@@ -28,6 +32,9 @@ import { MapVisualizationComponent } from './components/map-visualization/map-vi
     PeriodFilterDialogComponent,
     SelectionFiltersComponent,
     MapVisualizationComponent,
+    MetadataFilterComponent,
+    OrgUnitFilterComponent,
+    BarChartComponent,
   ],
   imports: [
     CommonModule,
@@ -42,7 +49,8 @@ import { MapVisualizationComponent } from './components/map-visualization/map-vi
     NgxDhis2OrgUnitFilterModule,
     MatExpansionModule,
     MatTabsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatRippleModule
   ],
   exports: [
     MatProgressBarModule,
@@ -64,6 +72,8 @@ import { MapVisualizationComponent } from './components/map-visualization/map-vi
     MatTabsModule,
     MatProgressSpinnerModule,
     MapVisualizationComponent,
+    MatRippleModule,
+    BarChartComponent,
   ],
   entryComponents: [
     DataFilterDialogComponent,

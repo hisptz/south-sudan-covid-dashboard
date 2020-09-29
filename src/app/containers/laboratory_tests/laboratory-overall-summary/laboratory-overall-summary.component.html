@@ -1,0 +1,47 @@
+<div
+  id="overall-summary-container"
+  class="mat-elevation-z1 section-border"
+>
+<div class="case-container-header">
+    <h2>{{ (sectionSixConfig$ | async)?.title }}</h2>
+   
+  </div>
+
+  <div
+    class="case-items-container"
+    *ngIf="
+      (sectionSixConfig$ | async) &&
+      (sectionSixAnalytics$ | async) as analyticsData
+    "
+  >
+    <div
+      class="case-item"
+      *ngFor="let config of (sectionSixConfig$ | async)?.dx"
+    >
+      <p class="case-item-title">{{ config?.label }}</p>
+      <span>{{ getValueFromAnalytics(config?.id, analyticsData) }}</span>
+      <div class="case-progress" *ngIf="config?.percentageDx">
+        <mat-progress-bar
+          mode="determinate"
+          value="{{
+            getValueFromAnalytics(config?.percentageDx?.id, analyticsData)
+          }}"
+        ></mat-progress-bar
+        ><i
+          >{{
+            getValueFromAnalytics(config?.percentageDx?.id, analyticsData) || '0.0'
+          }}%</i
+        >
+      </div>
+    </div>
+  </div>
+  <div
+  id="case-surve-container"
+  class="mat-elevation-z1"
+  *ngIf="(configLoadingStatus$ | async) || (sectionLoadingStatus$ | async)"
+>
+  <div style="margin-top: auto; margin-bottom: auto; text-align: center">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <i>Loading data</i>
+  </div>
+</div>

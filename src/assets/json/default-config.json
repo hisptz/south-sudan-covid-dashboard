@@ -80,5 +80,35 @@
       "id": "XX87aQO48lt",
       "name": "Confirmed cases"
     }
+  ],
+  "section6": [
+    {
+      "id": "lDDNIwULlwv",
+      "name": "Total Tested cases"
+    },
+    {
+      "id": "DZOodp5Cwab",
+      "name": "Sample rejected",
+      "percentageDx": {
+        "id": "VEnUYYKs2o0",
+        "name": "% Sample rejected"
+      }
+    },
+    {
+      "id": "XX87aQO48lt",
+      "name": "Tested positive",
+      "percentageDx": {
+        "id": "iwFjzTgx8zo",
+        "name": "% Tested positive"
+      }
+    },
+    {
+      "id": "",
+      "name": "Average Turnaround Time",
+      "percentageDx": {
+        "id": "",
+        "name": "% Average Turnaround Time"
+      }
+    }
   ]
 }

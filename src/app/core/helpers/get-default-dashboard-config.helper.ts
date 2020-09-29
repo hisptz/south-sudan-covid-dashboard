@@ -7,6 +7,9 @@ export function getDefaultDashboardConfig() {
     section3: getSectionThreeDefaultConfig(),
     section4: getSectionFourDefaultConfig(),
     section5: getSectionFiveDefaultConfig(),
+    section6: getSectionSixDefaultConfig(),
+    section7: getSectionSevenDefaultConfig(),
+    section8: getSectionEightDefaultConfig(),
   };
 }
 function getSectionOneDefaultConfig() {
@@ -14,6 +17,8 @@ function getSectionOneDefaultConfig() {
     id: uuidv4(),
     title: 'Overall Summary',
     type: 'summary',
+    hasOrgUnitConfig: true,
+    hasPeriodConfig: true,
     dx: [
       {
         id: '',
@@ -62,6 +67,8 @@ function getSectionTwoDefaultConfig() {
     id: uuidv4(),
     title: 'Confirmed cases and deaths in last 14 days',
     type: 'chart',
+    hasOrgUnitConfig: true,
+    hasPeriodConfig: false,
     dx: [
       {
         id: '',
@@ -87,6 +94,8 @@ function getSectionThreeDefaultConfig() {
     id: uuidv4(),
     title: 'Tests conducted and positive cases in last 14 days',
     type: 'chart',
+    hasOrgUnitConfig: true,
+    hasPeriodConfig: false,
     dx: [
       {
         id: '',
@@ -112,6 +121,8 @@ function getSectionFourDefaultConfig() {
     id: uuidv4(),
     title: 'Summary of suspects, confirmed and death cases by state',
     type: 'table',
+    hasOrgUnitConfig: true,
+    hasPeriodConfig: true,
     dx: [
       {
         id: '',
@@ -144,6 +155,8 @@ function getSectionFiveDefaultConfig() {
     id: uuidv4(),
     title: 'Map displaying Geographical distribution of confirmed cases',
     type: 'map',
+    hasOrgUnitConfig: false,
+    hasPeriodConfig: true,
     dx: [
       {
         id: '',
@@ -152,5 +165,62 @@ function getSectionFiveDefaultConfig() {
         suffix: '',
       },
     ],
+  };
+}
+
+function getSectionSixDefaultConfig() {
+  return {
+    id: uuidv4(),
+    title: 'Laboratory Overall Summary',
+    type: 'summary',
+    hasOrgUnitConfig: true,
+    hasPeriodConfig: true,
+    dx: [
+      {
+        id: '',
+        label: 'Total Tested cases',
+        dhis2Name: '',
+        suffix: '',
+        hasPercentage: false,
+      },
+      {
+        id: '',
+        label: 'Sample rejected',
+        dhis2Name: '',
+        suffix: '',
+        hasPercentage: true,
+        percentageDx: '',
+      },
+      {
+        id: '',
+        label: 'Tested positive',
+        dhis2Name: '',
+        suffix: '',
+        hasPercentage: true,
+        percentageDx: '',
+      },
+      {
+        id: '',
+        label: 'Average Turnaround Time',
+        dhis2Name: '',
+        suffix: '',
+        hasPercentage: true,
+        percentageDx: '',
+      },
+    ],
+  };
+}
+function getSectionSevenDefaultConfig() {
+  return {
+    id: uuidv4(),
+    title: 'Positive tests per Lab',
+    type: 'chart',
+  };
+}
+function getSectionEightDefaultConfig() {
+  return {
+    id: uuidv4(),
+    title: 'Type of Tests per Lab',
+    type: 'chart',
   };
 }

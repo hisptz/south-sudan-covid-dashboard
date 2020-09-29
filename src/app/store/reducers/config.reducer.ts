@@ -22,6 +22,7 @@ export interface ConfigState extends EntityState<any> {
   configuration: any;
   userId: string;
   userOrgUnits: Array<any>;
+  laboratories: Array<any>;
   userName: string;
   error: any;
   notification: any;
@@ -34,6 +35,7 @@ export const initialState: ConfigState = adapter.getInitialState({
   configuration: null,
   userId: null,
   userOrgUnits: [],
+  laboratories: [],
   userName: null,
   error: null,
   notification: null,
@@ -115,6 +117,7 @@ export const configReducer = createReducer(
     const userId = data && data.userId ? data.userId : '';
     const userOrgUnits = data && data.orgUnits ? data.orgUnits : [];
     const configuration = data && data.config ? data.config : null;
+    const laboratories = data && data.laboratories ? data.laboratories : [];
     const notification = { type: 'SUCCESS', message: 'Configurations loaded succcessfully'}
     return {
       ...state,
@@ -124,7 +127,8 @@ export const configReducer = createReducer(
       userId,
       userName,
       userOrgUnits,
-      notification
+      notification,
+      laboratories
     };
   }),
   on(loadConfigurationFailure, (state, { error }) => {

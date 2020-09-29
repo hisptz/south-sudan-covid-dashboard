@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { SectionType } from 'src/app/core/models/dashboard.model';
-import { loadAnalyticsData } from 'src/app/store/actions/analytic.actions';
+import { loadAnalyticsData, loadMapAnalyticsData } from 'src/app/store/actions/analytic.actions';
 import { State } from 'src/app/store/reducers';
 import {
   getSectionFourAnalyticsData,
@@ -11,6 +11,7 @@ import {
 import {
   getConfiguration,
   getConfigurationLoadingStatus,
+  getLowerLevelUserOrgUnits,
   getSectionFourConfiguration,
   getUserOrgUnits,
 } from 'src/app/store/selectors/config.selectors';
@@ -37,7 +38,7 @@ export class SummaryTableComponent implements OnInit {
       this.sectionLoadingStatus$ = this.store.select(
         getSectionFourLoadingStatus
       );
-      this.userOrgUnits$ = this.store.pipe(select(getUserOrgUnits));
+      this.userOrgUnits$ = this.store.pipe(select(getLowerLevelUserOrgUnits));
       this.configLoadingStatus$ = this.store.select(
         getConfigurationLoadingStatus
       );
@@ -46,7 +47,7 @@ export class SummaryTableComponent implements OnInit {
       );
 
       this.store.dispatch(
-        loadAnalyticsData({
+        loadMapAnalyticsData({
           sectionType: SectionType.SECTION_FOUR,
           periods: ['THIS_YEAR'],
         })

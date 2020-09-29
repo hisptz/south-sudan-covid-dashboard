@@ -55,8 +55,9 @@ export class MapVisualizationComponent implements OnInit, AfterViewInit {
       },
       colorAxis: {
         min: 0,
-        maxColor: '#80d8ff',
-        minColor: '#0091ea',
+        max: 20,
+        minColor: '#F6F7F7',
+        maxColor: '#DE001E',
       },
       credits: {
         enabled: false,
