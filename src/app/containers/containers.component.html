@@ -15,24 +15,27 @@
       ></app-case-surveillance-testing>
       <div class="graph-maps-sction">
         <div class="graph-section">
-          <app-confirmed-cases-and-deaths-section
+          <div class="top-chart-container">
+            <app-confirmed-cases-and-deaths-section
             [configuration]="config$ | async"
           ></app-confirmed-cases-and-deaths-section>
-          <div class="bottom-charts">
-            <div class="left-chart">
-              <app-tests-conducted-and-positive-cases
-                [configuration]="config$ | async"
-              ></app-tests-conducted-and-positive-cases>
-            </div>
-            <div class="right-chart">
-              <app-summary-table
-                [configuration]="config$ | async"
-              ></app-summary-table>
-            </div>
           </div>
+         
         </div>
         <div class="map-section">
           <app-map-section [configuration]="config$ | async"></app-map-section>
+        </div>
+      </div>
+      <div class="bottom-charts">
+        <div class="left-chart">
+          <app-tests-conducted-and-positive-cases
+            [configuration]="config$ | async"
+          ></app-tests-conducted-and-positive-cases>
+        </div>
+        <div class="right-chart">
+          <app-summary-table
+            [configuration]="config$ | async"
+          ></app-summary-table>
         </div>
       </div>
     </mat-tab>
