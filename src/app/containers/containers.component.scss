@@ -6,32 +6,39 @@
     overflow: hidden;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     .graph-section {
-        width: 60%;
-        height: 750px;
+        width: 55%;
+        // height: 750px;
         box-sizing: border-box;
         overflow: hidden;
         display: flex;
         flex-direction: column;
-        .bottom-charts {
-            width: 100%;
-            box-sizing: border-box;
-            overflow: hidden;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            margin-top: 1em;
-            .left-chart {
-                width: 49%;
-            }
-            .right-chart {
-                width: 49%;
-            }
+        .top-chart-container {
+            height: 500px;
         }
+       
     }
     .map-section {
-        width: 35%;
-        margin-left: 1em;
+        width: 44%;
+        height: 500px;
+    }
+}
+.bottom-charts {
+    width: 100%;
+    height: 500px;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    .left-chart {
+        width: 55%;
+    }
+    .right-chart {
+        width: 44%;
     }
 }
 .configuration-btn-container {
@@ -54,8 +61,8 @@
     flex-direction: row; 
     justify-content: space-between;
     .lab-graph-section {
-        width: 48%;
-      
+        width: 49.5%;
+        height: 500px;
         box-sizing: border-box;
         overflow: hidden;
         display: flex;
