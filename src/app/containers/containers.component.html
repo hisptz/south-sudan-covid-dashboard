@@ -47,12 +47,12 @@
         ></app-laboratory-overall-summary>
         <div class="laboratory-graph-section">
           <div class="lab-graph-section">
-            <app-tests-conducted-and-positive-cases
+            <app-tests-conducted-and-positive-cases style="height: 100%"
               [configuration]="config$ | async"
             ></app-tests-conducted-and-positive-cases>
           </div>
           <div class="lab-graph-section">
-            <app-positive-tests-per-lab
+            <app-positive-tests-per-lab style="height: 100%"
               [configuration]="config$ | async"
             ></app-positive-tests-per-lab>
           </div>
