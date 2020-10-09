@@ -2,44 +2,54 @@
   "mapConfig": [
     {
       "hc-key": "ss-619",
-      "orgUnitId": "hn56ogWEwQ9"
+      "orgUnitId": "hn56ogWEwQ9",
+      "displayName": "Central Equatoria State"
     },
     {
       "hc-key": "ss-ee",
-      "orgUnitId": "nXGlhgS8MPQ"
+      "orgUnitId": "nXGlhgS8MPQ",
+      "displayName": "Eastern Equatoria State"
     },
     {
       "hc-key": "ss-jg",
-      "orgUnitId": "uoklLKGZFPa"
+      "orgUnitId": "uoklLKGZFPa",
+      "displayName": "Jonglei State"
     },
     {
       "hc-key": "ss-eb",
-      "orgUnitId": "SruHZNMwliI"
+      "orgUnitId": "SruHZNMwliI",
+      "displayName": "Lakes State"
     },
     {
       "hc-key": "ss-nb",
-      "orgUnitId": "ljUPCetx8dE"
+      "orgUnitId": "ljUPCetx8dE",
+      "displayName": "Northern Bahr El Ghazal State"
     },
 
     {
       "hc-key": "ss-wh",
-      "orgUnitId": "vcChasgCyFc"
+      "orgUnitId": "vcChasgCyFc",
+      "displayName": "Unity State"
     },
     {
       "hc-key": "ss-un",
-      "orgUnitId": "CR5iPlgAeT0"
+      "orgUnitId": "CR5iPlgAeT0",
+      "displayName": "Upper Nile State"
     },
     {
       "hc-key": "ss-wr",
-      "orgUnitId": "ccAWviKSX5O"
+      "orgUnitId": "ccAWviKSX5O",
+      "displayName": "Warrap State"
     },
     {
       "hc-key": "ss-wb",
-      "orgUnitId": "usi9dbUZalx"
+      "orgUnitId": "usi9dbUZalx",
+      "displayName": "Westerrn Bahr El Ghazal State"
     },
     {
       "hc-key": "ss-we",
-      "orgUnitId": "iXZGocmyOtn"
+      "orgUnitId": "iXZGocmyOtn",
+      "displayName": "Westerrn Equatoria State"
     }
   ]
 }

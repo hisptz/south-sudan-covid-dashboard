@@ -2,11 +2,11 @@
   style="width: 100%"
   *ngIf="!(configLoadingStatus$ | async) && (configLoadedStatus$ | async)"
 >
-  <!-- <div class="configuration-btn-container">
-    <button mat-stroked-button (click)="openSelectionDialog(dialogType?.metadata)">Metadata</button>
-    <button mat-stroked-button (click)="openSelectionDialog(dialogType?.orgUnit)">Org unit</button>
-    <button mat-stroked-button (click)="openSelectionDialog(dialogType?.period)">Period</button>
-  </div> -->
+  <div class="configuration-btn-container">
+    <!-- <button mat-stroked-button (click)="openSelectionDialog(dialogType?.metadata)">Metadata</button> -->
+    <!-- <button mat-stroked-button (click)="openSelectionDialog(dialogType?.orgUnit)">Org unit</button>
+    <button mat-stroked-button (click)="openSelectionDialog(dialogType?.period)">Period</button> -->
+  </div>
   <mat-tab-group mat-align-tabs="start">
     <mat-tab label="CASE SURVEILLANCE AND TESTING">
       <app-case-surveillance-testing

@@ -4,7 +4,7 @@ import { select, Store } from '@ngrx/store';
 import { omit } from 'lodash';
 import { Observable } from 'rxjs';
 import { State } from 'src/app/store/reducers';
-import { getConfiguration, getConfigurationList } from 'src/app/store/selectors/config.selectors';
+import { getConfiguration, getConfigurationList, getProgramIndicators } from 'src/app/store/selectors/config.selectors';
 @Component({
   selector: 'app-data-filter-dialog',
   templateUrl: './data-filter-dialog.component.html',
@@ -14,6 +14,7 @@ export class DataFilterDialogComponent implements OnInit {
   title = '';
   selectedItems = [];
   configurations$: Observable<any>;
+  programIndicators$: Observable<any>;
   constructor(
     private store$: Store<State>,
     public dialogRef: MatDialogRef<DataFilterDialogComponent>,
@@ -23,6 +24,7 @@ export class DataFilterDialogComponent implements OnInit {
   ngOnInit(): void {
     this.selectedItems = [];
     this.configurations$ = this.store$.pipe(select(getConfigurationList));
+    this.programIndicators$ = this.store$.pipe(select(getProgramIndicators));
   }
   onDataUpdate(data: any, action: string) {
     if (action === 'CHANGE') {

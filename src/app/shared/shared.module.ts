@@ -23,6 +23,10 @@ import {MatRippleModule} from '@angular/material/core';
 import { MetadataFilterComponent } from './components/metadata-filter/metadata-filter.component';
 import { OrgUnitFilterComponent } from './components/org-unit-filter/org-unit-filter.component';
 import { BarChartComponent } from './components/bar-chart/bar-chart.component';
+import { DataFilterComponent } from './components/data-filter/data-filter.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+
 @NgModule({
   declarations: [
     GraphComponent,
@@ -35,6 +39,7 @@ import { BarChartComponent } from './components/bar-chart/bar-chart.component';
     MetadataFilterComponent,
     OrgUnitFilterComponent,
     BarChartComponent,
+    DataFilterComponent,
   ],
   imports: [
     CommonModule,
@@ -50,7 +55,9 @@ import { BarChartComponent } from './components/bar-chart/bar-chart.component';
     MatExpansionModule,
     MatTabsModule,
     MatProgressSpinnerModule,
-    MatRippleModule
+    MatRippleModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   exports: [
     MatProgressBarModule,
@@ -74,6 +81,9 @@ import { BarChartComponent } from './components/bar-chart/bar-chart.component';
     MapVisualizationComponent,
     MatRippleModule,
     BarChartComponent,
+    DataFilterComponent,
+    MatFormFieldModule,
+    MatInputModule
   ],
   entryComponents: [
     DataFilterDialogComponent,
