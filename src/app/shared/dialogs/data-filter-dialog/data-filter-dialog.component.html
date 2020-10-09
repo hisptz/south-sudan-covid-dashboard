@@ -1,5 +1,5 @@
 <div class="metadata-container">
-  <div style="width: 100%" class="tables-container">
+  <!-- <div style="width: 100%" class="tables-container">
     <div
       class="table-responsive"
       *ngFor="let config of configurations$ | async"
@@ -18,9 +18,10 @@
         </tbody>
       </table>
     </div>
-  </div>
+  </div> -->
 
-  <div class="filter-container" *ngIf="selectedItems?.length">
-   <app-metadata-filter [selectedItems]="selectedItems"></app-metadata-filter>
+  <div class="filter-container" >
+   <!-- <app-metadata-filter [selectedItems]="selectedItems"></app-metadata-filter> -->
+   <app-data-filter [unselectedItems]="programIndicators$ | async"></app-data-filter>
   </div>
 </div>

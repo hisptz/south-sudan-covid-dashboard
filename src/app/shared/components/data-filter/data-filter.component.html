@@ -1,0 +1,72 @@
+<div class="data-filter-container">
+  <div class="unselected-section">
+     <mat-form-field appearance="outline">
+         <input matInput type="text"/>
+     </mat-form-field>
+     <div class="list-items-container" *ngIf="unselectedItems && unselectedItems.length">
+        <span class="list-item" *ngFor="let item of unselectedItems">
+            {{ item?.displayName }}
+        </span> 
+     </div>
+    
+  </div>
+  <div class="selection-icons">
+    <button type="button" mat-icon-button>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        data-test="dhis2-uicore-transfer-actions-addall-iconaddall"
+        fill="#404B5A"
+        class="jsx-114231192"
+      >
+        <g fill-rule="evenodd" class="jsx-114231192">
+          <polygon
+            fill-rule="nonzero"
+            points="6 2 4.94 3.06 9.13 7.25 0 7.25 0 8.75 9.13 8.75 4.94 12.94 6 14 12 8"
+            class="jsx-114231192"
+          ></polygon>
+          <polygon
+            fill-rule="nonzero"
+            points="10 2 8.94 3.06 13.13 7.25 13.9 8 13.13 8.75 8.94 12.94 10 14 16 8"
+            class="jsx-114231192"
+          ></polygon>
+        </g>
+      </svg>
+    </button>
+    <button type="button" class="transfer-btn" mat-icon-button>
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+    <button type="button" class="transfer-btn" mat-icon-button>
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <button type="button" mat-icon-button>
+      <svg
+        fill="#6e7a8a"
+        width="16px"
+        height="16px"
+        viewBox="0 0 16 16"
+        data-test="dhis2-uicore-transfer-actions-removeall-iconremoveall"
+        xmlns="http://www.w3.org/2000/svg"
+        class="jsx-114231192"
+      >
+        <g fill-rule="evenodd" class="jsx-114231192">
+          <polygon
+            fill-rule="nonzero"
+            points="10 2 8.94 3.06 13.13 7.25 4 7.25 4 8.75 13.13 8.75 8.94 12.94 10 14 16 8"
+            transform="matrix(-1 0 0 1 20 0)"
+            class="jsx-114231192"
+          ></polygon>
+          <polygon
+            fill-rule="nonzero"
+            points="1.06 2 0 3.06 4.19 7.25 4.96 8 4.19 8.75 0 12.94 1.06 14 7.06 8"
+            transform="matrix(-1 0 0 1 7.06 0)"
+            class="jsx-114231192"
+          ></polygon>
+        </g>
+      </svg>
+    </button>
+  </div>
+  <div class="selected-section"></div>
+</div>

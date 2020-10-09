@@ -33,6 +33,10 @@ export const getConfigurationLoadedStatus = createSelector(
   getConfigState,
   (state) => state.loaded
 );
+export const getProgramIndicators = createSelector(
+  getConfigState,
+  (state) => state.programIndicators
+);
 export const getUserOrgUnitIds = createSelector(getConfigState, (state) => {
   return flattenDeep(
     map(state.userOrgUnits || [], (orgUnit) => {

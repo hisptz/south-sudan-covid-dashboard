@@ -16,6 +16,11 @@ export class ConfigService {
       .get(`dataStore/covid19Dashboard/config`)
       .pipe(catchError((error) => throwError(error)));
   }
+  getProgramIndicators() {
+    return this.http$
+      .get(`programIndicators.json?paging=false`)
+      .pipe(catchError((error) => throwError(error)));
+  }
   getDataElementWithOptionSet(dataElementId) {
     return this.http$
       .get(
@@ -85,6 +90,20 @@ export class ConfigService {
         );
     });
   }
+  getProgramIndicatorsPromise(): any {
+    return new Promise((resolve, reject) => {
+      this.getProgramIndicators()
+        .pipe(take(1))
+        .subscribe(
+          (data) => {
+            resolve(data);
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+    });
+  }
   getUserDataPromise(): any {
     return new Promise((resolve, reject) => {
       this.getUserData()
@@ -122,7 +141,19 @@ export class ConfigService {
         user && user.organisationUnits ? user.organisationUnits : [];
       const userName = user && user.name ? user.name : '';
       const laboratories = await this.getLaboratoriesListPromise(dataElementId);
-      return { config, userId, orgUnits, userName, laboratories };
+      const programIndicatorsResponse = await this.getProgramIndicatorsPromise();
+      const programIndicators =
+        programIndicatorsResponse && programIndicatorsResponse.programIndicators
+          ? programIndicatorsResponse.programIndicators
+          : [];
+      return {
+        config,
+        userId,
+        orgUnits,
+        userName,
+        laboratories,
+        programIndicators,
+      };
     } catch (e) {
       throw new Error('Failed to load configurations');
     }
