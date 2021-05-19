@@ -21,7 +21,7 @@ export const loadAnalyticsDataSuccess = createAction(
 
 export const loadAnalyticsDataFailure = createAction(
   '[Analytic] Load Analytics Failure',
-  props<{ error: any }>()
+  props<{ error: any, sectionType?: SectionType }>()
 );
 
 export const loadMapAnalyticsData = createAction(
