@@ -39,6 +39,10 @@
       </div>
     </div>
   </div>
+  <div
+    class="case-items-container" *ngIf="!(sectionOneConfig$ | async)?.length">
+    <i>No data to display in this section at moment</i>
+  </div>
 </div>
 
 <div

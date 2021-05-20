@@ -119,17 +119,6 @@ export class ConfigEffects implements OnInitEffects {
     );
   }
 
-  // @Effect()
-  // loadConfigurationSuccess(): Observable<Action> {
-  //   return this.actions$.pipe(
-  //     ofType(loadConfigurationSuccess),
-  //     withLatestFrom(getConfiguration),
-  //     tap(([action, configuration]) => {
-  //       console.log({ action, configuration });
-  //     })
-  //   );
-  // }
-
   @Effect()
   loadConfiguration(): Observable<Action> {
     return this.actions$.pipe(

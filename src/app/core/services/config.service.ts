@@ -24,7 +24,7 @@ export class ConfigService {
   getDataElementWithOptionSet(dataElementId) {
     return this.http$
       .get(
-        `/dataElements/${dataElementId}.json?fields=id,name,optionSet[id,name,options[id,name]]`
+        `dataElements/${dataElementId}.json?fields=id,name,optionSet[id,name,options[id,name]]`
       )
       .pipe(catchError((error) => throwError(error)));
   }

@@ -1,4 +1,5 @@
 {
+  "version": "0.0.3-alpha",
   "name": "covid-19-dashboard",
   "short_name": "covid-19-dashboard",
   "theme_color": "#1976d2",

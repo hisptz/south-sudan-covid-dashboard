@@ -72,9 +72,14 @@ export const analyticReducer = createReducer(
         : [...state.sectionsLoading];
     return { ...state, sectionsLoading, [sectionType]: data };
   }),
-  on(loadAnalyticsDataFailure, (state, { error }) => {
+  on(loadAnalyticsDataFailure, (state, { error, sectionType }) => {
+    const sectionsLoading =
+    state?.sectionsLoading.includes(sectionType)
+        ? [...state.sectionsLoading].filter((item) => item !== sectionType)
+        : [...state.sectionsLoading];
     return {
       ...state,
+      sectionsLoading,
       notification: {
         type: 'ERROR',
         message: 'Error while loading data',

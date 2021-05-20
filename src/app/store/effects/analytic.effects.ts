@@ -64,7 +64,7 @@ export class AnalyticEffects {
             }),
             catchError((error: any) => {
               console.log({ error });
-              return of(loadAnalyticsDataFailure({ error }));
+              return of(loadAnalyticsDataFailure({ error, sectionType: action?.sectionType }));
             })
           );
       })
